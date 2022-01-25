@@ -10,21 +10,11 @@
   margin: 0 auto;
 }
 
-.header{
-  grid-area: h;
-  background-color: yellowgreen;
-}
 
-.nav{
-  grid-area: n;
-  background-color: #7c8ff4;
-}
 
-.content{
-  grid-area: c;
-  background-color: #282c34;
-  color: white;
-}
+
+
+
 
 .App-header {
   /*background-color: #282c34;*/
