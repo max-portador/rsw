@@ -1,0 +1,7 @@
+.content{
+    grid-area: c;
+    background-color: #8e8e92;
+    color: white;
+    padding: 20px;
+    font-size: 18px;
+}

@@ -4,10 +4,10 @@ import css from "./Nav.module.css";
 const Nav = () => {
     return <nav className={css.nav}>
         <div>
-            <a>Profile</a>
+            <a href="/profile">Profile</a>
         </div>
         <div>
-            <a>Messages</a>
+            <a href="/dialogs">Messages</a>
         </div>
         <div>
             <a>News</a>

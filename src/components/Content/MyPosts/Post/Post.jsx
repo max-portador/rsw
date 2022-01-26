@@ -1,9 +1,14 @@
 import React from "react";
 import css from "./Post.module.css";
 
-const Post = ({name}) => {
+const Post = (props) => {
     return <div className={css.item} >
-        {name}
+        <img
+            className={css.img}
+            src="https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png"
+            alt="profile"/>
+        {props.message}
+        <div>Like</div>
     </div>
 }
 
