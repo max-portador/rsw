@@ -1,5 +1,13 @@
 .nav{
     grid-area: n;
     background-color: #7c8ff4;
-    padding: 4%;
+    padding: 20px;
+}
+
+a {
+    color: white;
+}
+
+.active{
+    color: gold;
 }
