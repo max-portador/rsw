@@ -8,7 +8,7 @@ const Post = (props) => {
             src="https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png"
             alt="profile"/>
         {props.message}
-        <div>Like</div>
+        <div>Like {props.likesCount}</div>
     </div>
 }
 
