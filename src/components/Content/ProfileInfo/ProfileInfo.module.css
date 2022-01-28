@@ -1,0 +1,9 @@
+.img {
+    height: 30vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.description{
+    padding: 10px;
+}

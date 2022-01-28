@@ -1,6 +1,6 @@
 .nav{
     grid-area: n;
-    background-color: #7c8ff4;
+    background-color: #321d42;
     padding: 20px;
 }
 
@@ -10,4 +10,5 @@ a {
 
 .active{
     color: gold;
+    font-weight: 800;
 }

@@ -1,32 +1,30 @@
-.app-wrapper{
-  display: grid;
-  grid-template-rows: 60px 1fr;
-  grid-template-columns: 2fr 10fr;
-  grid-gap: 10px;
-  grid-template-areas:
+.app-wrapper {
+    display: grid;
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 10px;
+    grid-template-areas:
           "h h h"
           "n c c";
 
-  margin: 0 auto;
+    margin: 0 auto;
+
 }
 
-.app-wrapper-content{
-  grid-area: c;
-  background-color: cornflowerblue;
-  color: white;
-  padding: 20px;
-  font-size: 18px;
+.app-wrapper-content {
+    grid-area: c;
+    font-size: 18px;
 }
 
 .App-header {
-  /*background-color: #282c34;*/
+    /*background-color: #282c34;*/
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
