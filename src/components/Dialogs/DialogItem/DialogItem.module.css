@@ -1,0 +1,28 @@
+.active {
+    color: yellow;
+    font-weight: 800;
+}
+
+.dialog {
+    color: black;
+    margin: 10px;
+
+}
+a {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    grid-gap: 10px;
+    justify-items: start;
+}
+
+.img{
+    display: grid;
+    width: 25px;
+    height: 25px;
+    border-radius: 30px;
+    background: aliceblue;
+}
+
+.name{
+    display: grid;
+}

@@ -6,24 +6,21 @@ import Content from "./components/Content/Content";
 import Dialogs from "./components/Dialogs/Dialogs";
 import './App.css';
 
-const App = () => {
+const App = (props) => {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
-                <Nav/>
+                <Nav state={props.state.sideBar}/>
 
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route path="/dialogs/*" element={<Dialogs/>}/>
-                        <Route path="/profile" element={<Content/>}/>
+                        <Route path="/dialogs/*" element={<Dialogs state={props.state.messagesPage}/>}/>
+                        <Route path="/profile" element={<Content state={props.state.profilePage}/>}/>
                     </Routes>
-
                 </div>
             </div>
         </BrowserRouter>
-
-
     )
 }
 

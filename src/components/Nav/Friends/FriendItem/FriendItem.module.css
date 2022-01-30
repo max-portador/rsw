@@ -1,0 +1,15 @@
+.friend{
+    display: grid;
+    justify-content: center;
+}
+
+.img{
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background: azure;
+}
+
+.name{
+    color: white;
+}

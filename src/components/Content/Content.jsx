@@ -1,12 +1,12 @@
 import React from "react";
-import css from "./Content.module.css";
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import css from "./Content.module.css";
 
-const Content = () => {
+const Content = (props) => {
     return  <div className={css.content}>
         <ProfileInfo/>
-        <MyPosts/>
+        <MyPosts posts={props.state.posts}/>
     </div>
 }
 

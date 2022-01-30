@@ -1,0 +1,22 @@
+.message {
+    color: white;
+    display: grid;
+    max-width: max-content;;
+    grid-template-columns: min-content auto;
+    justify-content: start;
+    grid-gap: 10px;
+    border: azure 1px solid;
+    border-radius: 20px;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.img{
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    background: azure;
+}
+.text {
+
+}

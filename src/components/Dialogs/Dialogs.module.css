@@ -17,19 +17,6 @@
 
 }
 
-.active {
-    color: yellow;
-    font-weight: 800;
-}
-
-.dialog {
-    color: black;
-}
-
 .messages {
     padding: 10px;
-}
-
-.message {
-    color: white;
 }
