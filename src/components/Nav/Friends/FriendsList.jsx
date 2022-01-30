@@ -8,8 +8,8 @@ const FriendsList = (props) => {
     return (
         <div className={css.list}>
             {
-                props.friends.map(d => {
-                    return <Friend name={d.name} image={d.image}/>
+                props.friends.map((d, i) => {
+                    return <Friend name={d.name} image={d.image} key={i}/>
                 })
             }
         </div>
