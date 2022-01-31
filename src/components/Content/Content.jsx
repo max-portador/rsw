@@ -6,7 +6,7 @@ import css from "./Content.module.css";
 const Content = (props) => {
     return  <div className={css.content}>
         <ProfileInfo/>
-        <MyPosts posts={props.state.posts} addPost={props.addPost}/>
+        <MyPosts state={props.state} funcs={props.funcs}/>
     </div>
 }
 
