@@ -7,14 +7,14 @@ const Dialogs = (props) => {
 
     return <div className={css.dialogs}>
         <div className={css.dialogsItems}>
-            {props.state.dialogs.map(d => {
-                return <DialogItem name={d.name} id={d.id}/>
+            {props.state.dialogs.map((d, i) => {
+                return <DialogItem name={d.name} id={d.id} key={i}/>
             })}
         </div>
         <div className={css.messages}>
             {
                 props.state.messages.map((d, i) => {
-                    return <Messages id={i} text={d.message}/>
+                    return <Messages key={i} text={d.message}/>
                 })
             }
         </div>

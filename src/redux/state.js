@@ -1,4 +1,6 @@
-import {renderEntireTree} from "./render";
+let renderEntireTree = () => {
+    console.log("State has been changed")
+}
 
 const iconUrl = "https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png";
 
@@ -31,16 +33,20 @@ let state = {
     }
 };
 
-export let addPost = (postMessage) => {
+export const addPost = (postMessage) => {
     let _id = state.profilePage.posts.length + 1;
     const newPost = {id: _id, message: postMessage, likesCount: 0};
     state.profilePage.posts.push(newPost);
     renderEntireTree(state);
 }
 
-export let updateNewPostText = (newText) => {
+export const updateNewPostText = (newText) => {
     state.profilePage.newPostText = newText;
     renderEntireTree(state);
+}
+
+export const subscribe = (observer) => {
+    renderEntireTree = observer;
 }
 
 export default state;
