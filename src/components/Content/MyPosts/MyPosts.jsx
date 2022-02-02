@@ -13,6 +13,7 @@ const MyPosts = (props) => {
 
     const changeHandler = () => {
         let text = newPostElement.current.value;
+        debugger
         props.funcs.updateNewPostText(text);
     }
 
