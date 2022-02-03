@@ -6,13 +6,10 @@ import App from "./App";
 import './index.css';
 
 
-
 export const renderEntireTree = (store) => {
-    let addPost = store.addPost.bind(store);
-    let updateNewPostText = store.updateNewPostText.bind(store);
     ReactDOM.render(
         <React.StrictMode>
-            <App state={store.getState()} funcs={ {addPost, updateNewPostText}} />
+            <App state={store.getState()} dispatch={store.dispatch.bind(store)} />
         </React.StrictMode>,
         document.getElementById('root')
     );

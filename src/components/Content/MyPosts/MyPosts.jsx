@@ -1,20 +1,21 @@
 import React from "react";
 import css from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/state";
+
 
 const MyPosts = (props) => {
     let newPostElement = React.createRef()
 
     const addPost = () => {
         let text = props.state.newPostText;
-        props.funcs.addPost(text)
-        props.funcs.updateNewPostText("");
+        props.dispatch(addPostActionCreator(text));
+        props.dispatch(updateNewPostTextActionCreator(""))
     }
 
     const changeHandler = () => {
         let text = newPostElement.current.value;
-        debugger
-        props.funcs.updateNewPostText(text);
+        props.dispatch(updateNewPostTextActionCreator(text))
     }
 
     return <div className={css.posts}><h3>My posts</h3>

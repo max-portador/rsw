@@ -1,5 +1,9 @@
 const iconUrl = "https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png";
 
+const ADD_POST = "ADD_POST";
+const UPDATE_TEXTAREA = "UPDATE_NEW_POST_TEXT";
+
+
 let store = {
     _state : {
         profilePage: {
@@ -26,28 +30,57 @@ let store = {
                 {name: "Maks", image: iconUrl},
                 {name: "Igor", image: iconUrl},
                 {name: "Julia", image: iconUrl},
+                {name: "Maria", image: iconUrl},
+                {name: "Victor", image: iconUrl},
+                {name: "Roman", image: iconUrl},
             ]
         }
     },
-    getState(){
+    getState() {
         return this._state
     },
     _callSubscriber(){
         console.log("State has been changed")
     },
-    addPost: function(postMessage){
+    addPost(postMessage){
         let _id = this._state.profilePage.posts.length + 1;
         const newPost = {id: _id, message: postMessage, likesCount: 0};
         this._state.profilePage.posts.push(newPost);
-        this._callSubscriber(this._state);
+        this._callSubscriber(this);
     },
-    updateNewPostText: function(newText){
+    updateNewPostText(newText){
         this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state);
+        this._callSubscriber(this);
     },
     subscribe(observer){
         this._callSubscriber = observer;
     },
+    dispatch(action){
+        switch (action.type){
+            case ADD_POST:
+                this.addPost(action.payload.newPost);
+                break;
+            case UPDATE_TEXTAREA:
+                this.updateNewPostText(action.payload.newPostText)
+                break;
+            default:
+                console.log("NOT FOUND ACTION TYPE")
+        }
+    },
+}
+
+export const addPostActionCreator = (text) => {
+    return {
+        type: ADD_POST,
+        payload: {newPost: text}
+    }
+}
+
+export const updateNewPostTextActionCreator = (text) =>{
+    return {
+        type: UPDATE_TEXTAREA,
+        payload: {newPostText: text}
+    }
 }
 
 export default store;

@@ -8,6 +8,7 @@
     height: 30px;
     border-radius: 30px;
     background: azure;
+    justify-self: center;
 }
 
 .name{
