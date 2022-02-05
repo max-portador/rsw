@@ -17,6 +17,20 @@
 
 }
 
-.messages {
+.messageArea {
     padding: 10px;
 }
+
+.messages {
+}
+
+.messageInput{
+    display: grid;
+    justify-items: start;
+    grid-row-gap: 10px;
+}
+textarea{
+    width: 250px;
+    height: 80px;
+}
+

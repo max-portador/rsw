@@ -2,6 +2,8 @@ const iconUrl = "https://www.pinclipart.com/picdir/big/200-2008697_account-custo
 
 const ADD_POST = "ADD_POST";
 const UPDATE_TEXTAREA = "UPDATE_NEW_POST_TEXT";
+const SEND_MESSAGE = "SEND_MESSAGE";
+const UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT";
 
 
 let store = {
@@ -24,6 +26,7 @@ let store = {
                 {message: "Hi"}, {message: "How is your life"},
                 {message: "Yo"}, {message: "Yo"},
             ],
+            newMessageText: "",
         },
         sideBar: {
             friends: [
@@ -52,6 +55,15 @@ let store = {
         this._state.profilePage.newPostText = newText;
         this._callSubscriber(this);
     },
+    sendMessage(message){
+        this._state.messagesPage.messages.push({message});
+        this._state.messagesPage.newMessageText = "";
+        this._callSubscriber(this);
+    },
+    updateNewMessage(text){
+        this._state.messagesPage.newMessageText = text;
+        this._callSubscriber(this);
+    },
     subscribe(observer){
         this._callSubscriber = observer;
     },
@@ -62,6 +74,12 @@ let store = {
                 break;
             case UPDATE_TEXTAREA:
                 this.updateNewPostText(action.payload.newPostText)
+                break;
+            case SEND_MESSAGE:
+                this.sendMessage(action.payload.newMessage);
+                break;
+            case UPDATE_NEW_MESSAGE_TEXT:
+                this.updateNewMessage(action.payload.newMessageText);
                 break;
             default:
                 console.log("NOT FOUND ACTION TYPE")
@@ -80,6 +98,20 @@ export const updateNewPostTextActionCreator = (text) =>{
     return {
         type: UPDATE_TEXTAREA,
         payload: {newPostText: text}
+    }
+}
+
+export const sendMessageActionCreator = (message) => {
+    return {
+        type: SEND_MESSAGE,
+        payload: {newMessage: message}
+    }
+}
+
+export const updateNewMessageTextActionCreator = (text) =>{
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        payload: {newMessageText: text}
     }
 }
 
