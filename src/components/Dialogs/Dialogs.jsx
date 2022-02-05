@@ -1,19 +1,19 @@
 import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
-import {sendMessageActionCreator, updateNewMessageTextActionCreator} from "../../redux/state";
+import {sendMessageCreator, updateNewMessageTextCreator} from "../../redux/dialogsReducer";
 import css from "./Dialogs.module.css";
 
 const Dialogs = (props) => {
 
     let sendMessage = () => {
         let text = props.state.newMessageText;
-        if (text) props.dispatch(sendMessageActionCreator(text))
+        if (text) props.dispatch(sendMessageCreator(text))
     }
 
     let changeHandler = (e) => {
         let text = e.target.value;
-        props.dispatch(updateNewMessageTextActionCreator(text));
+        props.dispatch(updateNewMessageTextCreator(text));
     }
 
     let dialogItems = props.state.dialogs.map((d, i) => {
@@ -35,10 +35,7 @@ const Dialogs = (props) => {
                 />
                 <button onClick={sendMessage}>Send message</button>
             </div>
-
         </div>
-
-
     </div>
 }
 

@@ -1,10 +1,8 @@
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
+import sidebarReducer from "./sidebarReducer";
+
 const iconUrl = "https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png";
-
-const ADD_POST = "ADD_POST";
-const UPDATE_TEXTAREA = "UPDATE_NEW_POST_TEXT";
-const SEND_MESSAGE = "SEND_MESSAGE";
-const UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT";
-
 
 let store = {
     _state : {
@@ -45,74 +43,16 @@ let store = {
     _callSubscriber(){
         console.log("State has been changed")
     },
-    addPost(postMessage){
-        let _id = this._state.profilePage.posts.length + 1;
-        const newPost = {id: _id, message: postMessage, likesCount: 0};
-        this._state.profilePage.posts.push(newPost);
-        this._callSubscriber(this);
-    },
-    updateNewPostText(newText){
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this);
-    },
-    sendMessage(message){
-        this._state.messagesPage.messages.push({message});
-        this._state.messagesPage.newMessageText = "";
-        this._callSubscriber(this);
-    },
-    updateNewMessage(text){
-        this._state.messagesPage.newMessageText = text;
-        this._callSubscriber(this);
-    },
     subscribe(observer){
         this._callSubscriber = observer;
     },
     dispatch(action){
-        switch (action.type){
-            case ADD_POST:
-                this.addPost(action.payload.newPost);
-                break;
-            case UPDATE_TEXTAREA:
-                this.updateNewPostText(action.payload.newPostText)
-                break;
-            case SEND_MESSAGE:
-                this.sendMessage(action.payload.newMessage);
-                break;
-            case UPDATE_NEW_MESSAGE_TEXT:
-                this.updateNewMessage(action.payload.newMessageText);
-                break;
-            default:
-                console.log("NOT FOUND ACTION TYPE")
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action);
+        this._state.sideBar = sidebarReducer(this._state.sideBar, action);
+
+        this._callSubscriber(this);
     },
-}
-
-export const addPostActionCreator = (text) => {
-    return {
-        type: ADD_POST,
-        payload: {newPost: text}
-    }
-}
-
-export const updateNewPostTextActionCreator = (text) =>{
-    return {
-        type: UPDATE_TEXTAREA,
-        payload: {newPostText: text}
-    }
-}
-
-export const sendMessageActionCreator = (message) => {
-    return {
-        type: SEND_MESSAGE,
-        payload: {newMessage: message}
-    }
-}
-
-export const updateNewMessageTextActionCreator = (text) =>{
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        payload: {newMessageText: text}
-    }
 }
 
 export default store;

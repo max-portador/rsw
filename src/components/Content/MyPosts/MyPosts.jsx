@@ -1,7 +1,7 @@
 import React from "react";
 import css from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/state";
+import {addPostCreator, updateNewPostTextCreator} from "../../../redux/profileReducer";
 
 
 const MyPosts = (props) => {
@@ -9,13 +9,13 @@ const MyPosts = (props) => {
 
     const addPost = () => {
         let text = props.state.newPostText;
-        props.dispatch(addPostActionCreator(text));
-        props.dispatch(updateNewPostTextActionCreator(""))
+        props.dispatch(addPostCreator(text));
+        props.dispatch(updateNewPostTextCreator(""))
     }
 
     const changeHandler = () => {
         let text = newPostElement.current.value;
-        props.dispatch(updateNewPostTextActionCreator(text))
+        props.dispatch(updateNewPostTextCreator(text))
     }
 
     return <div className={css.posts}><h3>My posts</h3>
