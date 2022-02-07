@@ -1,13 +1,12 @@
 import React from "react";
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import css from "./Content.module.css";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 const Content = (props) => {
-    return  <div className={css.content}>
+    return <div className={css.content}>
         <ProfileInfo/>
-        <MyPosts state={props.state} dispatch={props.dispatch}/>
-
+        <MyPostsContainer store={props.store}/>
     </div>
 }
 
