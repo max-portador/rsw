@@ -16,7 +16,7 @@ let initialState = {
 const dialogsReducer = (state = initialState, action) => {
     switch (action.type){
         case SEND_MESSAGE:
-            let message = action.payload.newMessage
+            let message = state.newMessageText;
             state.messages.push({message});
             state.newMessageText = "";
             return state;
@@ -29,10 +29,9 @@ const dialogsReducer = (state = initialState, action) => {
 }
 
 
-export const sendMessageCreator = (message) => {
+export const sendMessageCreator = () => {
     return {
         type: SEND_MESSAGE,
-        payload: {newMessage: message}
     }
 }
 

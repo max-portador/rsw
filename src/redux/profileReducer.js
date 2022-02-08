@@ -15,13 +15,14 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST:
             let _id = state.posts.length + 1;
-            let text = action.payload.newPost
+            let text = state.profilePage.newPostText;
             const newPost = {
                 id: _id,
                 message: text,
                 likesCount: 0
             };
             state.posts.push(newPost);
+            state.newPostText = "";
             return state;
         case UPDATE_TEXTAREA:
             state.newPostText = action.payload.newPostText;
@@ -31,10 +32,9 @@ const profileReducer = (state = initialState, action) => {
     }
 }
 
-export const addPostCreator = (text) => {
+export const addPostCreator = () => {
     return {
         type: ADD_POST,
-        payload: {newPost: text}
     }
 }
 
