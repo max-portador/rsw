@@ -7,6 +7,7 @@ const Nav = (props) => {
         <div className={css.links}>
             <NavLink to="/profile" className={navData => navData.isActive ? css.active : ""}>Profile</NavLink>
             <NavLink to="/dialogs" className={navData => navData.isActive ? css.active : ""}>Messages</NavLink>
+            <NavLink to="/users" className={navData => navData.isActive ? css.active : ""}>Users</NavLink>
             <NavLink to="/news" className={navData => navData.isActive ? css.active : ""}>News</NavLink>
             <NavLink to="/music" className={navData => navData.isActive ? css.active : ""}>Music</NavLink>
             <NavLink to="/settings" className={navData => navData.isActive ? css.active : ""}>Settings</NavLink>

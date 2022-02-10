@@ -5,6 +5,7 @@ import Content from "./components/Content/Content";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavContainer from "./components/Nav/NavContainer";
 import './App.css';
+import Users from "./components/Users/Users";
 
 const App = () => {
     return <div className='app-wrapper'>
@@ -15,8 +16,10 @@ const App = () => {
                 <Route path="/dialogs/*"
                        element={<DialogsContainer/>}/>
                 <Route path="/profile"
-                       element={<Content/>}
-                />
+                       element={<Content/>}/>
+                <Route path="/users"
+                       element={<Users/>}/>
+
             </Routes>
         </div>
     </div>
