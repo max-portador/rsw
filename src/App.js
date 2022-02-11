@@ -4,8 +4,8 @@ import Header from "./components/Header/Header";
 import Content from "./components/Content/Content";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavContainer from "./components/Nav/NavContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 import './App.css';
-import Users from "./components/Users/Users";
 
 const App = () => {
     return <div className='app-wrapper'>
@@ -18,8 +18,7 @@ const App = () => {
                 <Route path="/profile"
                        element={<Content/>}/>
                 <Route path="/users"
-                       element={<Users/>}/>
-
+                       element={<UsersContainer/>}/>
             </Routes>
         </div>
     </div>
