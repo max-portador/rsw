@@ -1,0 +1,16 @@
+.ava_btn{
+    display: grid;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    justify-items: center;
+    align-content: center;
+}
+
+
+.img{
+    display: grid;
+    width: 30px;
+    height: 30px;
+    background:  #e8e3b3;
+    border-radius: 15px;
+}

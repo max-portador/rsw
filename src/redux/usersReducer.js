@@ -4,43 +4,44 @@ const SET_USERS = "SET_USERS";
 
 export let user_icon = "https://cdn-icons-png.flaticon.com/512/126/126486.png"
 
-let initialState = {
-    users: [
-        {
-            id: 1,
-            followed: true,
-            img: user_icon,
-            fullName: 'Artyom',
-            status: 'I,m a boss',
-            location: {city: 'Samara', country: 'Russia'}
-        },
-        {
-            id: 2,
-            followed: true,
-            img: user_icon,
-            fullName: 'Maksim',
-            status: 'I,m a middle developer',
-            location: {city: 'Moscow', country: 'Russia'}
-        },
-        {
-            id: 3,
-            followed: false,
-            img: user_icon,
-            fullName: 'Svetlana',
-            status: 'I,m a model',
-            location: {city: 'Kiev', country: 'Ukraine'}
-        },
-        {
-            id: 4,
-            followed: false,
-            img: user_icon,
-            fullName: 'Anna',
-            status: 'I,m a couch',
-            location: {city: 'Saint Petersburg', country: 'Russia'}
-        },
-    ],
-    offset: 4,
-};
+// let initialState = {
+//     users: [
+//         {
+//             id: 1,
+//             followed: true,
+//             img: user_icon,
+//             fullName: 'Artyom',
+//             status: 'I,m a boss',
+//             location: {city: 'Samara', country: 'Russia'}
+//         },
+//         {
+//             id: 2,
+//             followed: true,
+//             img: user_icon,
+//             fullName: 'Maksim',
+//             status: 'I,m a middle developer',
+//             location: {city: 'Moscow', country: 'Russia'}
+//         },
+//         {
+//             id: 3,
+//             followed: false,
+//             img: user_icon,
+//             fullName: 'Svetlana',
+//             status: 'I,m a model',
+//             location: {city: 'Kiev', country: 'Ukraine'}
+//         },
+//         {
+//             id: 4,
+//             followed: false,
+//             img: user_icon,
+//             fullName: 'Anna',
+//             status: 'I,m a coach',
+//             location: {city: 'Saint Petersburg', country: 'Russia'}
+//         },
+//     ],
+//     offset: 4,
+// };
+let initialState = {users: []}
 
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -67,7 +68,7 @@ const usersReducer = (state = initialState, action) => {
             }
         }
         case SET_USERS: {
-            return {...state, users: [...state.users, action.payload.users]}
+            return {...state, users: [...state.users, ...action.payload.users]}
         }
         default:
             return state;

@@ -1,0 +1,11 @@
+.button{
+    display: grid;
+    font-size: 13px;
+    font-weight: bold;
+    justify-self: center;
+    width: 90px;
+}
+
+.followed{
+    background: lightblue;
+}

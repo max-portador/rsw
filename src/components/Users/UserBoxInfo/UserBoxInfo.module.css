@@ -1,0 +1,24 @@
+.info_box {
+    display: grid;
+    grid-template-columns: auto auto;
+    background: lightgrey;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+
+}
+
+.info {
+    display: grid;
+}
+
+.location {
+    display: grid;
+    justify-items: end;
+}
+
+
+.followed_info_box {
+    font-weight: 600;
+    background: azure;
+}

@@ -13,53 +13,5 @@
     grid-gap: 10px;
 }
 
-.info_box{
-    display: grid;
-    grid-template-columns: auto auto;
-    background: lightgrey;
-    border-radius: 15px;
-    padding: 10px;
-    margin: 10px 0;
 
-}
 
-.ava_btn{
-    display: grid;
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    justify-items: center;
-    align-content: center;
-}
-
-.img{
-    display: grid;
-    width: 30px;
-    height: 30px;
-    background:  #e8e3b3;
-    border-radius: 15px;
-}
-.button{
-    display: grid;
-    font-size: 13px;
-    font-weight: bold;
-    justify-self: center;
-    width: 90px;
-}
-
-.info{
-    display: grid;
-}
-
-.location{
-    display: grid;
-    justify-items: end;
-}
-
-.followed{
-    background: lightblue;
-}
-
-.followed_info_box{
-    font-weight: 600;
-    background: azure;
-}
