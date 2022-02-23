@@ -1,47 +1,17 @@
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 
 export let user_icon = "https://cdn-icons-png.flaticon.com/512/126/126486.png"
 
-// let initialState = {
-//     users: [
-//         {
-//             id: 1,
-//             followed: true,
-//             img: user_icon,
-//             fullName: 'Artyom',
-//             status: 'I,m a boss',
-//             location: {city: 'Samara', country: 'Russia'}
-//         },
-//         {
-//             id: 2,
-//             followed: true,
-//             img: user_icon,
-//             fullName: 'Maksim',
-//             status: 'I,m a middle developer',
-//             location: {city: 'Moscow', country: 'Russia'}
-//         },
-//         {
-//             id: 3,
-//             followed: false,
-//             img: user_icon,
-//             fullName: 'Svetlana',
-//             status: 'I,m a model',
-//             location: {city: 'Kiev', country: 'Ukraine'}
-//         },
-//         {
-//             id: 4,
-//             followed: false,
-//             img: user_icon,
-//             fullName: 'Anna',
-//             status: 'I,m a coach',
-//             location: {city: 'Saint Petersburg', country: 'Russia'}
-//         },
-//     ],
-//     offset: 4,
-// };
-let initialState = {users: []}
+let initialState = {
+    users: [],
+    pageSize: 25,
+    totalUsersCount: 19,
+    currentPage: 1,
+}
 
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -68,7 +38,13 @@ const usersReducer = (state = initialState, action) => {
             }
         }
         case SET_USERS: {
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, users: [...action.payload.users]}
+        }
+        case SET_CURRENT_PAGE: {
+            return {...state, currentPage: action.payload.currentPage}
+        }
+        case SET_TOTAL_USERS_COUNT: {
+            return {...state, totalUsersCount: action.payload.totalUsersCount}
         }
         default:
             return state;
@@ -80,5 +56,8 @@ export const followAC = (userId) => ({type: FOLLOW, payload: {userId}})
 export const unfollowAC = (userId) => ({type: UNFOLLOW, payload: {userId}})
 
 export const setUsersAC = users => ({type: SET_USERS, payload: {users}})
+
+export const setCurrentPageAC = pageNum => ({type: SET_CURRENT_PAGE, payload: {currentPage: pageNum}})
+export const setTotalUsersCountAC = totalUsersCount => ({type: SET_TOTAL_USERS_COUNT, payload: {totalUsersCount: totalUsersCount}})
 
 export default usersReducer;
