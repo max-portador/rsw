@@ -1,13 +1,13 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import css from "./Content.module.css";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import css from "./Profile.module.css";
 
-const Content = () => {
+const Profile = (props) => {
     return <div className={css.content}>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
     </div>
 }
 
-export default Content;
+export default Profile;
