@@ -17,7 +17,7 @@ const Users = (props) => {
             <div>
                 {
                     pages.map(p =>
-                        <span
+                        <span key={p}
                             className={`${css.pageNum} ${props.currentPage === p && css.selected}`}
                             onClick={() => {props.onPageChanged(p) }}>
                             {p}
