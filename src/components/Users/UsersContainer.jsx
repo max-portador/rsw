@@ -29,6 +29,7 @@ class UsersContainer extends React.Component {
             + `page=${pageNum}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
+                this.props.setIsFetching(false)
             })
     }
 
