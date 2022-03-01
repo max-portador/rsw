@@ -15,23 +15,20 @@ const Users = (props) => {
     return (
         <div className={css.users}>
             <div>
-                {
-                    pages.map(p =>
+                { pages.map(p =>
                         <span key={p}
                             className={`${css.pageNum} ${props.currentPage === p && css.selected}`}
                             onClick={() => {props.onPageChanged(p) }}>
                             {p}
-                        </span>)
-                }
+                        </span>)}
             </div>
 
 
             {(props.users.map(user =>
                     <div key={user.id}>
-
                             <span className={css.user}>
                                 <UserAvaBtn id={user.id}
-                                            img={(props.users.photos ? props.users.photos.small : user_icon)}
+                                            img={(user.photos && user.photos.small ? user.photos.small : user_icon)}
                                             follow={props.follow}
                                             followed={user.followed}
                                             unfollow={props.unfollow}/>
