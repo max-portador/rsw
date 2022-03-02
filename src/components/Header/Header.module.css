@@ -1,4 +1,19 @@
 .header{
     grid-area: h;
+    display: grid;
+    grid-template-columns: 1fr  1fr;
+    align-items: center;
     background: linear-gradient(45deg, #f5d0d0, darkorchid);
+}
+
+.loginBlock{
+    display: grid;
+    justify-self: end;
+    float: right;
+}
+
+.loginBlock a, .loginBlock span {
+    padding: 10px;
+    color: white;
+    font-weight: bold;
 }

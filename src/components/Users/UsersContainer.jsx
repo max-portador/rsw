@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import axios from "axios";
 import {follow, setCurrentPage, setIsFetching, setTotalUsersCount, setUsers, unfollow} from "../../redux/usersReducer";
 import Users from "./Users";
-import PreLoader from "../Profile/PreLoader/PreLoader";
+import PreLoader from "../PreLoader/PreLoader";
 
 class UsersContainer extends React.Component {
 
@@ -11,11 +11,13 @@ class UsersContainer extends React.Component {
         if (this.props.users.length === 0) {
             this.props.setIsFetching(true)
             axios.get(`https://social-network.samuraijs.com/api/1.0/users?`
-                + `page=${this.props.currentPage}&count=${this.props.pageSize}`)
+                + `page=${this.props.currentPage}&count=${this.props.pageSize}`,
+                {withCredentials: true})
                 .then(response => {
                     this.props.setIsFetching(false)
                     this.props.setUsers(response.data.items);
-                    let totalCount = response.data.totalCount >=300 ? 300 : response.data.totalCount
+                    let totalCount = response.data.totalCount >=3000 ? 3000 : response.data.totalCount
+                    // let totalCount = response.data.totalCount
                     this.props.setTotalUsersCount(totalCount)
 
                 })
@@ -26,9 +28,11 @@ class UsersContainer extends React.Component {
         this.props.setCurrentPage(pageNum)
         this.props.setIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?`
-            + `page=${pageNum}&count=${this.props.pageSize}`)
+            + `page=${pageNum}&count=${this.props.pageSize}`,
+            {withCredentials: true})
             .then(response => {
                 this.props.setUsers(response.data.items)
+                this.props.setIsFetching(false)
             })
     }
 
