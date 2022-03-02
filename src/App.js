@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Routes} from "react-router-dom";
+import {Route} from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavContainer from "./components/Nav/NavContainer";

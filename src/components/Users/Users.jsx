@@ -15,10 +15,10 @@ const Users = (props) => {
     return (
         <div className={css.users}>
             <div>
-                { pages.map(p =>
-                        <span key={p}
-                            className={`${css.pageNum} ${props.currentPage === p && css.selected}`}
-                            onClick={() => {props.onPageChanged(p) }}>
+                {pages.map(p =>
+                    <span key={p}
+                          className={`${css.pageNum} ${props.currentPage === p && css.selected}`}
+                          onClick={() => { props.onPageChanged(p) }}>
                             {p}
                         </span>)}
             </div>
@@ -31,6 +31,8 @@ const Users = (props) => {
                                             img={(user.photos && user.photos.small ? user.photos.small : user_icon)}
                                             follow={props.follow}
                                             followed={user.followed}
+                                            followingInProgress={props.followingInProgress}
+                                            toggleFollowingProgress={props.toggleFollowingProgress}
                                             unfollow={props.unfollow}/>
 
                                 <UserBoxInfo followed={user.followed} fullName={user.name}
