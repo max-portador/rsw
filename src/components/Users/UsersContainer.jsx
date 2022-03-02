@@ -1,22 +1,20 @@
 import React from "react";
 import {connect} from "react-redux";
-import axios from "axios";
 import {follow, setCurrentPage, setIsFetching, setTotalUsersCount, setUsers, unfollow} from "../../redux/usersReducer";
 import Users from "./Users";
 import PreLoader from "../PreLoader/PreLoader";
+import {usersAPI} from "../../api/api";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
         if (this.props.users.length === 0) {
             this.props.setIsFetching(true)
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?`
-                + `page=${this.props.currentPage}&count=${this.props.pageSize}`,
-                {withCredentials: true})
-                .then(response => {
+            usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+                .then(data => {
                     this.props.setIsFetching(false)
-                    this.props.setUsers(response.data.items);
-                    let totalCount = response.data.totalCount >=3000 ? 3000 : response.data.totalCount
+                    this.props.setUsers(data.items);
+                    let totalCount = data.totalCount >= 300 ? 300 : data.totalCount
                     // let totalCount = response.data.totalCount
                     this.props.setTotalUsersCount(totalCount)
 
@@ -27,11 +25,9 @@ class UsersContainer extends React.Component {
     onPageChanged = (pageNum) => {
         this.props.setCurrentPage(pageNum)
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?`
-            + `page=${pageNum}&count=${this.props.pageSize}`,
-            {withCredentials: true})
-            .then(response => {
-                this.props.setUsers(response.data.items)
+        usersAPI.getUsers(pageNum, this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
                 this.props.setIsFetching(false)
             })
     }
@@ -39,21 +35,19 @@ class UsersContainer extends React.Component {
 
     render() {
         return <>
-        {this.props.isFetching ? <PreLoader/> : null}
-        <Users
-            totalUsersCount={this.props.totalUsersCount}
-            pageSize={this.props.pageSize}
-            currentPage={this.props.currentPage}
-            users={this.props.users}
-            follow={this.props.follow}
-            unfollow={this.props.unfollow}
-            onPageChanged={this.onPageChanged}
-        />
+            {this.props.isFetching ? <PreLoader/> : null}
+            <Users
+                totalUsersCount={this.props.totalUsersCount}
+                pageSize={this.props.pageSize}
+                currentPage={this.props.currentPage}
+                users={this.props.users}
+                follow={this.props.follow}
+                unfollow={this.props.unfollow}
+                onPageChanged={this.onPageChanged}
+            />
         </>
     }
 }
-
-
 
 
 let mapStateToProps = (state) => {
