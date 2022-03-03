@@ -3,49 +3,32 @@ import css from "./UserFollowBtn.module.css";
 import {followAPI} from "../../../../api/api";
 
 const UserFollowBtn = (props) => {
-    if (props.followed) {
-        return (
-            <button
-                disabled={props.followingInProgress.some(id => id === props.id)}
-                className={css.button + " " + css.followed}
-                onClick={() => {
-                    props.toggleFollowingProgress(true, props.id);
+    let [APIcallback, followCallback, label] = props.followed
+        ? [followAPI.unfollow, props.unfollow, "UNFOLLOW"]
+        : [followAPI.follow, props.follow, "FOLLOW"]
 
-                    followAPI.unfollow(props.id).then(data => {
-                        if (data.resultCode === 0) {
-                            props.unfollow(props.id)
-                        }
-                    })
+    const clickHandler = (id_list, userId, toggle) => {
+        toggle(true, userId);
 
-                    props.toggleFollowingProgress(false, props.id);
-
-                }}>
-                UNFOLLOW
-            </button>
-        )
-    } else {
-        return (
-            <button
-                disabled={props.followingInProgress.some(id => {
-                    return id === props.id
-                })
-                }
-                className={css.button}
-                onClick={() => {
-                    props.toggleFollowingProgress(true, props.id);
-                    console.log("Try to follow " + props.id)
-                    followAPI.follow(props.id).then(data => {
-                        if (data.resultCode === 0) {
-                            props.follow(props.id)
-                        }
-                    })
-
-                    props.toggleFollowingProgress(false, props.id);
-                }}>
-                FOLLOW
-            </button>)
+        APIcallback(userId).then(data => {
+            if (data.resultCode === 0) {
+                followCallback(userId)
+            }
+        }).finally(() => {
+            toggle(false, userId)
+        })
     }
 
+    return <button
+        disabled={props.followingInProgress.some(id => id === props.id)}
+        className={`${css.button} ${css.followed}`}
+        onClick={() => {
+            clickHandler(props.followingInProgress,
+            props.id,
+            props.toggleFollowingProgress)
+        }}>
+        {label}
+    </button>
 }
 
 export default UserFollowBtn;

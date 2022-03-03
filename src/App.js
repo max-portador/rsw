@@ -12,7 +12,7 @@ const App = () => {
         <HeaderContainer/>
         <NavContainer/>
         <div className='app-wrapper-content'>
-                <Route path="/dialogs/*"
+                <Route path="/dialogs*"
                        component={DialogsContainer}/>
                 <Route path="/profile/:userId?"
                        component={ProfileContainer}/>
