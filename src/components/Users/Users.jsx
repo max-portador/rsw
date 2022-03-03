@@ -29,10 +29,9 @@ const Users = (props) => {
                             <span className={css.user}>
                                 <UserAvaBtn id={user.id}
                                             img={(user.photos && user.photos.small ? user.photos.small : user_icon)}
-                                            follow={props.follow}
                                             followed={user.followed}
                                             followingInProgress={props.followingInProgress}
-                                            toggleFollowingProgress={props.toggleFollowingProgress}
+                                            follow={props.follow}
                                             unfollow={props.unfollow}/>
 
                                 <UserBoxInfo followed={user.followed} fullName={user.name}

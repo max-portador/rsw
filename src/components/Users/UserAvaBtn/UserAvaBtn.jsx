@@ -15,7 +15,6 @@ const UserAvaBtn = (props) => {
                 follow={props.follow}
                 unfollow={props.unfollow}
                 followingInProgress={props.followingInProgress}
-                toggleFollowingProgress={props.toggleFollowingProgress}
                 id={props.id}/>
         </div>
     )
