@@ -10,7 +10,7 @@ const ProfileInfo = (props) => {
     let contacts = [];
     if (profile)
         contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
-    return <div>
+    return <div className={css.profileInfo}>
         <div>
             <img src="https://static.orgpage.ru/socialnewsphotos/3c/3cc80415aa324fa2833df20a6aaf7e3a.jpg"
                  className={css.img} alt="Praha"/>
