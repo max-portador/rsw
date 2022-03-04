@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
 import css from "./Dialogs.module.css";
@@ -15,17 +14,8 @@ const Dialogs = (props) => {
         props.onMessageBodyChange(text);
     }
 
-    let dialogItems = props.dialogs.map((d, i) => {
-        return <DialogItem name={d.name} id={d.id} key={i}/>
-    })
-
-    let messages = props.messages.map((d, i) => {
-        return <Messages key={i} text={d.message}/>
-    })
-
-    if (!props.isAuth){
-        return <Redirect to={'/login'} />
-    }
+    let dialogItems = props.dialogs.map((d, i) => <DialogItem key={i} name={d.name} id={d.id} /> )
+    let messages = props.messages.map((d, i) => <Messages key={i} text={d.message}/> )
 
 
     return <div className={css.dialogs}>
