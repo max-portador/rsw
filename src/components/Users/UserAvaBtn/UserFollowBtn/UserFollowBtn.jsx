@@ -1,6 +1,5 @@
 import React from "react";
 import css from "./UserFollowBtn.module.css";
-import {followAPI} from "../../../../api/api";
 
 const UserFollowBtn = (props) => {
     let [followCallback, label] = props.followed ? [props.unfollow, "UNFOLLOW"]
