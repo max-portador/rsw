@@ -92,27 +92,47 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 type AddPostActionType = {
     type: typeof ADD_POST
 }
-
 export const addPostCreator = (): AddPostActionType => ({ type: ADD_POST})
-export const updateNewPostTextCreator = text => ({type: UPDATE_TEXTAREA, payload: {newPostText: text}})
-export const setUserProfile = profile => ({type: SET_USER_PROFILE, payload: {profile}})
-export const setStatus = status => ({type: SET_STATUS, payload: {status}})
 
-export const getUserProfile = userId => dispatch => {
+type UpdateNewPostTextAction = {
+    type: typeof UPDATE_TEXTAREA,
+    payload: {
+        newPostText: string
+    }
+}
+export const updateNewPostTextCreator = (text: string): UpdateNewPostTextAction => ({type: UPDATE_TEXTAREA, payload: {newPostText: text}})
+
+type SetUserProfileType = {
+    type: typeof SET_USER_PROFILE,
+    payload: {
+        profile: ProfileType
+    }
+}
+export const setUserProfile = (profile: ProfileType): SetUserProfileType => ({type: SET_USER_PROFILE, payload: {profile}})
+
+type SetStatusType = {
+    type: typeof SET_STATUS,
+    payload: {
+        status: string
+    }
+}
+export const setStatus = (status: string): SetStatusType => ({type: SET_STATUS, payload: {status}})
+
+export const getUserProfile = (userId: number) => dispatch => {
     profileAPI.getProfile(userId)
         .then(data => {
             dispatch(setUserProfile(data)) 
         })
 }
 
-export const getStatus = userId => dispatch => {
+export const getStatus = (userId: number) => dispatch => {
     profileAPI.getStatus(userId)
         .then(data => {
             dispatch(setStatus(data)) 
         })
 }
 
-export const updateStatus = status => dispatch => {
+export const updateStatus = (status: string) => dispatch => {
     profileAPI.updateStatus(status)
         .then((data) => {
             if (data.resultCode === 0) {
@@ -120,7 +140,5 @@ export const updateStatus = status => dispatch => {
             }
         })
 }
-
-
 
 export default profileReducer;
