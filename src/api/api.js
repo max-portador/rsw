@@ -39,7 +39,6 @@ export const profileAPI = {
     },
 
     async updateStatus(status){
-        console.log(`API -${status}`);
         const response = await instance.put(`profile/status`, { status: status });
         return response.data;
     },

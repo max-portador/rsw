@@ -5,19 +5,50 @@ const UPDATE_TEXTAREA = "UPDATE_NEW_POST_TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 
+type PostType = {
+    id: number,
+    message: string,
+    likesCount: number
+}
+type PhotosType = {
+    small: string | null,
+    large: string | null
+}
+
+type ContactsType = {
+    github: string | null,
+    vk: string | null,
+    twitter: string | null,
+    website: string | null,
+    youtube: string | null,
+    mainLink: string | null,
+
+}
+
+type ProfileType = {
+    userId: number,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    contacts: ContactsType
+    photos: PhotosType
+}
+
 let initialState = {
-    profile: null,
-    status: null,
+    profile: null as ProfileType,
+    status: null as null | string,
     posts: [
         {id: 1, message: "post1", likesCount: 0},
         {id: 2, message: "post2", likesCount: 23},
         {id: 3, message: "post3", likesCount: 12},
         {id: 4, message: "post4", likesCount: 108},
-    ],
-    newPostText: "Крыльями маши!"
+    ] as PostType[],
+    newPostText: "Крыльями маши!" as string,
 };
 
-const profileReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState;
+
+const profileReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
             if (state.newPostText.trim()) {
@@ -58,7 +89,11 @@ const profileReducer = (state = initialState, action) => {
     }
 }
 
-export const addPostCreator = () => ({ type: ADD_POST})
+type AddPostActionType = {
+    type: typeof ADD_POST
+}
+
+export const addPostCreator = (): AddPostActionType => ({ type: ADD_POST})
 export const updateNewPostTextCreator = text => ({type: UPDATE_TEXTAREA, payload: {newPostText: text}})
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, payload: {profile}})
 export const setStatus = status => ({type: SET_STATUS, payload: {status}})
