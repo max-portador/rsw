@@ -5,7 +5,7 @@ import css from "./Profile.module.css";
 
 const Profile = (props) => {
     return <div className={css.content}>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo {...props}/>
             <MyPostsContainer/>
     </div>
 }

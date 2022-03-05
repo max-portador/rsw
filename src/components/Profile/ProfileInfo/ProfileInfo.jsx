@@ -8,6 +8,7 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 const ProfileInfo = (props) => {
     let profile = props.profile;
     let contacts = [];
+
     if (profile)
         contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
     return <div className={css.profileInfo}>
@@ -22,11 +23,9 @@ const ProfileInfo = (props) => {
                     <div>{"Имя: " + profile.fullName}</div>
                     {/*======================================= */}
                     {profile.aboutMe 
-                    ?    <div>
-                            <pre>
+                    ?    <div><pre>
                                 {`${"О себе:".padEnd(10, " ")} ${profile.aboutMe}`}
-                            </pre>
-                        </div> 
+                        </pre></div> 
                     :   null}
                     {/*======================================= */}
                     {contacts.length 
@@ -49,7 +48,9 @@ const ProfileInfo = (props) => {
             :  <PreLoader/>
         }
 
-        <ProfileStatus status={"Hello my friends"}/>
+        <ProfileStatus status={ props.status }
+                        myId={props.myId}
+                        updateStatus={props.updateStatus}/>
     </div>
 }
 
