@@ -3,15 +3,7 @@ import { authAPI } from "../api/api";
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_IS_AUTH = "SET_IS_AUTH";
 
-type InitialStateType = {
-    userId: null | number,
-    email: null | string,
-    login: null | string,
-    isAuth: boolean,
-}
-
-
-let initialState: InitialStateType = {
+let initialState = {
     userId: null,
     email: null,
     login: null,
@@ -38,26 +30,11 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-type SetAuthUserDataActionType = {
-    type: typeof SET_USER_DATA,
-    payload: {
-        userId: number,
-        email: string,
-        login: string
-    }
-}
-
-export const setAuthUserData = (userId: number, email: string, login: string) : SetAuthUserDataActionType => (
+export const setAuthUserData = (userId , email , login )  => (
     {type: SET_USER_DATA, payload: {userId, email, login}}
 )
-type SetIsAuthActionType = {
-    type: typeof SET_IS_AUTH,
-    payload: {
-        isAuth: boolean,
-    }
-}
 
-export const setIsAuth = (isAuth: boolean) : SetIsAuthActionType => (
+export const setIsAuth = (isAuth)  => (
     {type: SET_IS_AUTH, payload: {isAuth}}
 )
 
@@ -81,8 +58,7 @@ export const login = (email, password) => dispatch => {
     })
 }
 
-export let logOut;
-logOut = () => dispatch => {
+export const authLogout = () => dispatch => {
     authAPI.logout().then(content => {
         if (content.resultCode === 0){
             dispatch(setAuthUserData(null, null, null))

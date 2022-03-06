@@ -49,5 +49,16 @@ export const authAPI = {
     async me(){
         const response = await instance.get("auth/me")
         return response.data;
+    },
+
+    async login(email, password){
+        const response = await instance.post("/auth/login",
+            { email, password })
+        return response.data
+    },
+
+    async logout(){
+        const response = await instance.delete("/auth/login",{})
+        return response.data
     }
 }

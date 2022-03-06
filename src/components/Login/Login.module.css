@@ -1,0 +1,11 @@
+.form{
+    display: grid;
+    grid-auto-flow: row;
+    max-width: 250px;
+    gap: 10px;
+}
+
+.btn{
+    width: 100px;
+    align-self: center;
+}

@@ -8,7 +8,6 @@
     display: grid;
     grid-template-rows: var(--header-height) 1fr;
     grid-template-columns: 2fr 10fr;
-    grid-column-gap: 10px;
     grid-template-areas:
           "h h h"
           "n c c";
@@ -20,6 +19,8 @@
 .app-wrapper-content {
     grid-area: c;
     font-size: 18px;
+    background: linear-gradient(180deg, #f8d6d6, #9d6ec0);
+    padding-left: 20px;
 }
 
 .App-header {
