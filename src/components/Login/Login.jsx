@@ -2,13 +2,11 @@ import React from "react";
 import {Form, Field, Formik} from 'formik';
 import css from "./Login.module.css"
 import {connect} from "react-redux";
-import {login} from "../../redux/jsauthReducer";
-import {Redirect} from "react-router-dom";
+import {authUserLogin} from "../../redux/jsauthReducer";
 
 const LoginForm = (props) => {
     const submit = (values, { setSubmitting }) => {
-        console.table(values)
-        props.login(values.email, values.password)
+        props.authUserLogin(values.email, values.password)
         setSubmitting(false)
     }
 
@@ -39,28 +37,11 @@ const LoginForm = (props) => {
         </div>
 }
 
-// (
-//     props.isAuth
-//         ? <Redirect to={"/profile"}/>
-//         : <LoginForm email={props.email || ""}
-//                      password = {props.password || ""}
-//                      login={props.login}/>
-// )
-
-const Login = (props) => {
-    return <div>
-
-        <LoginForm email={props.email || ""}
-                   password = {props.password || ""}
-                   login={props.login}/>
-    </div>
-}
-
 const mapStateToProps = state => ({
-    email: state.auth.email,
-    password: state.auth.password,
+    email: state.auth.email || "",
+    password: state.auth.password || "",
     isAuth: state.auth.isAuth,
 })
 
 
-export default connect(mapStateToProps, {login})(Login)
+export default connect(mapStateToProps, {authUserLogin})(LoginForm)

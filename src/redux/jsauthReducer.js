@@ -48,7 +48,7 @@ export const getAuthUserData = () => dispatch => {
     })
 }
 
-export const login = (email, password) => dispatch => {
+export const authUserLogin = (email, password) => dispatch => {
     authAPI.login(email, password).then(content => {
         if (content.resultCode === 0){
             let userId = content.data.userId;

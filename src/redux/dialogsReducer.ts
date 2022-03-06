@@ -1,5 +1,4 @@
 const SEND_MESSAGE = "SEND_MESSAGE";
-const UPDATE_NEW_MESSAGE_TEXT = "UPDATE_NEW_MESSAGE_TEXT";
 
 type DialogsType = {
     id: number,
@@ -17,9 +16,8 @@ let initialState = {
     ] as DialogsType[],
     messages: [
         {message: "Hi"}, {message: "How is your life"},
-        {message: "Yo"}, {message: "Yo"},
+        {message: "Yo"}, {message: "Hold me tight"},
     ] as MessageType[],
-    newMessageText: "" as string,
 };
 
 export type InitialStateType = typeof initialState
@@ -28,48 +26,32 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
 
     switch (action.type) {
         case SEND_MESSAGE:
-            if (state.newMessageText.trim()) {
-                let message = state.newMessageText;
+            if (action.payload.newMessageText.trim()) {
+                let message = action.payload.newMessageText;
                 return {
                     ...state,
                     messages: [...state.messages, {message}],
-                    newMessageText: ""
                 }
             }
             return state;
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            return {
-                ...state,
-                newMessageText: action.payload.newMessageText,
-            };
-        }
         default:
             return state;
     }
 }
 
 type SendMessageCreatorActionType = {
-    type: typeof SEND_MESSAGE
-}
-
-export const sendMessageCreator = (): SendMessageCreatorActionType => {
-    return {
-        type: SEND_MESSAGE,
-    }
-}
-
-type UpdateNewMessageTextCreatorActionType = {
-    type: typeof UPDATE_NEW_MESSAGE_TEXT,
+    type: typeof SEND_MESSAGE,
     payload: {
         newMessageText: string,
     }
 }
 
-export const updateNewMessageTextCreator = (text: string): UpdateNewMessageTextCreatorActionType => {
+export const sendMessageCreator = (text: string): SendMessageCreatorActionType => {
     return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
+        type: SEND_MESSAGE,
         payload: {newMessageText: text}
     }
 }
+
 
 export default dialogsReducer;

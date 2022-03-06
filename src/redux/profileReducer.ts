@@ -1,7 +1,6 @@
 import { profileAPI } from '../api/api';
 
 const ADD_POST = "ADD_POST";
-const UPDATE_TEXTAREA = "UPDATE_NEW_POST_TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 
@@ -43,7 +42,6 @@ let initialState = {
         {id: 3, message: "post3", likesCount: 12},
         {id: 4, message: "post4", likesCount: 108},
     ] as PostType[],
-    newPostText: "Крыльями маши!" as string,
 };
 
 type InitialStateType = typeof initialState;
@@ -51,9 +49,9 @@ type InitialStateType = typeof initialState;
 const profileReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
-            if (state.newPostText.trim()) {
+            if (action.payload.newPostText.trim()) {
                 let _id = state.posts.length + 1;
-                let text = state.newPostText;
+                let text = action.payload.newPostText;
                 const newPost = {
                     id: _id,
                     message: text,
@@ -62,16 +60,9 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                 return {
                     ...state,
                     posts: [...state.posts, newPost],
-                    newPostText: "",
                 };
             }
             return state;
-        case UPDATE_TEXTAREA: {
-            return {
-                ...state,
-                newPostText: action.payload.newPostText,
-            };
-        }
         case SET_USER_PROFILE: {
             return {
                 ...state,
@@ -90,17 +81,12 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 }
 
 type AddPostActionType = {
-    type: typeof ADD_POST
-}
-export const addPostCreator = (): AddPostActionType => ({ type: ADD_POST})
-
-type UpdateNewPostTextAction = {
-    type: typeof UPDATE_TEXTAREA,
+    type: typeof ADD_POST,
     payload: {
         newPostText: string
     }
 }
-export const updateNewPostTextCreator = (text: string): UpdateNewPostTextAction => ({type: UPDATE_TEXTAREA, payload: {newPostText: text}})
+export const addPostCreator = (text: string): AddPostActionType => ({ type: ADD_POST, payload: {newPostText: text}})
 
 type SetUserProfileType = {
     type: typeof SET_USER_PROFILE,
