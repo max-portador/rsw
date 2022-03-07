@@ -1,7 +1,7 @@
 import React from "react";
 import css from "./ProfileInfo.module.css";
 import {user_icon} from "../../../redux/usersReducer";
-import PreLoader from "../../PreLoader/PreLoader";
+import PreLoader from "../../common/PreLoader/PreLoader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 

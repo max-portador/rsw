@@ -49,20 +49,13 @@ type InitialStateType = typeof initialState;
 const profileReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
-            if (action.payload.newPostText.trim()) {
                 let _id = state.posts.length + 1;
                 let text = action.payload.newPostText;
-                const newPost = {
-                    id: _id,
-                    message: text,
-                    likesCount: 0
-                };
+                const newPost = { id: _id, message: text,  likesCount: 0 };
                 return {
                     ...state,
                     posts: [...state.posts, newPost],
                 };
-            }
-            return state;
         case SET_USER_PROFILE: {
             return {
                 ...state,

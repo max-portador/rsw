@@ -1,18 +1,35 @@
 import React from "react";
 import {Form, Field, Formik} from 'formik';
-import css from "./Login.module.css"
 import {connect} from "react-redux";
 import {authUserLogin} from "../../redux/jsauthReducer";
+import {validateEmail, validatePassword} from "../../utils/validators";
+import css from "./Login.module.css"
+import {Input} from "../common/FormControls/FormControls";
 
 const LoginForm = (props) => {
-    const submit = (values, { setSubmitting }) => {
+    const loginSubmit = (values, { setSubmitting, setFieldValue, setTouched }) => {
+        console.table(values)
         props.authUserLogin(values.email, values.password)
-        setSubmitting(false)
+        setFieldValue("email", "")
+        setTouched("email", false)
+        setFieldValue("password", "")
+        setTouched("password", false)
+        setSubmitting(true)
     }
 
-    const validate = (values) => {
-        let errors = {};
-        return errors;
+    const loginValidate = ({email, password}) => {
+        let errors = {}
+
+        let emailError = validateEmail(email);
+        if (emailError) {
+            errors.email = emailError;
+        }
+
+        let passwordError = validatePassword(password);
+        if (passwordError) {
+            errors.password = passwordError;
+        }
+        return errors
     }
 
     return <div>
@@ -20,20 +37,25 @@ const LoginForm = (props) => {
                 email: props.email,
                 password: props.password
             }}
-            validate={validate}
-            onSubmit={submit}>
-                <>
+            onSubmit={loginSubmit}
+            validate={loginValidate}
+            >
+
+                {({ errors, touched, isValidating }) => (
                     <Form className={css.form}>
                         <h1>Login</h1>
-                        <Field name="email" component={"input"} type="text"  placeholder={"email"}/>
-                        <Field name="password" component={"input"} type="text"  placeholder={"password"}/>
-                        <Field name="isRemebered" component={"input"} type="checkbox" />
-                        <button type="submit">Login</button>
+                        <Field name="email" id={"email"} component={Input} type="email"
+                               className={css.field} placeholder={"email"} />
+                        <Field name="password" component={Input} type="password"  placeholder={"password"}
+                               className={css.field}/>
+                        <div className={css.checkBoxSection}>
+                            <Field name="isRemebered" component={Input} type="checkbox" />
+                            <label>Remember</label>
+                        </div>
+                        <button type="submit" className={css.btn}>Login</button>
                     </Form>
-                </>
-
+                )}
             </Formik>
-
         </div>
 }
 

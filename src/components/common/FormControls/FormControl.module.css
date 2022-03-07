@@ -1,0 +1,13 @@
+.form_control {
+}
+
+.error_message {
+    color: red;
+    font-size: 10px;
+    margin: -5px 0 0 0;
+}
+
+.form_control.error input,
+.form_control.error textarea{
+    border: 1px solid red;
+}

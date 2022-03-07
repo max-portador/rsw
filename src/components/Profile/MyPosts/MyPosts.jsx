@@ -2,16 +2,23 @@ import React from "react";
 import {Form, Field, Formik} from 'formik';
 import Post from "./Post/Post";
 import css from "./MyPosts.module.css";
+import {TextArea} from "../../common/FormControls/FormControls";
+import {validateRequired} from "../../../utils/validators";
 
 const AddPostForm = (props) => {
-    const submit = (values, { setSubmitting, setFieldValue }) => {
+    const submit = (values, { setSubmitting, setFieldValue, setTouched }) => {
         props.addPost(values.newPostText)
         setFieldValue("newPostText", "")
+        setTouched("newPostText", false)
         setSubmitting(false)
     }
 
     const validate = (values) => {
-        let errors = {};
+        let errors = {}
+        let requiredError = validateRequired(values.newPostText);
+        if (requiredError){
+            errors.newPostText = requiredError
+        }
         return errors;
     }
 
@@ -20,7 +27,7 @@ const AddPostForm = (props) => {
                  validate={validate}  onSubmit={submit}>
             <Form>
                 <div>
-                <Field name="newPostText" component={"textarea"} placeholder={"Новый пост"}
+                <Field name="newPostText" component={TextArea} placeholder={"Новый пост"}
                        type="text" className={css.textarea} />
                 </div>
                 <button type="submit" className={css.button}>Add post</button>

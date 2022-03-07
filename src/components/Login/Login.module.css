@@ -1,11 +1,27 @@
 .form{
     display: grid;
     grid-auto-flow: row;
-    max-width: 250px;
     gap: 10px;
+    font-size: 16px;
+}
+
+.field{
+    width: 250px;
+    margin-right: 10px;
+}
+
+.checkBoxSection {
+    display: grid;
+    grid-template-columns: min-content max-content;
 }
 
 .btn{
+    display: grid;
     width: 100px;
     align-self: center;
+}
+
+
+.error {
+    color: red;
 }

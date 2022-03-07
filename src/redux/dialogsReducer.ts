@@ -26,14 +26,11 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
 
     switch (action.type) {
         case SEND_MESSAGE:
-            if (action.payload.newMessageText.trim()) {
-                let message = action.payload.newMessageText;
-                return {
-                    ...state,
-                    messages: [...state.messages, {message}],
-                }
+            let message = action.payload.newMessageText;
+            return {
+                ...state,
+                messages: [...state.messages, {message}],
             }
-            return state;
         default:
             return state;
     }

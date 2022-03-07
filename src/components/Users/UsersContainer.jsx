@@ -7,7 +7,7 @@ import {
     toggleFollowingProgress, unfollow,
 } from "../../redux/usersReducer";
 import Users from "./Users";
-import PreLoader from "../PreLoader/PreLoader";
+import PreLoader from "../common/PreLoader/PreLoader";
 import withAuthRedirect from "../../hoc/WithAuthRedirect";
 import { compose } from "redux";
 
