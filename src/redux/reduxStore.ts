@@ -4,7 +4,7 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
-import authReducer from "./authReducer";
+import authReducer from "./jsauthReducer";
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,

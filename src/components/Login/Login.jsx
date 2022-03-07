@@ -3,21 +3,18 @@ import {Form, Field, Formik} from 'formik';
 import {connect} from "react-redux";
 import {authUserLogin} from "../../redux/jsauthReducer";
 import {validateEmail, validatePassword} from "../../utils/validators";
-import css from "./Login.module.css"
 import {Input} from "../common/FormControls/FormControls";
+import {Redirect} from "react-router-dom";
+import css from "./Login.module.css"
 
 const LoginForm = (props) => {
-    const loginSubmit = (values, { setSubmitting, setFieldValue, setTouched }) => {
-        console.table(values)
-        props.authUserLogin(values.email, values.password)
-        setFieldValue("email", "")
-        setTouched("email", false)
-        setFieldValue("password", "")
-        setTouched("password", false)
+    const loginSubmit = (values, { setSubmitting }) => {
+        debugger
+        props.authUserLogin(values.email, values.password, values.rememberMe)
         setSubmitting(true)
     }
 
-    const loginValidate = ({email, password}) => {
+    const loginValidate = ({email, password, rememberMe}) => {
         let errors = {}
 
         let emailError = validateEmail(email);
@@ -35,7 +32,8 @@ const LoginForm = (props) => {
     return <div>
             <Formik  initialValues= {{
                 email: props.email,
-                password: props.password
+                password: props.password,
+                rememberMe: false,
             }}
             onSubmit={loginSubmit}
             validate={loginValidate}
@@ -49,7 +47,7 @@ const LoginForm = (props) => {
                         <Field name="password" component={Input} type="password"  placeholder={"password"}
                                className={css.field}/>
                         <div className={css.checkBoxSection}>
-                            <Field name="isRemebered" component={Input} type="checkbox" />
+                            <Field name="rememberMe" component={"input"} type="checkbox" />
                             <label>Remember</label>
                         </div>
                         <button type="submit" className={css.btn}>Login</button>
@@ -65,5 +63,13 @@ const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
 })
 
+const Login = (props) => {
+    if (props.isAuth){
+        return <Redirect to={"/profile"}/>
+    }
 
-export default connect(mapStateToProps, {authUserLogin})(LoginForm)
+    return <LoginForm {...props} authUserLogin={props.authUserLogin} />
+}
+
+
+export default connect(mapStateToProps, {authUserLogin})(Login)

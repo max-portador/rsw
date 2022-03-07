@@ -51,9 +51,9 @@ export const authAPI = {
         return response.data;
     },
 
-    async login(email, password){
+    async login(email, password, rememberMe=false   ){
         const response = await instance.post("/auth/login",
-            { email, password })
+            { email, password, rememberMe })
         return response.data
     },
 

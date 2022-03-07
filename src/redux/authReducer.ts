@@ -1,7 +1,6 @@
 import { authAPI } from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
-const SET_IS_AUTH = "SET_IS_AUTH";
 
 type InitialStateType = {
     userId: null | number,
@@ -27,12 +26,6 @@ const authReducer = (state = initialState, action) => {
                 }
             }
 
-        case SET_IS_AUTH: {
-            return {
-                ...state,
-                ...action.payload,
-            }
-        }
         default:
             return state;
     }
@@ -43,40 +36,30 @@ type SetAuthUserDataActionType = {
     payload: {
         userId: number,
         email: string,
-        login: string
-    }
-}
-
-export const setAuthUserData = (userId: number, email: string, login: string) : SetAuthUserDataActionType => (
-    {type: SET_USER_DATA, payload: {userId, email, login}}
-)
-type SetIsAuthActionType = {
-    type: typeof SET_IS_AUTH,
-    payload: {
+        login: string,
         isAuth: boolean,
     }
 }
 
-export const setIsAuth = (isAuth: boolean) : SetIsAuthActionType => (
-    {type: SET_IS_AUTH, payload: {isAuth}}
+export const setAuthUserData = (userId: number, email: string, login: string, isAuth: boolean) : SetAuthUserDataActionType => (
+    {type: SET_USER_DATA, payload: {userId, email, login, isAuth}}
 )
 
 export const getAuthUserData = () => dispatch => {
     authAPI.me().then(content => {
         if (content.resultCode === 0){
+            debugger
             let {id, login, email} = content.data
-            dispatch(setAuthUserData(id, email, login));
-            dispatch(setIsAuth(true));
+            dispatch(setAuthUserData(id, email, login, true));
         }
     })
 }
 
-export const login = (email, password) => dispatch => {
-    authAPI.login(email, password).then(content => {
+export const login = (email, password, rememberMe) => dispatch => {
+    authAPI.login(email, password, rememberMe).then(content => {
         if (content.resultCode === 0){
-            let userId = content.data.userId;
-            dispatch(setAuthUserData(userId, email, email));
-            dispatch(setIsAuth(true));
+            debugger
+            dispatch(getAuthUserData());
         }
     })
 }
@@ -85,10 +68,7 @@ export let logOut;
 logOut = () => dispatch => {
     authAPI.logout().then(content => {
         if (content.resultCode === 0){
-            dispatch(setAuthUserData(null, null, null))
-            dispatch(setIsAuth(false))
+            dispatch(setAuthUserData(null, null, null, false));
         }
     })
 }
-
-export default authReducer;
