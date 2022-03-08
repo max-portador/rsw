@@ -14,6 +14,7 @@ import { compose } from "redux";
 class UsersContainer extends React.Component {
 
     componentDidMount() {
+
        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
@@ -21,6 +22,7 @@ class UsersContainer extends React.Component {
 
 
     render() {
+        debugger
         return <>
             {this.props.isFetching ? <PreLoader/> : null}
             <Users

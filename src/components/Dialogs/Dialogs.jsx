@@ -41,7 +41,7 @@ const AddMessageForm = (props) => {
 }
 
 const Dialogs = (props) => {
-
+    debugger
     let dialogItems = props.dialogs.map((d, i) => <DialogItem key={i} name={d.name} id={d.id} /> )
     let messages = props.messages.map((d, i) => <Messages key={i} text={d.message}/> )
 

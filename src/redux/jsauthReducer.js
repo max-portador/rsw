@@ -1,7 +1,6 @@
 import {authAPI} from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
-const SET_IS_AUTH = "SET_IS_AUTH";
 
 let initialState = {
     userId: null,
@@ -37,10 +36,12 @@ export const getAuthUserData = () => dispatch => {
     })
 }
 
-export const authUserLogin = (email, password, rememberMe) => dispatch => {
+export const authUserLogin = (email, password, rememberMe, setFieldValue) => dispatch => {
     authAPI.login(email, password, rememberMe).then(content => {
         if (content.resultCode === 0) {
             dispatch(getAuthUserData());
+        } else {
+            setFieldValue("general", content.messages.join(" "))
         }
     })
 }

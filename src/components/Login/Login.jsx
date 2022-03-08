@@ -8,15 +8,14 @@ import {Redirect} from "react-router-dom";
 import css from "./Login.module.css"
 
 const LoginForm = (props) => {
-    const loginSubmit = (values, { setSubmitting }) => {
-        debugger
-        props.authUserLogin(values.email, values.password, values.rememberMe)
-        setSubmitting(true)
+    const loginSubmit = (values, { setFieldValue}) => {
+        console.log(values)
+        props.authUserLogin(values.email, values.password, values.rememberMe, setFieldValue)
+
     }
 
-    const loginValidate = ({email, password, rememberMe}) => {
-        let errors = {}
-
+    const loginValidate = ({email, password}) => {
+        let errors = {};
         let emailError = validateEmail(email);
         if (emailError) {
             errors.email = emailError;
@@ -39,9 +38,11 @@ const LoginForm = (props) => {
             validate={loginValidate}
             >
 
-                {({ errors, touched, isValidating }) => (
+                {({ values }) => (
+
                     <Form className={css.form}>
                         <h1>Login</h1>
+
                         <Field name="email" id={"email"} component={Input} type="email"
                                className={css.field} placeholder={"email"} />
                         <Field name="password" component={Input} type="password"  placeholder={"password"}
@@ -49,6 +50,10 @@ const LoginForm = (props) => {
                         <div className={css.checkBoxSection}>
                             <Field name="rememberMe" component={"input"} type="checkbox" />
                             <label>Remember</label>
+
+                        </div>
+                        <div className={css.errorContainer}>
+                            {values.general ? <span  className={css.error}>{values.general}</span>: null}
                         </div>
                         <button type="submit" className={css.btn}>Login</button>
                     </Form>
