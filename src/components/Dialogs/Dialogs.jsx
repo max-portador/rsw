@@ -2,9 +2,9 @@ import React from "react";
 import {Form, Field, Formik} from 'formik';
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
-import css from "./Dialogs.module.css";
 import {TextArea} from "../common/FormControls/FormControls";
 import {validateRequired} from "../../utils/validators";
+import css from "./Dialogs.module.css";
 
 const AddMessageForm = (props) => {
     const submit = (values, { setSubmitting, setFieldValue, setTouched}) => {
@@ -41,7 +41,6 @@ const AddMessageForm = (props) => {
 }
 
 const Dialogs = (props) => {
-    debugger
     let dialogItems = props.dialogs.map((d, i) => <DialogItem key={i} name={d.name} id={d.id} /> )
     let messages = props.messages.map((d, i) => <Messages key={i} text={d.message}/> )
 
