@@ -1,28 +1,30 @@
 import React from "react";
 import {connect} from "react-redux";
+import { compose } from "redux";
 import {
-    follow,
-    getUsers,
-    setCurrentPage,
+    follow, requestUsers, setCurrentPage,
     toggleFollowingProgress, unfollow,
 } from "../../redux/usersReducer";
+import {
+    getCurrentPage, getFollowingInProgress,
+    getIsFetching, getPageSize,
+    getTotalUsersCount, getUsersSelector
+} from "../../redux/users-selector";
 import Users from "./Users";
 import PreLoader from "../common/PreLoader/PreLoader";
 import withAuthRedirect from "../../hoc/WithAuthRedirect";
-import { compose } from "redux";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
 
-       this.props.getUsers(this.props.currentPage, this.props.pageSize)
+       this.props.requestUsers(this.props.currentPage, this.props.pageSize)
     }
 
-    onPageChanged = (pageNum) => { this.props.getUsers(pageNum, this.props.pageSize) }
+    onPageChanged = (pageNum) => { this.props.requestUsers(pageNum, this.props.pageSize) }
 
 
     render() {
-        debugger
         return <>
             {this.props.isFetching ? <PreLoader/> : null}
             <Users
@@ -42,17 +44,17 @@ class UsersContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsersSelector(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
     }
 }
 
 export default compose(
     connect(mapStateToProps, { follow, unfollow, setCurrentPage,
-                                toggleFollowingProgress, getUsers,}),
+                                toggleFollowingProgress, requestUsers,}),
     withAuthRedirect
 )(UsersContainer)
