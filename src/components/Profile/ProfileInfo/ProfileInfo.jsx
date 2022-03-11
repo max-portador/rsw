@@ -8,7 +8,7 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 const ProfileInfo = (props) => {
     let profile = props.profile;
     let contacts = [];
-
+    debugger
     if (profile)
         contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
     return <div className={css.profileInfo}>
@@ -47,7 +47,6 @@ const ProfileInfo = (props) => {
                 </div>
             :  <PreLoader/>
         }
-
         <ProfileStatus status={ props.status }
                         myId={props.myId}
                         updateStatus={props.updateStatus}/>
