@@ -8,7 +8,6 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 const ProfileInfo = (props) => {
     let profile = props.profile;
     let contacts = [];
-    debugger
     if (profile)
         contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
     return <div className={css.profileInfo}>

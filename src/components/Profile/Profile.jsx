@@ -4,7 +4,6 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import css from "./Profile.module.css";
 
 const Profile = (props) => {
-    debugger
     return <div className={css.content}>
             <ProfileInfo {...props}/>
             <MyPostsContainer/>
