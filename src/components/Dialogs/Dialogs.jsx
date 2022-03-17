@@ -1,48 +1,20 @@
-import React from "react";
-import {Form, Field, Formik} from 'formik';
+import React, {useState} from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
-import {TextArea} from "../common/FormControls/FormControls";
-import {validateRequired} from "../../utils/validators";
 import css from "./Dialogs.module.css";
-
-const AddMessageForm = (props) => {
-    const submit = (values, { setSubmitting, setFieldValue, setTouched}) => {
-        props.sendMessage(values.newMessageText)
-        setFieldValue("newMessageText", "")
-        setTouched("newMessageText", false)
-        setSubmitting(false)
-    }
-
-    const validate = (values) => {
-        let errors = {}
-        let requiredError = validateRequired(values.newMessageText);
-        if (requiredError){
-            errors.newMessageText = requiredError
-        }
-        return errors;
-    }
-
-    return <div>
-        <Formik  initialValues= {{ newMessageText: "" }}
-                 validate={validate}  onSubmit={submit}>
-            <Form className={css.messageInput}>
-                <div>
-                    <Field name="newMessageText" component={TextArea}
-                           placeholder={"Введите ваше сообщение"} type="text" />
-                </div>
-                <button type="submit">
-                    Send message
-                </button>
-            </Form>
-        </Formik>
-
-    </div>
-}
 
 const Dialogs = (props) => {
     let dialogItems = props.dialogs.map((d, i) => <DialogItem key={i} name={d.name} id={d.id} /> )
     let messages = props.messages.map((d, i) => <Messages key={i} text={d.message}/> )
+
+    let [newMessage, setNewMessage] = useState('')
+
+    const changeHandler = (e) => { setNewMessage(e.currentTarget.value) }
+
+    const clickHandler = () => {
+        props.sendMessage(newMessage)
+        setNewMessage('')
+    }
 
     return <div className={css.dialogs}>
         <div className={css.dialogsItems}>
@@ -53,7 +25,13 @@ const Dialogs = (props) => {
             <div className={css.messages}>
                 {messages}
             </div>
-            <AddMessageForm sendMessage={props.sendMessage}/>
+
+            <div className={css.messageInput}>
+                    <textarea placeholder={"Введите ваше сообщение"}
+                              value={newMessage} onChange={changeHandler}/>
+                    <button onClick={clickHandler}> Send message </button>
+            </div>
+
         </div>
     </div>
 }
