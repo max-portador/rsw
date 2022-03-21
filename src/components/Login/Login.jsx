@@ -7,10 +7,10 @@ import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
 import css from "./Login.module.css"
 
-const LoginForm = (props) => {
+const LoginForm = ({authUserLogin, email, password}) => {
     const loginSubmit = (values, { setFieldValue}) => {
         console.log(values)
-        props.authUserLogin(values.email, values.password, values.rememberMe, setFieldValue)
+        authUserLogin(values.email, values.password, values.rememberMe, setFieldValue)
 
     }
 
@@ -30,8 +30,8 @@ const LoginForm = (props) => {
 
     return <div>
             <Formik  initialValues= {{
-                email: props.email,
-                password: props.password,
+                email: email,
+                password: password,
                 rememberMe: false,
             }}
             onSubmit={loginSubmit}
@@ -68,12 +68,12 @@ const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
 })
 
-const Login = (props) => {
-    if (props.isAuth){
+const Login = ({isAuth, ...props }) => {
+    if (isAuth){
         return <Redirect to={"/profile"}/>
     }
 
-    return <LoginForm {...props} authUserLogin={props.authUserLogin} />
+    return <LoginForm {...props} />
 }
 
 

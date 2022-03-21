@@ -5,8 +5,7 @@ import PreLoader from "../../common/PreLoader/PreLoader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 
-const ProfileInfo = (props) => {
-    let profile = props.profile;
+const ProfileInfo = ({profile, status, myId, updateStatus}) => {
     let contacts = [];
     if (profile)
         contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
@@ -15,10 +14,10 @@ const ProfileInfo = (props) => {
             <img src="https://static.orgpage.ru/socialnewsphotos/3c/3cc80415aa324fa2833df20a6aaf7e3a.jpg"
                  className={css.img} alt="Praha"/>
         </div>
-        { props.profile
+        { profile
             ?   <div className={css.description}>
                     <img className={css.photo_large} alt="фото пользователя"
-                        src={props.profile.photos.large || user_icon}/>
+                        src={profile.photos.large || user_icon}/>
                     <div>{"Имя: " + profile.fullName}</div>
                     {/*======================================= */}
                     {profile.aboutMe 
@@ -46,9 +45,9 @@ const ProfileInfo = (props) => {
                 </div>
             :  <PreLoader/>
         }
-        <ProfileStatus status={ props.status }
-                        myId={props.myId}
-                        updateStatus={props.updateStatus}/>
+        <ProfileStatus status={ status }
+                        myId={ myId}
+                        updateStatus={ updateStatus}/>
     </div>
 }
 

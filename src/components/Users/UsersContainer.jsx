@@ -17,11 +17,14 @@ import withAuthRedirect from "../../hoc/WithAuthRedirect";
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-
-       this.props.requestUsers(this.props.currentPage, this.props.pageSize)
+       let { requestUsers, currentPage, pageSize} = this.props
+       requestUsers(currentPage, pageSize)
     }
 
-    onPageChanged = (pageNum) => { this.props.requestUsers(pageNum, this.props.pageSize) }
+    onPageChanged = (pageNum) => {
+        const {requestUsers, pageSize} = this.props
+        requestUsers(pageNum, pageSize)
+    }
 
 
     render() {
@@ -53,8 +56,8 @@ let mapStateToProps = (state) => {
     }
 }
 
+const dispatches = {follow, unfollow, setCurrentPage, toggleFollowingProgress, requestUsers,}
+
 export default compose(
-    connect(mapStateToProps, { follow, unfollow, setCurrentPage,
-                                toggleFollowingProgress, requestUsers,}),
-    withAuthRedirect
-)(UsersContainer)
+    connect(mapStateToProps, {...dispatches}),
+    withAuthRedirect)(UsersContainer)

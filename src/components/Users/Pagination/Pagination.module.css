@@ -1,0 +1,15 @@
+
+.pageNum {
+    display: inline-block;
+    border: 1px solid steelblue;
+    background: white;
+    width: 50px;
+    text-align: center;
+    margin: 10px 2px;
+    cursor: pointer;
+}
+
+.selected {
+    font-weight: bold;
+}
+
