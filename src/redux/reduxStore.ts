@@ -16,11 +16,12 @@ let rootReducer = combineReducers({
     app: appReducer,
 })
 // @ts-ignore
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+// const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+//
+// const enhancer = composeEnhancers(
+//     applyMiddleware(thunkMiddleware)
+//     // other store enhancers if any
+// );
 
-const enhancer = composeEnhancers(
-    applyMiddleware(thunkMiddleware)
-    // other store enhancers if any
-);
-let store = createStore(rootReducer, enhancer);
+let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export default store;

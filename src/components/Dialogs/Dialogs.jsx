@@ -12,8 +12,11 @@ const Dialogs = (props) => {
     const changeHandler = (e) => { setNewMessage(e.currentTarget.value) }
 
     const clickHandler = () => {
-        props.sendMessage(newMessage)
-        setNewMessage('')
+        if (newMessage.trim()){
+            props.sendMessage(newMessage)
+            setNewMessage('')
+        }
+
     }
 
     return <div className={css.dialogs}>

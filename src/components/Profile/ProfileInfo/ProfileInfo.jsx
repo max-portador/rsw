@@ -46,8 +46,8 @@ const ProfileInfo = ({profile, status, myId, updateStatus}) => {
             :  <PreLoader/>
         }
         <ProfileStatus status={ status }
-                        myId={ myId}
-                        updateStatus={ updateStatus}/>
+                        myId={ myId }
+                        updateStatus={ updateStatus }/>
     </div>
 }
 
