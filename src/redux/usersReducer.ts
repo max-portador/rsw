@@ -14,7 +14,7 @@ export let user_icon = "https://cdn-icons-png.flaticon.com/512/126/126486.png"
 let initialState = {
     users: [],
     pageSize: 25,
-    totalUsersCount: 19,
+    totalUsersCount: null,
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
@@ -90,9 +90,7 @@ export const requestUsers = (page, pageSize) => async (dispatch) => {
 
         dispatch(setIsFetching(false));
         dispatch(setUsers(data.items));
-
-        let totalCount = data.totalCount >= 300 ? 300 : data.totalCount
-        dispatch(setTotalUsersCount(totalCount))
+        dispatch(setTotalUsersCount(data.totalCount))
 }
 
 const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
