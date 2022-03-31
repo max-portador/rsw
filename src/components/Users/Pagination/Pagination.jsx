@@ -16,8 +16,6 @@ const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCoun
     let leftPortionNumber = (portionNumber - 1) * portionSize + 1
     let rightPortionNumber = portionNumber * portionSize
 
-
-    debugger
     return (
         <div>
             {portionNumber > 1 &&

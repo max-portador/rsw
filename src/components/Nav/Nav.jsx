@@ -6,12 +6,12 @@ import css from "./Nav.module.css";
 const Nav = (props) => {
     return <nav className={css.nav}>
         <div className={css.links}>
-            <NavLink to="/profile" className={navData => navData.isActive ? css.active : ""}>Profile</NavLink>
-            <NavLink to="/dialogs" className={navData => navData.isActive ? css.active : ""}>Messages</NavLink>
-            <NavLink to="/users" className={navData => navData.isActive ? css.active : ""}>Users</NavLink>
-            <NavLink to="/news" className={navData => navData.isActive ? css.active : ""}>News</NavLink>
-            <NavLink to="/music" className={navData => navData.isActive ? css.active : ""}>Music</NavLink>
-            <NavLink to="/settings" className={navData => navData.isActive ? css.active : ""}>Settings</NavLink>
+            <NavLink to="/profile" activeClassName={css.active} >Profile</NavLink>
+            <NavLink to="/dialogs" activeClassName={css.active} >Messages</NavLink>
+            <NavLink to="/users" activeClassName={css.active} >Users</NavLink>
+            <NavLink to="/news" activeClassName={css.active} >News</NavLink>
+            <NavLink to="/music" activeClassName={css.active} >Music</NavLink>
+            <NavLink to="/settings" activeClassName={css.active} >Settings</NavLink>
         </div>
 
         <FriendsList friends={props.friends}/>

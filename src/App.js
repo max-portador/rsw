@@ -3,18 +3,19 @@ import {BrowserRouter, Route, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 
-import HeaderContainer from "./components/Header/HeaderContainer";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavContainer from "./components/Nav/NavContainer";
-import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import PreLoader from "./components/common/PreLoader/PreLoader";
 import {getAuthUserData} from "./redux/jsauthReducer";
 import {initializeApp} from "./redux/appReducer";
 import store from "./redux/reduxStore";
-
 import './App.css';
+import withSuspense from "./hoc/WithSuspense";
+
+const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
+const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"))
 
 class App extends React.Component {
 
@@ -34,13 +35,13 @@ class App extends React.Component {
             <NavContainer/>
             <div className='app-wrapper-content'>
                 <Route path="/dialogs*"
-                       component={DialogsContainer}/>
+                       component={withSuspense(DialogsContainer)}/>
                 <Route path="/login"
                        component={Login}/>
                 <Route path="/profile/:userId?"
-                       component={ProfileContainer}/>
+                       component={withSuspense(ProfileContainer)}/>
                 <Route path="/users"
-                       component={UsersContainer}/>
+                       component={withSuspense(UsersContainer)}/>
             </div>
         </div>
     }
