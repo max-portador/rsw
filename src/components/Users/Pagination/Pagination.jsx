@@ -13,18 +13,8 @@ const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCoun
     let portionCount = Math.ceil(pagesCount / portionSize);
     let [portionNumber, setPortionNumber] = useState(1)
 
-    const calcLeftPortionNumber = (newPortion) => {
-        return (newPortion - 1) * portionSize + 1
-    }
-
-    const calcRightPortionNumber = (newPortion) => {
-        return newPortion * portionSize
-    }
-
-
-    let [borders, setBorders] = useState({left: calcLeftPortionNumber(portionNumber),
-                                                                right: calcRightPortionNumber(portionNumber)
-                                                                })
+    let leftPortionNumber = (portionNumber - 1) * portionSize + 1
+    let rightPortionNumber = portionNumber * portionSize
 
 
     debugger
@@ -33,18 +23,13 @@ const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCoun
             {portionNumber > 1 &&
             <button className={css.pageNum}
                     onClick={() => {
-                        onPageChanged(borders.left - portionSize);
-                        setBorders({
-                            left: calcLeftPortionNumber(portionNumber - 1),
-                            right: calcRightPortionNumber(portionNumber - 1)
-                        })
-
+                        onPageChanged(leftPortionNumber - portionSize);
                         setPortionNumber(portionNumber - 1);
                     }}> {'<'} </button>
             }
 
             {pages
-                .filter(p => p >= borders.left && p <= borders.right)
+                .filter(p => p >= leftPortionNumber && p <= rightPortionNumber)
                 .map(p =>
                 <span key={p}
                       className={`${css.pageNum} ${ currentPage === p && css.selected}`}
@@ -55,11 +40,7 @@ const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCoun
             {portionNumber < portionCount &&
                 <button className={css.pageNum}
                         onClick={() => {
-                            onPageChanged(borders.right + 1);
-                            setBorders({
-                                left: calcLeftPortionNumber(portionNumber +   1),
-                                right: calcRightPortionNumber(portionNumber + 1)
-                            })
+                            onPageChanged(rightPortionNumber + 1);
                             setPortionNumber(portionNumber + 1);
                         }}> {'>'} </button>
             }
