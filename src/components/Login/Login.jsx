@@ -9,7 +9,6 @@ import css from "./Login.module.css"
 
 const LoginForm = ({authUserLogin, email, password}) => {
     const loginSubmit = (values, { setFieldValue}) => {
-        console.log(values)
         authUserLogin(values.email, values.password, values.rememberMe, setFieldValue)
 
     }

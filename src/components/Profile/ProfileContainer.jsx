@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import { getUserProfile, getStatus, updateStatus } from '../../redux/profileReducer';
+import {getUserProfile, getStatus, updateStatus, savePhoto} from '../../redux/profileReducer';
 import {withRouter} from "react-router-dom";
 import withAuthRedirect from "../../hoc/WithAuthRedirect";
 import { compose } from 'redux';
@@ -10,22 +10,35 @@ import { compose } from 'redux';
 
 class ProfileContainer extends React.Component {
 
-    componentDidMount() {
+    refreshUserProfile(){
+      let userId = this.props.match.params["userId"] || this.props.authorizedUserId;
+      if (!userId) {
+        this.props.history.push("/login")
+      }
 
-        let userId = this.props.match.params["userId"] || this.props.authorizedUserId;
-        if (!userId) {
-            this.props.history.push("/login")
-        }
-
-        this.props.getUserProfile(userId);
-        this.props.getStatus(userId);
+      this.props.getUserProfile(userId);
+      this.props.getStatus(userId);
     }
+
+    componentDidMount() {
+      this.refreshUserProfile()
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+      if (this.props.match.params.userId !== prevProps.match.params.userId){
+        this.refreshUserProfile()
+      }
+    }
+
+
 
     render() {
         return <Profile status={this.props.status}
+                        isOwner={!this.props.match.params.userId}
                         profile={this.props.profile}
-                        updateStatus={this.props.updateStatus}
                         myId={this.props.myId}
+                        updateStatus={this.props.updateStatus}
+                        savePhoto={this.props.savePhoto}
         />;
     }
 }
@@ -40,7 +53,7 @@ let mapStateToProps = state => (
     })
 
 export default compose(
-        connect(mapStateToProps, {getUserProfile, getStatus, updateStatus}),
+        connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto}),
         withRouter,
         withAuthRedirect
     )(ProfileContainer)

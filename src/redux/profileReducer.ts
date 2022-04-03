@@ -4,6 +4,7 @@ const ADD_POST = "ADD_POST";
 const DELETE_POST = "DELETE_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 
 type PostType = {
     id: number,
@@ -75,6 +76,12 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                 status: action.payload.status,
             };
         }
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+            profile: {...state.profile,  photos: action.payload.photos }
+            };
+        }
         default:
             return state;
     }
@@ -112,6 +119,15 @@ type SetStatusType = {
 }
 export const setStatus = (status: string): SetStatusType => ({type: SET_STATUS, payload: {status}})
 
+type savePhotoSuccesType = {
+    type: typeof SAVE_PHOTO_SUCCESS,
+    payload: {
+        photos: any
+    }
+}
+
+export const savePhotoSuccess = (photos: any): savePhotoSuccesType => ({type: SAVE_PHOTO_SUCCESS, payload: {photos}})
+
 export const getUserProfile = (userId: number) => async (dispatch) => {
    let data = await profileAPI.getProfile(userId)
     dispatch(setUserProfile(data))
@@ -126,6 +142,13 @@ export const updateStatus = (status: string) => async (dispatch) => {
     let data = await profileAPI.updateStatus(status)
     if (data.resultCode === 0) {
         dispatch(setStatus(status))
+    }
+}
+
+export const savePhoto = (file: any) => async (dispatch) => {
+    let data = await profileAPI.savePhoto(file)
+    if (data.resultCode === 0) {
+        dispatch(savePhotoSuccess(data.data.photos))
     }
 }
 
