@@ -6,9 +6,6 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 
 const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto}) => {
-    let contacts = [];
-    if (profile)
-        contacts = Object.keys(profile.contacts).filter(key => profile.contacts[key])
 
     const onPhotoSelected = (e) => {
         if (e.target.files.length){
@@ -24,44 +21,86 @@ const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto})
         { profile
             ?   <div className={css.description}>
                     <img className={css.photo_large} alt="фото пользователя"
-                        src={profile.photos.large || user_icon}/>
-                    {
-                        isOwner && <input
-                          type="file"
-                          onChange={onPhotoSelected}
-                        />}
-                    <div>{"Имя: " + profile.fullName}</div>
-                    {/*======================================= */}
+                            src={profile.photos.large || user_icon}/>
+                    {isOwner && <div>
+                        <input type="file"
+                               onChange={onPhotoSelected}
+                        />
+                    </div>}
+                <ProfileStatus status={ status }   myId={ myId }
+                               updateStatus={ updateStatus }/>
 
-                    {profile.aboutMe 
-                    ?    <div><pre>
-                                {`${"О себе:".padEnd(10, " ")} ${profile.aboutMe}`}
-                        </pre></div> 
-                    :   null}
-                    {/*======================================= */}
-                    {contacts.length 
-                    ?   <div>{"Контакты"}</div> 
-                    :   null}
-                    {/*======================================= */}
-                    <pre>
-                        {contacts
-                        .map( (val, id) => <div key={id}>
-                                            { `${val.padEnd(10, " ")}: ${profile.contacts[val]}` || null }
-                                            </div>
-                        )}
-                    </pre>
-                    {/*======================================= */}
-                    {profile.lookingForAJob && profile.lookingForAJobDescription
-                    ?   <div>{profile.lookingForAJobDescription}</div>
-                    :   null}
-                    
+                {editMode ?
+                <ProfileData profile={profile}/> :
+                <ProfileDataForm profile={profile}/>}
                 </div>
             :  <PreLoader/>
         }
-        <ProfileStatus status={ status }
-                        myId={ myId }
-                        updateStatus={ updateStatus }/>
+
     </div>
+}
+
+const ProfileData = ({profile}) => {
+    return <div>
+
+        <div>
+            <b>Имя:</b>  {profile.fullName}
+        </div>
+
+        <div>
+            <b>Looking for a job</b>: {profile.lookingForAJob ? 'yes' : 'no'}
+        </div>
+        {profile.lookingForAJob &&
+            <div>
+                <b>Professional skills:</b> {profile.lookingForAJobDescription}
+            </div>
+        }
+
+        {profile.aboutMe
+            ?    <div><pre>
+                                {`${"О себе:".padEnd(10, " ")} ${profile.aboutMe}`}
+                        </pre></div>
+            :   null}
+        <div><b>{"Контакты"}</b></div>
+        {
+            Object.keys(profile.contacts).map(key => Contact(key, profile.contacts[key]))
+        }
+    </div>
+}
+
+const ProfileDataForm = ({profile}) => {
+    return <div>
+
+        <div>
+            <b>Имя:</b>  {profile.fullName}
+        </div>
+
+        <div>
+            <b>Looking for a job</b>: {profile.lookingForAJob ? 'yes' : 'no'}
+        </div>
+        {profile.lookingForAJob &&
+            <div>
+                <b>Professional skills:</b> {profile.lookingForAJobDescription}
+            </div>
+        }
+
+        {profile.aboutMe
+            ?    <div><pre>
+                                {`${"О себе:".padEnd(10, " ")} ${profile.aboutMe}`}
+                        </pre></div>
+            :   null}
+        <div><b>{"Контакты"}</b></div>
+        {
+            Object.keys(profile.contacts).map(key => Contact(key, profile.contacts[key]))
+        }
+    </div>
+}
+
+const Contact = (contactTitle, contactValue)=> {
+    return <div>
+        <pre><b>{`${contactTitle.padEnd(10, " ")}`}:</b> {contactValue || null}</pre>
+    </div>
+
 }
 
 export default ProfileInfo;

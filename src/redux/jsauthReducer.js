@@ -6,7 +6,17 @@ let initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    contacts: {
+        "facebook": "facebook.com",
+        "website": null,
+        "vk": "vk.com/dimych",
+        "twitter": "https://twitter.com/@sdf",
+        "instagram": "instagra.com/sds",
+        "youtube": null,
+        "github": "github.com",
+        "mainLink": null
+    },
 }
 
 const authReducer = (state = initialState, action) => {
