@@ -19,6 +19,8 @@ type PhotosType = {
 type ContactsType = {
     github: string | null,
     vk: string | null,
+    facebook: string | null,
+    instagram: string | null,
     twitter: string | null,
     website: string | null,
     youtube: string | null,
@@ -149,6 +151,14 @@ export const savePhoto = (file: any) => async (dispatch) => {
     let data = await profileAPI.savePhoto(file)
     if (data.resultCode === 0) {
         dispatch(savePhotoSuccess(data.data.photos))
+    }
+}
+
+export const saveProfile = (formData: any) => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const data = await profileAPI.saveProfile({userId, ...formData});
+    if (data.resultCode === 0) {
+        dispatch(getUserProfile(userId))
     }
 }
 

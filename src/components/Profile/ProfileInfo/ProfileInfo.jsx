@@ -6,8 +6,7 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import ProfileDataForm from "./ProfileDataForm";
 
 
-const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto}) => {
-
+const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto, saveProfile}) => {
     let [editMode, setEditMode] = useState(false);
 
     const onPhotoSelected = (e) => {
@@ -15,6 +14,30 @@ const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto})
             savePhoto(e.target.files[0]);
         }
     }
+
+    const onFormSubmit = (formData) => {
+        profile = {
+            userId: formData.userId,
+            aboutMe: formData.aboutMe,
+            lookingForAJob: formData.lookingForAJob,
+            lookingForAJobDescription: formData.lookingForAJobDescription,
+            fullName: formData.fullName,
+            contacts: {
+                github: formData.github,
+                vk: formData.vk,
+                facebook: formData.facebook,
+                instagram: formData.instagram,
+                twitter: formData.twitter,
+                website: formData.website,
+                youtube: formData.youtube,
+                mainLink: formData.mainLink
+            }
+
+        }
+        saveProfile(profile)
+        setEditMode(false)
+    }
+
     return <div className={css.profileInfo}>
         <div>
             <img src="https://static.orgpage.ru/socialnewsphotos/3c/3cc80415aa324fa2833df20a6aaf7e3a.jpg"
@@ -33,9 +56,9 @@ const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto})
                                updateStatus={ updateStatus }/>
 
                 {editMode
-                    ? <ProfileDataForm profile={profile}/>
+                    ? <ProfileDataForm profile={profile} onFormSubmit={onFormSubmit}/>
                     : <ProfileData profile={profile} isOwner={{isOwner}}
-                             goToEditMode={() => {setEditMode(true)} }/> }
+                                   goToEditMode={() => {setEditMode(true)} }/> }
                 </div>
             :  <PreLoader/>
         }
@@ -49,7 +72,6 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
         <div>
             <b>Имя:</b>  {profile.fullName}
         </div>
-
         <div>
             <b>Looking for a job</b>: {profile.lookingForAJob ? 'yes' : 'no'}
         </div>
@@ -66,11 +88,10 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
             :   null}
         <div><b>{"Контакты"}</b></div>
         {
-            Object.keys(profile.contacts).map((key, i) => Contact(key, profile.contacts[key]))
+            Object.keys(profile.contacts).map((key) => Contact(key, profile.contacts[key]))
         }
     </div>
 }
-
 
 const Contact = (contactTitle, contactValue)=> {
     return <div>

@@ -1,35 +1,104 @@
 import React from "react";
-import css from "./ProfileInfo.module.css";
-import {user_icon} from "../../../redux/usersReducer";
-import ProfileStatus from "./ProfileStatus/ProfileStatus";
-import PreLoader from "../../common/PreLoader/PreLoader";
+import css from "./ProfileDataForm.module.css";
+import { useFormik } from 'formik'
 
-const ProfileDataForm = ({profile}) => {
-    return <form>
+const ProfileDataForm = ({profile, onFormSubmit}) => {
+    const { handleSubmit, handleChange, values, handleBlur } = useFormik(
+        {
+            initialValues: {
+                fullName: profile.fullName,
+                lookingForAJob: profile.lookingForAJob,
+                lookingForAJobDescription: profile.lookingForAJobDescription || '',
+                aboutMe: profile.aboutMe || '',
+                github: profile.contacts.github || '',
+                vk: profile.contacts.vk || '',
+                facebook: profile.contacts.facebook || '',
+                instagram: profile.contacts.instagram || '',
+                twitter: profile.contacts.twitter || '',
+                website: profile.contacts.website || '',
+                youtube: profile.contacts.youtube || '',
+                mainLink: profile.contacts.mainLink || '',
+            },
+            onSubmit: (values) => {
+                onFormSubmit(values)
+            }
+
+
+    })
+
+
+    return <form  onSubmit={handleSubmit}>
         <div>
-            {isOwner && <div><button onClick={goToEditMode}>Edit</button></div>}
-            <div>
-                <b>Имя:</b>  {profile.fullName}
+            <div><button className={css.button} type='submit'>Save</button></div>
+            <div className={css.field}>
+                <label htmlFor='fullName' className={css.label}>Имя:</label>
+                <input
+                    value={values.fullName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id='fullName'
+                    name='fullName'
+                    type='text'
+                    className={css.input}
+                />
             </div>
 
-            <div>
-                <b>Looking for a job</b>: {profile.lookingForAJob ? 'yes' : 'no'}
+            <div className={css.field}>
+                <label htmlFor='lookingForAJob' className={css.label}>Looking for a job:</label>
+                <input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id='lookingForAJob'
+                    name='lookingForAJob'
+                    type='checkbox'
+                    checked={values.lookingForAJob}
+                    className={css.input}
+                />
             </div>
-            {profile.lookingForAJob &&
-                <div>
-                    <b>Professional skills:</b> {profile.lookingForAJobDescription}
-                </div>
-            }
 
-            {profile.aboutMe
-                ?    <div><pre>
-                                {`${"О себе:".padEnd(10, " ")} ${profile.aboutMe}`}
-                        </pre></div>
-                :   null}
-            <div><b>{"Контакты"}</b></div>
+            <div className={css.field}>
+                <label htmlFor='lookingForAJobDescription' className={css.label}>Description:</label>
+                <textarea
+                    value={values.lookingForAJobDescription}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id='lookingForAJobDescription'
+                    name='lookingForAJobDescription'
+                    className={css.textarea}
+                />
+            </div>
+
+            <div className={css.field}>
+                <label htmlFor='aboutMe' className={css.label}>О себе:</label>
+                <textarea
+                    value={values.aboutMe}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id='aboutMe'
+                    name='aboutMe'
+                    className={css.textarea}
+                />
+            </div>
+
+            <div className={css.contacts_label}><b>{"Контакты"}</b></div>
+
             {
-                Object.keys(profile.contacts).map((key, i) => Contact(key, profile.contacts[key]))
+                Object.keys(profile.contacts).map((key) => {
+                    return <div className={css.field}>
+                            <label htmlFor={key} className={css.label}>{key}:</label>
+                            <input
+                                value={values[key]}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id={key}
+                                name={key}
+                                type='text'
+                                className={css.input}
+                            />
+                    </div>
+                })
             }
+
         </div>
     </form>
 }

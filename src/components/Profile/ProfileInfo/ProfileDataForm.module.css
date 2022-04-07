@@ -1,0 +1,25 @@
+.field{
+    display: grid;
+    grid-template-columns: 140px 240px;
+    grid-column-gap: 10px;
+    padding: 0 0 10px 0;
+}
+.label,
+.input{
+    display: grid;
+    line-height: 20px;
+}
+
+.button{
+    margin-bottom: 20px;
+}
+
+.textarea{
+    display: grid;
+    width: 240px;
+    height: 70px;
+}
+
+.contacts_label{
+    margin: 20px 0;
+}
