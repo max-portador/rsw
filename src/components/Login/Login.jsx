@@ -2,22 +2,30 @@ import React from "react";
 import {Form, Field, Formik} from 'formik';
 import {connect} from "react-redux";
 import {authUserLogin} from "../../redux/jsauthReducer";
-import {validateEmail, validatePassword} from "../../utils/validators";
+import {validateEmail, validatePassword, validateRequired} from "../../utils/validators";
 import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
 import css from "./Login.module.css"
 
-const LoginForm = ({authUserLogin, email, password}) => {
+const LoginForm = ({authUserLogin, email, password, captchaUrl}) => {
+
     const loginSubmit = (values, { setFieldValue}) => {
-        authUserLogin(values.email, values.password, values.rememberMe, setFieldValue)
+        authUserLogin(setFieldValue, values.email, values.password, values.rememberMe, values.captcha)
 
     }
 
-    const loginValidate = ({email, password}) => {
+    const loginValidate = ({email, password, captcha}) => {
         let errors = {};
         let emailError = validateEmail(email);
         if (emailError) {
             errors.email = emailError;
+        }
+
+        if (captchaUrl){
+            let captchaError = validateRequired(captcha)
+            if (captchaError) {
+                errors.captcha = captchaError
+            }
         }
 
         let passwordError = validatePassword(password);
@@ -54,6 +62,11 @@ const LoginForm = ({authUserLogin, email, password}) => {
                         <div className={css.errorContainer}>
                             {values.general ? <span  className={css.error}>{values.general}</span>: null}
                         </div>
+                        {captchaUrl && <img src={captchaUrl} alt='captcha' />}
+                        {captchaUrl && <Field name="captcha" component={Input}
+                                              type="text"
+                                              placeholder="Symbols from image"
+                                              className={css.field}/>}
                         <button type="submit" className={css.btn}>Login</button>
                     </Form>
                 )}
@@ -62,12 +75,14 @@ const LoginForm = ({authUserLogin, email, password}) => {
 }
 
 const mapStateToProps = state => ({
+    captchaUrl: state.auth.captchaUrl,
     email: state.auth.email || "",
     password: state.auth.password || "",
     isAuth: state.auth.isAuth,
 })
 
 const Login = ({isAuth, ...props }) => {
+    debugger
     if (isAuth){
         return <Redirect to={"/profile"}/>
     }

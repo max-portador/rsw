@@ -88,12 +88,14 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
             :   null}
         <div><b>{"Контакты"}</b></div>
         {
-            Object.keys(profile.contacts).map((key) => Contact(key, profile.contacts[key]))
+            Object.keys(profile.contacts).map((key) => <Contact key={key}
+                                                                contactTitle={key}
+                                                                contactValue={profile.contacts[key]}/>)
         }
     </div>
 }
 
-const Contact = (contactTitle, contactValue)=> {
+const Contact = ({contactTitle, contactValue})=> {
     return <div>
         <pre><b>{`${contactTitle.padEnd(10, " ")}`}:</b> {contactValue || null}</pre>
     </div>
