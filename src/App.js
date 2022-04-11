@@ -1,5 +1,5 @@
 import React from "react";
-import {HashRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 
@@ -19,8 +19,18 @@ const UsersContainer = React.lazy(() => import("./components/Users/UsersContaine
 
 class App extends React.Component {
 
+    catchAllUnhandledError = (reason, promise) => {
+        alert(reason)
+    }
+
     componentDidMount() {
         this.props.initializeApp();
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledError)
+
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledError)
     }
 
 
@@ -34,14 +44,21 @@ class App extends React.Component {
             <HeaderContainer/>
             <NavContainer/>
             <div className='app-wrapper-content'>
-                <Route path="/dialogs*"
-                       component={withSuspense(DialogsContainer)}/>
-                <Route path="/login"
-                       component={Login}/>
-                <Route path="/profile/:userId?"
-                       component={withSuspense(ProfileContainer)}/>
-                <Route path="/users"
-                       component={withSuspense(UsersContainer)}/>
+                <Switch>
+                    <Route exact path={'/'}
+                           render={() => <Redirect to='/profile' />}/>
+
+                    <Route path="/dialogs*"
+                           component={withSuspense(DialogsContainer)}/>
+                    <Route path="/login"
+                           component={Login}/>
+                    <Route path="/profile/:userId?"
+                           component={withSuspense(ProfileContainer)}/>
+                    <Route path="/users"
+                           component={withSuspense(UsersContainer)}/>
+                    <Route path='*'
+                           render={() => <div>404 NOT FOUND</div>}/>
+                </Switch>
             </div>
         </div>
     }
@@ -56,11 +73,11 @@ let AppContainer = compose(
     connect(mapStateToProps, {getAuthUserData, initializeApp}))(App);
 
 let SamuraiJSApp = (props) => {
-    return <HashRouter>
+    return <BrowserRouter>
         <Provider store={store}>
             <AppContainer />
         </Provider>
-    </HashRouter>
+    </BrowserRouter>
 }
 
 export default SamuraiJSApp;

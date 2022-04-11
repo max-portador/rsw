@@ -3,7 +3,6 @@
     display: grid;
     background-color: #321d42;
     padding: var(--sidebar-padding);
-    /*height: calc(100vh - var(--header-height) - 2 * var(--sidebar-padding));*/
     height: max-content;
 }
 

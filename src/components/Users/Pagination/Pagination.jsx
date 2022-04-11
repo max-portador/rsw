@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import cn from 'classnames';
 import css from "./Pagination.module.css";
 
 const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCount, pageSize, portionSize = 10 }) => {
@@ -30,7 +31,7 @@ const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCoun
                 .filter(p => p >= leftPortionNumber && p <= rightPortionNumber)
                 .map(p =>
                 <span key={p}
-                      className={`${css.pageNum} ${ currentPage === p && css.selected}`}
+                      className={ cn( css.pageNum, {[css.selected]: currentPage === p})}
                       onClick={() => { onPageChanged(p) }}>
                         {p}
                     </span>)}
