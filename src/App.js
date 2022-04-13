@@ -7,7 +7,7 @@ import NavContainer from "./components/Nav/NavContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import PreLoader from "./components/common/PreLoader/PreLoader";
-import {getAuthUserData} from "./redux/jsauthReducer";
+import {getAuthUserData} from "./redux/authReducer";
 import {initializeApp} from "./redux/appReducer";
 import store from "./redux/reduxStore";
 import './App.css';

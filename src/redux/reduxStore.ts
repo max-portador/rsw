@@ -4,7 +4,7 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
-import authReducer from "./jsauthReducer";
+import authReducer from "./authReducer";
 import appReducer from "./appReducer";
 
 let rootReducer = combineReducers({
@@ -24,4 +24,9 @@ let rootReducer = combineReducers({
 // );
 
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+
 export default store;

@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Field, Formik} from 'formik';
 import {connect} from "react-redux";
-import {authUserLogin} from "../../redux/jsauthReducer";
+import {authUserLogin} from "../../redux/authReducer";
 import {validateEmail, validatePassword, validateRequired} from "../../utils/validators";
 import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
