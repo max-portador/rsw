@@ -1,5 +1,8 @@
-import {authAPI, securityAPI} from "../api/api";
-import {AuthAction, AuthActionsEnum, AuthState, GetCaptchaUrlSuccessAction, SetAuthUserDataAction} from "./authTypes";
+import {authAPI, securityAPI} from "../../api/api";
+import {AuthAction, AuthActionsEnum, AuthState, GetCaptchaUrlSuccessAction, SetAuthUserDataAction} from "./types";
+import {AppDispatch, RootState} from "../reduxStore";
+import {Dispatch} from "redux";
+import {ThunkDispatch} from "redux-thunk";
 
 let initialState: AuthState = {
     userId: null,
@@ -11,7 +14,7 @@ let initialState: AuthState = {
         "facebook": "facebook.com",
         "website": null,
         "vk": "vk.com/dimych",
-        "twitter": "https://twitter.com/@sdf",
+        "twitter": "https://twitter.com/",
         "instagram": "instagram.com/sds",
         "youtube": null,
         "github": "github.com",
@@ -19,7 +22,7 @@ let initialState: AuthState = {
     },
 }
 
-const authReducer = (state: AuthState = initialState, action: AuthAction):AuthState => {
+const index = (state: AuthState = initialState, action: AuthAction):AuthState => {
     switch (action.type) {
         case AuthActionsEnum.SET_USER_DATA: {
             return {
@@ -39,7 +42,7 @@ const authReducer = (state: AuthState = initialState, action: AuthAction):AuthSt
     }
 }
 
-export const setAuthUserData = (userId, email, login, isAuth): SetAuthUserDataAction => (
+export const setAuthUserData = (userId: number, email: string, login: string, isAuth: boolean): SetAuthUserDataAction => (
     {type: AuthActionsEnum.SET_USER_DATA, payload: {userId, email, login, isAuth}}
 )
 
@@ -47,7 +50,7 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessAc
     ({type: AuthActionsEnum.GET_CAPTCHA_URL_SUCCESS, payload: captchaUrl})
 
 
-export const getAuthUserData = () => async (dispatch) => {
+export const getAuthUserData = () => async (dispatch: Dispatch<SetAuthUserDataAction>) => {
     const response = await authAPI.me()
     if (response.resultCode === 0) {
         let {id, login, email} = response.data
@@ -55,32 +58,33 @@ export const getAuthUserData = () => async (dispatch) => {
     }
 }
 
-export const authUserLogin = (setFieldValue, email, password, rememberMe, captcha=null ) => async (dispatch) => {
-    let response = await authAPI.login(email, password, rememberMe, captcha)
-    if (response.resultCode === 0) {
-        dispatch(getAuthUserData());
-    } else {
-        if (response.resultCode === 10){
-            dispatch(getCaptchaUrl())
+export const authUserLogin = (setFieldValue: any, email: string, password: string, rememberMe: boolean, captcha: string=null ) =>
+    async (dispatch: ThunkDispatch<void, RootState, any>) => {
+        let response = await authAPI.login(email, password, rememberMe, captcha)
+        if (response.resultCode === 0) {
+            dispatch(getAuthUserData());
+        } else {
+            if (response.resultCode === 10){
+                dispatch(getCaptchaUrl())
+            }
+            setFieldValue("general", response.messages.join(" "))
         }
-        setFieldValue("general", response.messages.join(" "))
-    }
 }
 
-export const getCaptchaUrl = () => async (dispatch) => {
+export const getCaptchaUrl = () => async (dispatch: AppDispatch) => {
     let response = await securityAPI.getCaptcha()
 
-    const captchaUrl = response.data.url;
+    const captchaUrl = await response.data.url;
     if (response.status === 200) {
         dispatch(getCaptchaUrlSuccess(captchaUrl))
     }
 }
 
-export const authLogout = () => async (dispatch) => {
+export const authLogout = () => async (dispatch: AppDispatch) => {
     let response = await authAPI.logout()
     if (response.resultCode === 0){
         dispatch(setAuthUserData(null, null, null, false));
     }
 }
 
-export default authReducer;
+export default index;

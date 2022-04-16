@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
+import {IResponse, IMeData, ILoginData,ICaptchaResponse} from "./types";
 
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
@@ -61,26 +62,29 @@ export const profileAPI = {
 
 
 export const authAPI = {
-    async me(){
-        const response = await instance.get("auth/me")
+    async me(): Promise<IResponse<IMeData>>{
+        const response = await instance.get<IResponse<IMeData>>("auth/me")
         return response.data;
     },
 
-    async login(email, password, rememberMe=false, captcha = null ){
-        const response = await instance.post("/auth/login",
+    async login(email: string,
+                password: string,
+                rememberMe: boolean=false,
+                captcha: string = null ): Promise<IResponse<ILoginData>>{
+        const response = await instance.post<IResponse<ILoginData>>("/auth/login",
             { email, password, rememberMe, captcha })
         return response.data
     },
 
-    async logout(){
-        const response = await instance.delete("/auth/login",{})
+    async logout(): Promise<IResponse<{}>>{
+        const response = await instance.delete<IResponse<{}>>("/auth/login",{})
         return response.data
     }
 }
 
 export const securityAPI = {
-    async getCaptcha(){
-        const response = await instance.get('security/get-captcha-url')
-        return response
+    async getCaptcha(): Promise<AxiosResponse<ICaptchaResponse>>{
+        return await instance.get<ICaptchaResponse>('security/get-captcha-url')
+
     }
 }

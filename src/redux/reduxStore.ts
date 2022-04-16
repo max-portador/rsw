@@ -4,16 +4,16 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
-import authReducer from "./authReducer";
-import appReducer from "./appReducer";
+import auth from "./authReducer";
+import app from "./appReducer";
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     messagesPage: dialogsReducer,
     sideBar: sidebarReducer,
     usersPage: usersReducer,
-    auth: authReducer,
-    app: appReducer,
+    auth,
+    app,
 })
 // @ts-ignore
 // const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
