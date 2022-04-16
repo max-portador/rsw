@@ -9,7 +9,7 @@ import {
     getCurrentPage, getFollowingInProgress,
     getIsFetching, getPageSize,
     getTotalUsersCount, getUsersSelector
-} from "../../redux/users-selector";
+} from "../../redux/usersReducer/users-selector";
 import Users from "./Users";
 import PreLoader from "../common/PreLoader/PreLoader";
 import withAuthRedirect from "../../hoc/WithAuthRedirect";

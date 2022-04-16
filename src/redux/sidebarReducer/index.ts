@@ -1,5 +1,7 @@
+import {SidebarState} from "./types";
+
 const iconUrl = "https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png";
-let initialState = {
+let initialState: SidebarState = {
     friends: [
         {name: "Maks", image: iconUrl},
         {name: "Igor", image: iconUrl},
@@ -10,9 +12,12 @@ let initialState = {
     ]
 }
 
-const sidebarReducer = (state = initialState, action) => {
+const sidebarReducer = (state = initialState, action): SidebarState => {
+    switch (action.type) {
+        default:
+            return state;
+    }
 
-    return state;
 }
 
 export default sidebarReducer;

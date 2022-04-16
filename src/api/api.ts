@@ -1,5 +1,6 @@
 import axios, {AxiosResponse} from "axios";
-import {IResponse, IMeData, ILoginData,ICaptchaResponse} from "./types";
+import {IResponse, IMeData, ILoginData, ICaptchaResponse, IPhotoData, IUsersResponse} from "./types";
+import {IProfile, IUserPhoto} from "../redux/profileReducer/types";
 
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
@@ -10,43 +11,43 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-    async getUsers(currentPage = 1, pageSize = 25) {
-        const response = await instance.get(`users?page=${currentPage}&count=${pageSize}`);
+    async getUsers(currentPage:number = 1, pageSize:number = 25):Promise<IUsersResponse> {
+        const response = await instance.get<IUsersResponse>(`users?page=${currentPage}&count=${pageSize}`);
         return response.data;
     },
-    async getProfile(profileId){
+    async getProfile(profileId: number): Promise<IProfile>{
         console.warn("Obsolete method. Please use profileAPI object.")
         return profileAPI.getProfile(profileId);
     },
-    async unfollow(userId) {
-        const response = await instance.delete(`follow/${userId}`);
+    async unfollow(userId: number): Promise<IResponse<{}>> {
+        const response = await instance.delete<IResponse<{}>>(`follow/${userId}`);
         return response.data;
     },
-    async follow(userId) {
-        const response = await instance.post(`follow/${userId}`, {});
+    async follow(userId): Promise<IResponse<{}>> {
+        const response = await instance.post<IResponse<{}>>(`follow/${userId}`, {});
         return response.data;
     }
 }
 
 export const profileAPI = {
-    async getProfile(profileId){
-        const response = await instance.get(`profile/${profileId}`);
+    async getProfile(profileId: number): Promise<IProfile>{
+        const response = await instance.get<IProfile>(`profile/${profileId}`);
         return response.data;
     },
 
-    async getStatus(profileId){
-        const response = await instance.get(`profile/status/${profileId}`);
+    async getStatus(profileId: number): Promise<string>{
+        const response = await instance.get<string>(`profile/status/${profileId}`);
         return response.data;
     },
 
-    async updateStatus(status){
-        const response = await instance.put(`profile/status`, { status: status });
+    async updateStatus(status: string):Promise<IResponse<{}>>{
+        const response = await instance.put<IResponse<{}>>(`profile/status`, { status });
         return response.data;
     },
-    async savePhoto(photoFile){
+    async savePhoto(photoFile: File):Promise<IResponse<IPhotoData>>{
         const formData = new FormData()
         formData.append('image', photoFile)
-        const response = await instance.put(`profile/photo`, formData,
+        const response = await instance.put<IResponse<IPhotoData>>(`profile/photo`, formData,
            {
                headers:{
               'Content-Type': 'multipart/form-data'
@@ -54,8 +55,8 @@ export const profileAPI = {
           });
         return response.data;
     },
-    async saveProfile(profile){
-        const response = await instance.put(`profile`, profile);
+    async saveProfile(profile: IProfile): Promise<IResponse<{}>>{
+        const response = await instance.put<IResponse<{}>>(`profile`, profile);
         return response.data;
     },
 }

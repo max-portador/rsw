@@ -22,7 +22,7 @@ let initialState: AuthState = {
     },
 }
 
-const index = (state: AuthState = initialState, action: AuthAction):AuthState => {
+const auth = (state: AuthState = initialState, action: AuthAction):AuthState => {
     switch (action.type) {
         case AuthActionsEnum.SET_USER_DATA: {
             return {
@@ -74,7 +74,7 @@ export const authUserLogin = (setFieldValue: any, email: string, password: strin
 export const getCaptchaUrl = () => async (dispatch: AppDispatch) => {
     let response = await securityAPI.getCaptcha()
 
-    const captchaUrl = await response.data.url;
+    const captchaUrl = response.data.url;
     if (response.status === 200) {
         dispatch(getCaptchaUrlSuccess(captchaUrl))
     }
@@ -87,4 +87,4 @@ export const authLogout = () => async (dispatch: AppDispatch) => {
     }
 }
 
-export default index;
+export default auth;

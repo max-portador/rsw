@@ -1,4 +1,4 @@
-import profileReducer, {addPostCreator, deletePostCreator} from "./profileReducer";
+import profileReducer, {addPostCreator, deletePostCreator} from "./index";
 
 let state = {
     profile: null,
