@@ -1,7 +1,7 @@
-import React from "react";
+import React, {FC} from "react";
 import style from "./PreLoader.module.css";
 
-const PreLoader = (props) => {
+const PreLoader: FC = (props) => {
     return (
         <div className={style.lds_grid}>
             <div></div>

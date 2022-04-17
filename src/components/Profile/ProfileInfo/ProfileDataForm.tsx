@@ -1,25 +1,34 @@
-import React from "react";
+import React, {FC} from "react";
 import css from "./ProfileDataForm.module.css";
 import { useFormik } from 'formik'
+import {IContacts, IProfile, IUserPhoto} from "../../../redux/profileReducer/types";
+import {FormDataType} from "./ProfileInfo";
 
-const ProfileDataForm = ({profile, onFormSubmit}) => {
+type PropsType = {
+    profile: IProfile,
+    onFormSubmit: (formData: FormDataType) => void
+}
+
+
+const ProfileDataForm: FC<PropsType> = ({profile, onFormSubmit}) => {
+    const profileInitialValues: FormDataType = {
+            fullName: profile.fullName,
+            lookingForAJob: profile.lookingForAJob,
+            lookingForAJobDescription: profile.lookingForAJobDescription || '',
+            aboutMe: profile.aboutMe || '',
+            github: profile.contacts.github || '',
+            vk: profile.contacts.vk || '',
+            facebook: profile.contacts.facebook || '',
+            instagram: profile.contacts.instagram || '',
+            twitter: profile.contacts.twitter || '',
+            website: profile.contacts.website || '',
+            youtube: profile.contacts.youtube || '',
+            mainLink: profile.contacts.mainLink || '',
+        }
     const { handleSubmit, handleChange, values, handleBlur } = useFormik(
         {
-            initialValues: {
-                fullName: profile.fullName,
-                lookingForAJob: profile.lookingForAJob,
-                lookingForAJobDescription: profile.lookingForAJobDescription || '',
-                aboutMe: profile.aboutMe || '',
-                github: profile.contacts.github || '',
-                vk: profile.contacts.vk || '',
-                facebook: profile.contacts.facebook || '',
-                instagram: profile.contacts.instagram || '',
-                twitter: profile.contacts.twitter || '',
-                website: profile.contacts.website || '',
-                youtube: profile.contacts.youtube || '',
-                mainLink: profile.contacts.mainLink || '',
-            },
-            onSubmit: (values) => {
+            initialValues: profileInitialValues,
+            onSubmit: (values: FormDataType) => {
                 onFormSubmit(values)
             }
 

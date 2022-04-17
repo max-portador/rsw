@@ -1,21 +1,49 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import css from "./ProfileInfo.module.css";
 import {user_icon} from "../../../redux/usersReducer";
 import PreLoader from "../../common/PreLoader/PreLoader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import ProfileDataForm from "./ProfileDataForm";
+import {IContacts, IProfile, IUserPhoto} from "../../../redux/profileReducer/types";
+import Contact from "./Contact";
 
 
-const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto, saveProfile}) => {
+
+type ProfileDataPropsType = {
+    profile: IProfile,
+    isOwner: boolean,
+    goToEditMode: () => void,
+}
+
+export type ProfileInfoPropsType = {
+    profile: IProfile,
+    status: string,
+    isOwner: boolean,
+    updateStatus: () => void,
+    savePhoto: (file: File) => void,
+    saveProfile: (profile: IProfile) => void,
+}
+
+export type FormDataType = {
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    photos?: IUserPhoto,
+    aboutMe?: string,
+    userId?: number,
+} & IContacts
+
+
+const ProfileInfo:FC<ProfileInfoPropsType> = ({profile, status, isOwner,  updateStatus, savePhoto, saveProfile}) => {
     let [editMode, setEditMode] = useState(false);
 
-    const onPhotoSelected = (e) => {
+    const onPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files.length){
             savePhoto(e.target.files[0]);
         }
     }
 
-    const onFormSubmit = (formData) => {
+    const onFormSubmit = (formData: FormDataType) => {
         profile = {
             userId: formData.userId,
             aboutMe: formData.aboutMe,
@@ -52,12 +80,11 @@ const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto, 
                                onChange={onPhotoSelected}
                         />
                     </div>}
-                <ProfileStatus status={ status }   myId={ myId }
-                               updateStatus={ updateStatus }/>
+                <ProfileStatus status={ status } updateStatus={ updateStatus }/>
 
                 {editMode
                     ? <ProfileDataForm profile={profile} onFormSubmit={onFormSubmit}/>
-                    : <ProfileData profile={profile} isOwner={{isOwner}}
+                    : <ProfileData profile={profile} isOwner={isOwner}
                                    goToEditMode={() => {setEditMode(true)} }/> }
                 </div>
             :  <PreLoader/>
@@ -66,7 +93,9 @@ const ProfileInfo = ({profile, status, myId, isOwner,  updateStatus, savePhoto, 
     </div>
 }
 
-const ProfileData = ({profile, isOwner, goToEditMode}) => {
+
+
+const ProfileData:FC<ProfileDataPropsType> = ({profile, isOwner, goToEditMode}) => {
     return <div>
         {isOwner && <div><button onClick={goToEditMode}>Edit</button></div>}
         <div>
@@ -88,18 +117,11 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
             :   null}
         <div><b>{"Контакты"}</b></div>
         {
-            Object.keys(profile.contacts).map((key) => <Contact key={key}
+            Object.keys(profile.contacts).map((key) => <Contact
                                                                 contactTitle={key}
                                                                 contactValue={profile.contacts[key]}/>)
         }
     </div>
-}
-
-const Contact = ({contactTitle, contactValue})=> {
-    return <div>
-        <pre><b>{`${contactTitle.padEnd(10, " ")}`}:</b> {contactValue || null}</pre>
-    </div>
-
 }
 
 export default ProfileInfo;

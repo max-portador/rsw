@@ -1,18 +1,31 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import cn from 'classnames';
 import css from "./Pagination.module.css";
 
-const Pagination = ({currentPage, onPageChanged, totalUsersCount: totalItemsCount, pageSize, portionSize = 10 }) => {
+type PaginationPropsType = {
+    currentPage: number,
+    totalUsersCount: number,
+    pageSize: number,
+    portionSize?: number
+    onPageChanged: (page: number) => void,
+}
+
+const Pagination:FC<PaginationPropsType> = ({currentPage,
+                                                onPageChanged,
+                                                totalUsersCount: totalItemsCount,
+                                                pageSize,
+                                                portionSize = 10 }) =>
+{
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
 
-    let pages = [];
+    let pages: number[] = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
 
     let portionCount = Math.ceil(pagesCount / portionSize);
-    let [portionNumber, setPortionNumber] = useState(1)
+    let [portionNumber, setPortionNumber] = useState<number>(1)
 
     let leftPortionNumber = (portionNumber - 1) * portionSize + 1
     let rightPortionNumber = portionNumber * portionSize

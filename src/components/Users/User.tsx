@@ -1,10 +1,19 @@
-import React from "react";
+import React, {FC} from "react";
 import UserAvaBtn from "./UserAvaBtn/UserAvaBtn";
 import UserBoxInfo from "./UserBoxInfo/UserBoxInfo";
 import {user_icon} from "../../redux/usersReducer";
 import css from "./Users.module.css";
+import {IUser} from "../../redux/usersReducer/types";
 
-const User = ({user, followingInProgress, follow, unfollow}) => {
+type UserPropsType = {
+    user: IUser,
+    followingInProgress: number[],
+    follow: (userId: number) => void,
+    unfollow: (userId: number) => void,
+}
+
+
+const User:FC<UserPropsType> = ({user, followingInProgress, follow, unfollow}) => {
 
     return (
         <div>

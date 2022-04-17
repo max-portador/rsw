@@ -25,8 +25,9 @@ export interface IProfile {
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
-    contacts: IContacts
-    photos?: IUserPhoto
+    contacts: IContacts,
+    photos?: IUserPhoto,
+    aboutMe?: string,
 }
 
 export interface ProfileState {

@@ -3,25 +3,25 @@ import {connect} from "react-redux";
 import { compose } from 'redux';
 import {sendMessageCreator} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
+import {AppDispatch, RootState} from "../../redux/reduxStore";
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: RootState) => {
     return {
-        newMessageText: state.messagesPage.newMessageText,
         dialogs: state.messagesPage.dialogs,
         messages: state.messagesPage.messages,
         isAuth: state.auth.isAuth,
     };
 }
 
-let mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        sendMessage: (text) => {
+        sendMessage: (text: string): void => {
             dispatch(sendMessageCreator(text))
         }
     };
 }
 
-export default compose(
+export default compose<React.Component>(
         connect(mapStateToProps, mapDispatchToProps),
         withAuthRedirect
     )(Dialogs)

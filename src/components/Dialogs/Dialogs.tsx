@@ -1,13 +1,21 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
 import css from "./Dialogs.module.css";
+import {IDialog, IMessage} from "../../redux/dialogsReducer/types";
 
-const Dialogs = (props) => {
+interface DialogsProps {
+    dialogs: IDialog[],
+    messages: IMessage[],
+    sendMessage: (text: string) => void
+}
+
+
+const Dialogs: FC<DialogsProps> = (props) => {
     let dialogItems = props.dialogs.map((d, i) => <DialogItem key={i} name={d.name} id={d.id} /> )
     let messages = props.messages.map((d, i) => <Messages key={i} text={d.message}/> )
 
-    let [newMessage, setNewMessage] = useState('')
+    let [newMessage, setNewMessage] = useState<string>('')
 
     const changeHandler = (e) => { setNewMessage(e.currentTarget.value) }
 
@@ -16,7 +24,6 @@ const Dialogs = (props) => {
             props.sendMessage(newMessage)
             setNewMessage('')
         }
-
     }
 
     return <div className={css.dialogs}>

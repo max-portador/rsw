@@ -1,6 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
+import {IProfile} from "../../../redux/profileReducer/types";
+import Contact from "./Contact";
 
-export const ProfileData = ({profile}) => {
+type PropsType = {
+    profile: IProfile
+}
+
+export const ProfileData: FC<PropsType> = ({profile}) => {
     return <div>
 
         <div>
@@ -23,15 +29,10 @@ export const ProfileData = ({profile}) => {
             :   null}
         <div><b>{"Контакты"}</b></div>
         {
-            Object.keys(profile.contacts).map(key => Contact(key, profile.contacts[key]))
+            Object.keys(profile.contacts).map(key =>
+                                        <Contact
+                                        contactTitle={key}
+                                        contactValue={profile.contacts[key]}/>)
         }
     </div>
-}
-
-
-const Contact = (contactTitle, contactValue)=> {
-    return <div>
-        <pre><b>{`${contactTitle.padEnd(10, " ")}`}:</b> {contactValue || null}</pre>
-    </div>
-
 }
