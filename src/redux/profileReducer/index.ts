@@ -1,11 +1,18 @@
 import {profileAPI} from '../../api/api';
 import {
-    AddPostAction, DeletePostAction, IProfile,
-    IUserPhoto, SavePhotoSuccessAction, SetStatusAction,
-    SetUserAction, ProfileAction, UsersActionsEnum,
-    ProfileState
+    AddPostAction,
+    DeletePostAction,
+    IProfile,
+    IUserPhoto,
+    ProfileAction,
+    ProfileState,
+    SavePhotoSuccessAction,
+    SetStatusAction,
+    SetUserAction,
+    UsersActionsEnum
 } from "./types";
 import {CustomThunkAction} from "../storeTypes";
+import {ResultCodesEnum} from "../../api/types";
 
 let initialState: ProfileState = {
     profile: null,
@@ -99,7 +106,7 @@ export const updateStatus = (status: string): CustomThunkAction<SetStatusAction>
     async (dispatch) => {
     try {
         let data = await profileAPI.updateStatus(status)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.SUCCESS) {
             dispatch(setStatus(status))
         }
     } catch (e) {
@@ -110,7 +117,7 @@ export const updateStatus = (status: string): CustomThunkAction<SetStatusAction>
 export const savePhoto = (file: File): CustomThunkAction<SavePhotoSuccessAction> =>
     async (dispatch) => {
     let data = await profileAPI.savePhoto(file)
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodesEnum.SUCCESS) {
         dispatch(savePhotoSuccess(data.data.photos))
     }
 }
@@ -119,7 +126,7 @@ export const saveProfile = (formData: any): CustomThunkAction<ProfileAction> =>
     async (dispatch, getState) => {
         const userId = getState().auth.userId;
         const data = await profileAPI.saveProfile({userId, ...formData});
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.SUCCESS) {
             await dispatch(getUserProfile(userId))
         }
 }

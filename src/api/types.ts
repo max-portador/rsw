@@ -1,5 +1,5 @@
-import {IProfile, IUserPhoto} from "../redux/profileReducer/types";
-import {FollowUnfollowAction, IUser} from "../redux/usersReducer/types";
+import { IUserPhoto} from "../redux/profileReducer/types";
+import { IUser } from "../redux/usersReducer/types";
 
 export interface IMeData {
     id: number,
@@ -20,8 +20,8 @@ export interface ICaptchaResponse {
 }
 
 
-export interface IResponse<T> {
-    resultCode: number,
+export interface IResponse<T, R=ResultCodesEnum> {
+    resultCode: R,
     messages: string[],
     data: T,
 }
@@ -30,4 +30,12 @@ export interface IUsersResponse{
     items: IUser[],
     totalCount: number,
     error: string
+}
+
+export enum ResultCodesEnum {
+    SUCCESS = 0,
+    ERROR = 1,
+}
+export enum ResultCodesRotCaptchaEnum {
+    CAPTCHA_IS_REQUIRED= 10
 }

@@ -1,14 +1,22 @@
 import {usersAPI} from "../../api/api";
 import {updateObjectInArray} from "../../utils/object-helper";
 import {
-    FollowSuccessAction, FollowUnfollowAction, IUser,
-    SetCurrentPageAction, SetIsFetchingAction, SetTotalUsersCountAction,
-    SetUsersAction, ToggleFollowingProgressAction, UnfollowSuccessAction,
-    UserAction, UsersActionsEnum, UsersState
+    FollowSuccessAction,
+    FollowUnfollowAction,
+    IUser,
+    SetCurrentPageAction,
+    SetIsFetchingAction,
+    SetTotalUsersCountAction,
+    SetUsersAction,
+    ToggleFollowingProgressAction,
+    UnfollowSuccessAction,
+    UserAction,
+    UsersActionsEnum,
+    UsersState
 } from "./types";
-import {ThunkAction } from "redux-thunk";
-import { RootState } from "../reduxStore";
-import {IResponse} from "../../api/types";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "../reduxStore";
+import {IResponse, ResultCodesEnum} from "../../api/types";
 import {AllActions, CustomThunkAction} from "../storeTypes";
 import {Dispatch} from "redux";
 
@@ -120,7 +128,7 @@ const followUnfollowFlow =
     {
     dispatch(toggleFollowingProgress(true, userId))
     const data = await apiMethod(userId)
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodesEnum.SUCCESS) {
         dispatch(actionCreator(userId))
     }
     dispatch(toggleFollowingProgress(false, userId))

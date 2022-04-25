@@ -1,5 +1,13 @@
 import axios, {AxiosResponse} from "axios";
-import {IResponse, IMeData, ILoginData, ICaptchaResponse, IPhotoData, IUsersResponse} from "./types";
+import {
+    IResponse,
+    IMeData,
+    ILoginData,
+    ICaptchaResponse,
+    IPhotoData,
+    IUsersResponse,
+    ResultCodesRotCaptchaEnum, ResultCodesEnum
+} from "./types";
 import { IProfile } from "../redux/profileReducer/types";
 
 const instance = axios.create({
@@ -71,7 +79,7 @@ export const authAPI = {
     async login(email: string,
                 password: string,
                 rememberMe: boolean=false,
-                captcha: string = null ): Promise<IResponse<ILoginData>>{
+                captcha: string = null ): Promise<IResponse<ILoginData, ResultCodesRotCaptchaEnum | ResultCodesEnum>>{
         const response = await instance.post<IResponse<ILoginData>>("/auth/login",
             { email, password, rememberMe, captcha })
         return response.data

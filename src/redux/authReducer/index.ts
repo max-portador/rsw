@@ -2,6 +2,7 @@ import {authAPI, securityAPI} from "../../api/api";
 import {AuthAction, AuthActionsEnum, AuthState, GetCaptchaUrlSuccessAction, SetAuthUserDataAction} from "./types";
 import {AppDispatch} from "../reduxStore";
 import {CustomThunkAction} from "../storeTypes";
+import {ResultCodesEnum, ResultCodesRotCaptchaEnum} from "../../api/types";
 
 let initialState: AuthState = {
     userId: null,
@@ -52,7 +53,7 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessAc
 export const getAuthUserData = ():CustomThunkAction<SetAuthUserDataAction> =>
     async (dispatch) => {
     const response = await authAPI.me()
-    if (response.resultCode === 0) {
+    if (response.resultCode === ResultCodesEnum.SUCCESS) {
         let {id, login, email} = response.data
         dispatch(setAuthUserData(id, email, login, true));
     }
@@ -66,10 +67,10 @@ export const authUserLogin = (setFieldValue: any,
     CustomThunkAction< SetAuthUserDataAction | GetCaptchaUrlSuccessAction> =>
     async (dispatch) => {
         let response = await authAPI.login(email, password, rememberMe, captcha)
-        if (response.resultCode === 0) {
+        if (response.resultCode === ResultCodesEnum.SUCCESS) {
             dispatch(getAuthUserData());
         } else {
-            if (response.resultCode === 10){
+            if (response.resultCode === ResultCodesRotCaptchaEnum.CAPTCHA_IS_REQUIRED){
                 dispatch(getCaptchaUrl())
             }
             setFieldValue("general", response.messages.join(" "))
@@ -87,7 +88,7 @@ export const getCaptchaUrl = () => async (dispatch: AppDispatch) => {
 
 export const authLogout = () => async (dispatch: AppDispatch) => {
     let response = await authAPI.logout()
-    if (response.resultCode === 0){
+    if (response.resultCode === ResultCodesEnum.SUCCESS){
         dispatch(setAuthUserData(null, null, null, false));
     }
 }
