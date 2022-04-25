@@ -1,4 +1,3 @@
-import {profileAPI} from '../../api/api';
 import {
     AddPostAction,
     DeletePostAction,
@@ -13,6 +12,7 @@ import {
 } from "./types";
 import {CustomThunkAction} from "../storeTypes";
 import {ResultCodesEnum} from "../../api/types";
+import {profileAPI} from "../../api/profile-api";
 
 let initialState: ProfileState = {
     profile: null,

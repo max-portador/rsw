@@ -1,13 +1,13 @@
 import {getAuthUserData} from "../authReducer";
-import { AppAction, AppActionsEnum, AppState, SetInitializedSuccessAction } from "./types";
-import { CustomThunkAction } from "../storeTypes";
+import { AppActionsEnum, AppState } from "./types";
+import {CustomThunkAction, InferActionsType} from "../storeTypes";
 
 
 let initialState: AppState = {
     initialized: false,
 }
 
-const index = (state= initialState, action: AppAction): AppState => {
+const index = (state= initialState, action: AppActionsType): AppState => {
     switch (action.type) {
         case AppActionsEnum.INITIALIZED_SUCCESS:
             return {
@@ -19,12 +19,16 @@ const index = (state= initialState, action: AppAction): AppState => {
     }
 }
 
-export const initializedSuccess = (): SetInitializedSuccessAction => ({type: AppActionsEnum.INITIALIZED_SUCCESS})
+export const actions = {
+    initializedSuccess: () => ({type: AppActionsEnum.INITIALIZED_SUCCESS} as const)
+}
 
-export const initializeApp = (): CustomThunkAction<AppAction> =>
+export type AppActionsType = InferActionsType<typeof actions>
+
+export const initializeApp = (): CustomThunkAction<AppActionsType> =>
     async (dispatch) => {
     await dispatch(getAuthUserData());
-    dispatch(initializedSuccess())
+    dispatch(actions.initializedSuccess())
 }
 
 export default index

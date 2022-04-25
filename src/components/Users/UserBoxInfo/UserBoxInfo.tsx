@@ -1,8 +1,18 @@
-import React from "react";
+import React, {FC} from "react";
 import cn from 'classnames';
 import css from "./UserBoxInfo.module.css";
 
-const UserBoxInfo = (props) => {
+type UserBoxInfoProps = {
+    fullName: string,
+    status?: string,
+    followed: boolean,
+    location: {
+        city: string,
+        country: string
+    }
+}
+
+const UserBoxInfo: FC<UserBoxInfoProps> = (props) => {
     return (
         <div className={ cn(css.info_box,
             {

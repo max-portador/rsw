@@ -1,17 +1,17 @@
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "./reduxStore";
-import {AppAction} from "./appReducer/types";
 import {AuthAction} from "./authReducer/types";
 import {DialogsAction} from "./dialogsReducer/types";
 import {ProfileAction} from "./profileReducer/types";
-import {UserAction} from "./usersReducer/types";
+import {UserActionsType} from "./usersReducer";
+import {AppActionsType} from "./appReducer";
 
 export type AllActions =
-    AppAction |
+    AppActionsType |
     AuthAction |
     DialogsAction |
     ProfileAction |
-    UserAction
+    UserActionsType
 
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
@@ -21,3 +21,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     >
 
 export type CustomThunkAction<T extends AllActions> = ThunkAction<Promise<void>, RootState, unknown, T>
+
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+export type InferActionsType<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>

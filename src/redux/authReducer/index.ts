@@ -1,8 +1,9 @@
-import {authAPI, securityAPI} from "../../api/api";
 import {AuthAction, AuthActionsEnum, AuthState, GetCaptchaUrlSuccessAction, SetAuthUserDataAction} from "./types";
 import {AppDispatch} from "../reduxStore";
 import {CustomThunkAction} from "../storeTypes";
 import {ResultCodesEnum, ResultCodesRotCaptchaEnum} from "../../api/types";
+import {authAPI} from "../../api/auth-api";
+import {securityAPI} from "../../api/security-api";
 
 let initialState: AuthState = {
     userId: null,
@@ -77,16 +78,16 @@ export const authUserLogin = (setFieldValue: any,
         }
 }
 
-export const getCaptchaUrl = () => async (dispatch: AppDispatch) => {
-    let response = await securityAPI.getCaptcha()
+export const getCaptchaUrl = (): CustomThunkAction<GetCaptchaUrlSuccessAction> =>
+    async (dispatch: AppDispatch) => {
+    let data = await securityAPI.getCaptcha()
 
-    const captchaUrl = response.data.url;
-    if (response.status === 200) {
-        dispatch(getCaptchaUrlSuccess(captchaUrl))
-    }
+    const captchaUrl = data.url;
+    dispatch(getCaptchaUrlSuccess(captchaUrl))
 }
 
-export const authLogout = () => async (dispatch: AppDispatch) => {
+export const authLogout = (): CustomThunkAction<SetAuthUserDataAction> =>
+    async (dispatch: AppDispatch) => {
     let response = await authAPI.logout()
     if (response.resultCode === ResultCodesEnum.SUCCESS){
         dispatch(setAuthUserData(null, null, null, false));
