@@ -1,6 +1,6 @@
 import {getAuthUserData} from "../authReducer";
-import {AppAction, AppActionsEnum, AppState, SetInitializedSuccessAction} from "./types";
-import {AppThunk} from "../storeTypes";
+import { AppAction, AppActionsEnum, AppState, SetInitializedSuccessAction } from "./types";
+import { CustomThunkAction } from "../storeTypes";
 
 
 let initialState: AppState = {
@@ -21,7 +21,7 @@ const index = (state= initialState, action: AppAction): AppState => {
 
 export const initializedSuccess = (): SetInitializedSuccessAction => ({type: AppActionsEnum.INITIALIZED_SUCCESS})
 
-export const initializeApp = (): AppThunk =>
+export const initializeApp = (): CustomThunkAction<AppAction> =>
     async (dispatch) => {
     await dispatch(getAuthUserData());
     dispatch(initializedSuccess())

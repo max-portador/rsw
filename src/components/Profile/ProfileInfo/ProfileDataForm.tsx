@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import css from "./ProfileDataForm.module.css";
 import { useFormik } from 'formik'
-import {IContacts, IProfile, IUserPhoto} from "../../../redux/profileReducer/types";
+import { IProfile } from "../../../redux/profileReducer/types";
 import {FormDataType} from "./ProfileInfo";
 
 type PropsType = {

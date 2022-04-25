@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {IResponse, IMeData, ILoginData, ICaptchaResponse, IPhotoData, IUsersResponse} from "./types";
-import {IProfile, IUserPhoto} from "../redux/profileReducer/types";
+import { IProfile } from "../redux/profileReducer/types";
 
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,

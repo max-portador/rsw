@@ -75,3 +75,4 @@ export type ProfileAction =
     SetUserAction |
     SetStatusAction |
     SavePhotoSuccessAction
+

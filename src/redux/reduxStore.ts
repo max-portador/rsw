@@ -1,11 +1,12 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunkMiddleware from "redux-thunk"
+import {applyMiddleware, combineReducers, createStore, Dispatch} from "redux";
+import thunkMiddleware, {ThunkDispatch} from "redux-thunk"
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sideBar from "./sidebarReducer";
 import usersReducer from "./usersReducer";
 import auth from "./authReducer";
 import app from "./appReducer";
+import { AllActions } from "./storeTypes";
 
 
 let rootReducer = combineReducers({
@@ -28,6 +29,6 @@ let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = Dispatch<AllActions> & ThunkDispatch<RootState, void, AllActions>
 
 export default store;

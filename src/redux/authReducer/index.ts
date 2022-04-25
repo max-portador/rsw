@@ -1,8 +1,7 @@
 import {authAPI, securityAPI} from "../../api/api";
 import {AuthAction, AuthActionsEnum, AuthState, GetCaptchaUrlSuccessAction, SetAuthUserDataAction} from "./types";
-import {AppDispatch, RootState} from "../reduxStore";
-import {Dispatch} from "redux";
-import {ThunkDispatch} from "redux-thunk";
+import {AppDispatch} from "../reduxStore";
+import {CustomThunkAction} from "../storeTypes";
 
 let initialState: AuthState = {
     userId: null,
@@ -50,7 +49,8 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessAc
     ({type: AuthActionsEnum.GET_CAPTCHA_URL_SUCCESS, payload: captchaUrl})
 
 
-export const getAuthUserData = () => async (dispatch: Dispatch<SetAuthUserDataAction>) => {
+export const getAuthUserData = ():CustomThunkAction<SetAuthUserDataAction> =>
+    async (dispatch) => {
     const response = await authAPI.me()
     if (response.resultCode === 0) {
         let {id, login, email} = response.data
@@ -58,8 +58,13 @@ export const getAuthUserData = () => async (dispatch: Dispatch<SetAuthUserDataAc
     }
 }
 
-export const authUserLogin = (setFieldValue: any, email: string, password: string, rememberMe: boolean, captcha: string=null ) =>
-    async (dispatch: ThunkDispatch<void, RootState, any>) => {
+export const authUserLogin = (setFieldValue: any,
+                              email: string,
+                              password: string,
+                              rememberMe: boolean,
+                              captcha: string=null):
+    CustomThunkAction< SetAuthUserDataAction | GetCaptchaUrlSuccessAction> =>
+    async (dispatch) => {
         let response = await authAPI.login(email, password, rememberMe, captcha)
         if (response.resultCode === 0) {
             dispatch(getAuthUserData());

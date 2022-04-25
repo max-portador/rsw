@@ -1,17 +1,11 @@
 import {profileAPI} from '../../api/api';
 import {
-    AddPostAction,
-    DeletePostAction,
-    IProfile, IUserPhoto, SavePhotoSuccessAction, SetStatusAction,
-    SetUserAction,
-    ProfileAction,
-    UsersActionsEnum,
+    AddPostAction, DeletePostAction, IProfile,
+    IUserPhoto, SavePhotoSuccessAction, SetStatusAction,
+    SetUserAction, ProfileAction, UsersActionsEnum,
     ProfileState
 } from "./types";
-import {Dispatch} from "redux";
-import {AppDispatch, RootState} from "../reduxStore";
-import {AppState} from "../appReducer/types";
-import {ThunkDispatch} from "redux-thunk";
+import {CustomThunkAction} from "../storeTypes";
 
 let initialState: ProfileState = {
     profile: null,
@@ -88,17 +82,21 @@ export const savePhotoSuccess = (photos: IUserPhoto): SavePhotoSuccessAction => 
     payload: photos
 })
 
-export const getUserProfile = (userId: number) => async (dispatch: AppDispatch) => {
+
+export const getUserProfile = (userId: number):CustomThunkAction<SetUserAction> =>
+    async (dispatch) => {
    let data = await profileAPI.getProfile(userId)
     dispatch(setUserProfile(data))
 }
 
-export const getStatus = (userId: number) => async (dispatch: AppDispatch) => {
+export const getStatus = (userId: number): CustomThunkAction<SetStatusAction> =>
+    async (dispatch) => {
     let data = await profileAPI.getStatus(userId)
     dispatch(setStatus(data))
 }
 
-export const updateStatus = (status: string) => async (dispatch: AppDispatch) => {
+export const updateStatus = (status: string): CustomThunkAction<SetStatusAction> =>
+    async (dispatch) => {
     try {
         let data = await profileAPI.updateStatus(status)
         if (data.resultCode === 0) {
@@ -107,18 +105,18 @@ export const updateStatus = (status: string) => async (dispatch: AppDispatch) =>
     } catch (e) {
         alert(e)
     }
-    
 }
 
-export const savePhoto = (file: File) => async (dispatch: AppDispatch) => {
+export const savePhoto = (file: File): CustomThunkAction<SavePhotoSuccessAction> =>
+    async (dispatch) => {
     let data = await profileAPI.savePhoto(file)
     if (data.resultCode === 0) {
         dispatch(savePhotoSuccess(data.data.photos))
     }
 }
 
-export const saveProfile = (formData: any) =>
-    async (dispatch: ThunkDispatch<void, RootState, any>, getState: () => RootState) => {
+export const saveProfile = (formData: any): CustomThunkAction<ProfileAction> =>
+    async (dispatch, getState) => {
         const userId = getState().auth.userId;
         const data = await profileAPI.saveProfile({userId, ...formData});
         if (data.resultCode === 0) {

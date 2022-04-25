@@ -1,5 +1,4 @@
 import {IUserPhoto} from "../profileReducer/types";
-import {setCurrentPage, setIsFetching, setTotalUsersCount, toggleFollowingProgress} from "./index";
 
 export interface IUser{
     id: number,
