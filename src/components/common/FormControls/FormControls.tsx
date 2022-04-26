@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import css from './FormControl.module.css'
 
 export const TextArea = ({field, form, ...props}) => {
@@ -12,7 +12,7 @@ export const TextArea = ({field, form, ...props}) => {
     </div>
 }
 
-export const Input = ({field, form, ...props}) => {
+export const Input:FC<any> = ({field, form, ...props}) => {
     let name = field.name
     const hasError = form.errors[name] && form.touched[name];
     return <div className={css.form_control + " " + (hasError && css.error)}>

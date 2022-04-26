@@ -4,9 +4,8 @@ import {user_icon} from "../../../redux/usersReducer";
 import PreLoader from "../../common/PreLoader/PreLoader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import ProfileDataForm from "./ProfileDataForm";
-import {IContacts, IProfile, IUserPhoto, SetStatusAction} from "../../../redux/profileReducer/types";
+import {IContacts, IProfile, IUserPhoto } from "../../../redux/profileReducer/types";
 import Contact from "./Contact";
-import {CustomThunkAction} from "../../../redux/storeTypes";
 
 
 
@@ -20,7 +19,7 @@ export type ProfileInfoPropsType = {
     profile: IProfile,
     status: string,
     isOwner: boolean,
-    updateStatus: (status: string) => CustomThunkAction<SetStatusAction>,
+    updateStatus: (status: string) => void,
     savePhoto: (file: File) => void,
     saveProfile: (profile: IProfile) => void,
 }

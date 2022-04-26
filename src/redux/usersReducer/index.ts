@@ -16,7 +16,7 @@ let initialState: UsersState = {
     followingInProgress: [],
 }
 
-const usersReducer = (state = initialState, action: UserActionsType): UsersState => {
+const usersReducer = (state = initialState, action: UserActionType): UsersState => {
     switch (action.type) {
         case UsersActionsEnum.FOLLOW: {
             return {
@@ -57,7 +57,7 @@ const usersReducer = (state = initialState, action: UserActionsType): UsersState
     }
 }
 
-export type UserActionsType = InferActionsType<typeof actions>
+export type UserActionType = InferActionsType<typeof actions>
 
 export const actions = {
     followSuccess: (userId: number) => ({
@@ -97,7 +97,7 @@ export const actions = {
 }
 
 
-export const requestUsers = (page: number, pageSize: number): CustomThunkAction<UserActionsType> =>
+export const requestUsers = (page: number, pageSize: number): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
         dispatch(actions.setIsFetching(true));
         dispatch(actions.setCurrentPage(page));
@@ -113,7 +113,7 @@ const followUnfollowFlow =
     async (dispatch: Dispatch<AllActions>,
            userId:number,
            apiMethod: (id: number) => Promise<IResponse<{}>>,
-           actionCreator: (userId: number) => UserActionsType): Promise<void> =>
+           actionCreator: (userId: number) => UserActionType): Promise<void> =>
     {
     dispatch(actions.toggleFollowingProgress(true, userId))
     const data = await apiMethod(userId)
@@ -123,7 +123,7 @@ const followUnfollowFlow =
     dispatch(actions.toggleFollowingProgress(false, userId))
 }
 
-export const follow = (userId: number): CustomThunkAction<UserActionsType> =>
+export const follow = (userId: number): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
        followUnfollowFlow(dispatch,
            userId,
@@ -131,7 +131,7 @@ export const follow = (userId: number): CustomThunkAction<UserActionsType> =>
            actions.followSuccess)
 }
 
-export const unfollow = (userId: number): CustomThunkAction<UserActionsType> =>
+export const unfollow = (userId: number): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
     followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
 }

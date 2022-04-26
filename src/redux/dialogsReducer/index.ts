@@ -1,4 +1,5 @@
-import {DialogsAction, DialogsActionsEnum, DialogsState, SendMessageActionType} from "./types";
+import { DialogsActionsEnum, DialogsState } from "./types";
+import {InferActionsType} from "../storeTypes";
 
 let initialState: DialogsState = {
     dialogs: [
@@ -11,7 +12,7 @@ let initialState: DialogsState = {
     ],
 };
 
-const dialogsReducer = (state = initialState, action: DialogsAction): DialogsState => {
+const dialogsReducer = (state = initialState, action: DialogsActionType): DialogsState => {
 
     switch (action.type) {
         case DialogsActionsEnum.SEND_MESSAGE:
@@ -25,11 +26,14 @@ const dialogsReducer = (state = initialState, action: DialogsAction): DialogsSta
     }
 }
 
-export const sendMessageCreator = (text: string): SendMessageActionType => {
-    return {
-        type: DialogsActionsEnum.SEND_MESSAGE,
-        payload: text
-    }
+
+export const actions = {
+    sendMessageCreator: (text: string) => ({
+            type: DialogsActionsEnum.SEND_MESSAGE,
+            payload: text
+        })
 }
+
+export type DialogsActionType = InferActionsType<typeof actions>
 
 export default dialogsReducer;

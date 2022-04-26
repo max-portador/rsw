@@ -1,7 +1,7 @@
-import React from "react";
+import React, {FC} from "react";
 import css from "./Messages.module.css";
 
-const Messages = ({text}) => {
+const Messages:FC<PropsType> = ({text}) => {
     return <div className={css.message}>
         <img className={css.img}
              src="https://www.pinclipart.com/picdir/big/200-2008697_account-customer-login-man-user-icon-login-icon.png"
@@ -11,3 +11,7 @@ const Messages = ({text}) => {
 }
 
 export default Messages
+
+type PropsType = {
+    text: string
+}

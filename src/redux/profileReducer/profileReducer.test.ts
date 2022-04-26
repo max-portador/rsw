@@ -1,4 +1,4 @@
-import profileReducer, {addPostCreator, deletePostCreator} from "./index";
+import profileReducer, { actions } from "./index";
 
 let state = {
     profile: null,
@@ -13,7 +13,7 @@ let state = {
 
 it('posts length should be incremeted', () => {
     // 1. test data
-    let action = addPostCreator('portador')
+    let action = actions.addPostCreator('portador')
 
     // 2. action
     let newState = profileReducer(state, action)
@@ -26,7 +26,7 @@ it('posts length should be incremeted', () => {
 
 it('message of new post should be correct', () => {
     // 1. test data
-    let action = addPostCreator('portador')
+    let action = actions.addPostCreator('portador')
 
     // 2. action
     let newState = profileReducer(state, action)
@@ -38,7 +38,7 @@ it('message of new post should be correct', () => {
 
 it('new post likes count should be 0', () => {
     // 1. test data
-    let action = addPostCreator('portador')
+    let action = actions.addPostCreator('portador')
 
     // 2. action
     let newState = profileReducer(state, action)
@@ -50,7 +50,7 @@ it('new post likes count should be 0', () => {
 
 it('after deleting length of posts should be decrement', () => {
     // 1. test data
-    let action = deletePostCreator(1)
+    let action = actions.deletePostCreator(1)
 
     // 2. action
     let newState = profileReducer(state, action)
@@ -62,7 +62,8 @@ it('after deleting length of posts should be decrement', () => {
 
 it('length of posts shouldn`t be changed if id isn`t correct', () => {
     // 1. test data
-    let action = deletePostCreator("1")
+    // @ts-ignore
+    let action = actions.deletePostCreator("1")
 
     // 2. action
     let newState = profileReducer(state, action)

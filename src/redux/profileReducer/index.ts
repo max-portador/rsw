@@ -1,16 +1,10 @@
 import {
-    AddPostAction,
-    DeletePostAction,
     IProfile,
     IUserPhoto,
-    ProfileAction,
     ProfileState,
-    SavePhotoSuccessAction,
-    SetStatusAction,
-    SetUserAction,
     UsersActionsEnum
 } from "./types";
-import {CustomThunkAction} from "../storeTypes";
+import {CustomThunkAction, InferActionsType} from "../storeTypes";
 import {ResultCodesEnum} from "../../api/types";
 import {profileAPI} from "../../api/profile-api";
 
@@ -25,7 +19,7 @@ let initialState: ProfileState = {
     ],
 };
 
-const profileReducer = (state = initialState, action: ProfileAction): ProfileState => {
+const profileReducer = (state = initialState, action: ProfileActionType): ProfileState => {
     switch (action.type) {
         case UsersActionsEnum.ADD_POST:
                 let _id = state.posts.length + 1;
@@ -64,65 +58,66 @@ const profileReducer = (state = initialState, action: ProfileAction): ProfileSta
     }
 }
 
-export const addPostCreator = (text: string): AddPostAction => ({
-    type: UsersActionsEnum.ADD_POST,
-    payload: text
-})
+export const actions = {
+    addPostCreator: (text: string) => ({
+        type: UsersActionsEnum.ADD_POST,
+        payload: text,
+    } as const),
+    deletePostCreator: (post_id: number) => ({
+        type: UsersActionsEnum.DELETE_POST,
+        payload: post_id
+    } as const),
 
-export const deletePostCreator = (post_id: number): DeletePostAction => ({
-    type: UsersActionsEnum.DELETE_POST,
-    payload: post_id
-})
+    setUserProfile: (profile: IProfile) => ({
+        type: UsersActionsEnum.SET_USER_PROFILE,
+        payload: profile
+    } as const),
 
-export const setUserProfile = (profile: IProfile): SetUserAction => ({
-    type: UsersActionsEnum.SET_USER_PROFILE,
-    payload: profile
-})
+    setStatus: (status: string) => ({
+        type: UsersActionsEnum.SET_STATUS,
+        payload: status
+    } as const),
 
-export const setStatus = (status: string): SetStatusAction => ({
-    type: UsersActionsEnum.SET_STATUS,
-    payload: status
-})
+    savePhotoSuccess: (photos: IUserPhoto) => ({
+        type: UsersActionsEnum.SAVE_PHOTO_SUCCESS,
+        payload: photos
+    } as const),
+}
 
-export const savePhotoSuccess = (photos: IUserPhoto): SavePhotoSuccessAction => ({
-    type: UsersActionsEnum.SAVE_PHOTO_SUCCESS,
-    payload: photos
-})
-
-
-export const getUserProfile = (userId: number):CustomThunkAction<SetUserAction> =>
+export const getUserProfile = (userId: number):CustomThunkAction<ProfileActionType> =>
     async (dispatch) => {
    let data = await profileAPI.getProfile(userId)
-    dispatch(setUserProfile(data))
+    dispatch(actions.setUserProfile(data))
 }
 
-export const getStatus = (userId: number): CustomThunkAction<SetStatusAction> =>
+
+export const getStatus = (userId: number): CustomThunkAction<ProfileActionType> =>
     async (dispatch) => {
     let data = await profileAPI.getStatus(userId)
-    dispatch(setStatus(data))
+    dispatch(actions.setStatus(data))
 }
 
-export const updateStatus = (status: string): CustomThunkAction<SetStatusAction> =>
+export const updateStatus = (status: string): CustomThunkAction<ProfileActionType> =>
     async (dispatch) => {
     try {
         let data = await profileAPI.updateStatus(status)
         if (data.resultCode === ResultCodesEnum.SUCCESS) {
-            dispatch(setStatus(status))
+            dispatch(actions.setStatus(status))
         }
     } catch (e) {
         alert(e)
     }
 }
 
-export const savePhoto = (file: File): CustomThunkAction<SavePhotoSuccessAction> =>
+export const savePhoto = (file: File): CustomThunkAction<ProfileActionType> =>
     async (dispatch) => {
     let data = await profileAPI.savePhoto(file)
     if (data.resultCode === ResultCodesEnum.SUCCESS) {
-        dispatch(savePhotoSuccess(data.data.photos))
+        dispatch(actions.savePhotoSuccess(data.data.photos))
     }
 }
 
-export const saveProfile = (formData: any): CustomThunkAction<ProfileAction> =>
+export const saveProfile = (formData: any): CustomThunkAction<ProfileActionType> =>
     async (dispatch, getState) => {
         const userId = getState().auth.userId;
         const data = await profileAPI.saveProfile({userId, ...formData});
@@ -132,3 +127,5 @@ export const saveProfile = (formData: any): CustomThunkAction<ProfileAction> =>
 }
 
 export default profileReducer;
+
+export type ProfileActionType = InferActionsType<typeof actions>

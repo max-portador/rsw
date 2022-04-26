@@ -1,6 +1,6 @@
-import React from "react";
+import React, {FC} from "react";
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
-import {connect, Provider} from "react-redux";
+import {connect, ConnectedProps, Provider} from "react-redux";
 import {compose} from "redux";
 
 import NavContainer from "./components/Nav/NavContainer";
@@ -9,7 +9,7 @@ import Login from "./components/Login/Login";
 import PreLoader from "./components/common/PreLoader/PreLoader";
 import {getAuthUserData} from "./redux/authReducer";
 import {initializeApp} from "./redux/appReducer";
-import store from "./redux/reduxStore";
+import store, {RootState} from "./redux/reduxStore";
 import './App.css';
 import withSuspense from "./hoc/WithSuspense";
 
@@ -17,16 +17,19 @@ const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsCo
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
 const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"))
 
-class App extends React.Component {
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedUsers = withSuspense(UsersContainer)
 
-    catchAllUnhandledError = (reason, promise) => {
-        alert(reason)
+class App extends React.Component<ConnectorProps> {
+
+    catchAllUnhandledError = (e: PromiseRejectionEvent) => {
+        alert(e.reason)
     }
 
     componentDidMount() {
         this.props.initializeApp();
         window.addEventListener('unhandledrejection', this.catchAllUnhandledError)
-
     }
 
     componentWillUnmount() {
@@ -49,13 +52,13 @@ class App extends React.Component {
                            render={() => <Redirect to='/profile' />}/>
 
                     <Route path="/dialogs*"
-                           component={withSuspense(DialogsContainer)}/>
+                           component={SuspendedDialogs}/>
                     <Route path="/login"
                            component={Login}/>
                     <Route path="/profile/:userId?"
-                           component={withSuspense(ProfileContainer)}/>
+                           component={SuspendedProfile}/>
                     <Route path="/users"
-                           component={withSuspense(UsersContainer)}/>
+                           component={SuspendedUsers}/>
                     <Route path='*'
                            render={() => <div>404 NOT FOUND</div>}/>
                 </Switch>
@@ -64,15 +67,17 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
     initialized: state.app.initialized,
 })
 
-let AppContainer = compose(
-    withRouter,
-    connect(mapStateToProps, {getAuthUserData, initializeApp}))(App);
+const connector = connect(mapStateToProps, {getAuthUserData, initializeApp})
 
-let SamuraiJSApp = (props) => {
+let AppContainer = compose<React.ComponentType>(
+    withRouter,
+    connector)(App);
+
+let SamuraiJSApp: FC = () => {
     return <BrowserRouter>
         <Provider store={store}>
             <AppContainer />
@@ -81,3 +86,5 @@ let SamuraiJSApp = (props) => {
 }
 
 export default SamuraiJSApp;
+
+type ConnectorProps = ConnectedProps<typeof connector>

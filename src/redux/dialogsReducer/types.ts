@@ -15,10 +15,3 @@ export interface DialogsState {
 export enum DialogsActionsEnum {
     SEND_MESSAGE = "SEND_MESSAGE"
 }
-
-export interface SendMessageActionType {
-    type: DialogsActionsEnum.SEND_MESSAGE,
-    payload: string
-}
-
-export type DialogsAction = SendMessageActionType

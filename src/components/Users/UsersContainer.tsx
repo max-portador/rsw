@@ -1,9 +1,9 @@
 import React from "react";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import { compose } from "redux";
 import {
     actions,
-    follow, requestUsers, unfollow, UserActionsType,
+    follow, requestUsers, unfollow,
 } from "../../redux/usersReducer";
 import {
     getCurrentPage, getFollowingInProgress,
@@ -13,32 +13,10 @@ import {
 import Users from "./Users";
 import PreLoader from "../common/PreLoader/PreLoader";
 import withAuthRedirect from "../../hoc/WithAuthRedirect";
-import {IUser } from "../../redux/usersReducer/types";
 import {RootState} from "../../redux/reduxStore";
 
-type MapStatePropsType = {
-    currentPage: number,
-    pageSize: number,
-    isFetching: boolean,
-    totalUsersCount: number,
-    followingInProgress: number[],
-    users: IUser[],
-}
 
-type MapDispatchPropsType = {
-    requestUsers: (page: number, pageSize: number) => void,
-    follow: (userId: number) => void,
-    unfollow: (userId: number) => void,
-    setCurrentPage: (pageNum: number) => UserActionsType,
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => UserActionsType
-}
-
-
-type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType
-
-
-
-class UsersContainer extends React.Component<UsersContainerPropsType> {
+class UsersContainer extends React.Component<ConnectorProps> {
 
     componentDidMount() {
        let { requestUsers, currentPage, pageSize} = this.props
@@ -69,7 +47,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 }
 
 
-let mapStateToProps = (state: RootState): MapStatePropsType => {
+let mapStateToProps = (state: RootState) => {
     return {
         users: getUsersSelector(state),
         pageSize: getPageSize(state),
@@ -80,12 +58,17 @@ let mapStateToProps = (state: RootState): MapStatePropsType => {
     }
 }
 
-const dispatches: MapDispatchPropsType = {
+const dispatches = {
     follow, unfollow, requestUsers,
     setCurrentPage: actions.setCurrentPage,
     toggleFollowingProgress: actions.toggleFollowingProgress,
     }
 
-export default compose<React.Component>(
-    connect<MapStatePropsType, MapDispatchPropsType, unknown, RootState>(mapStateToProps, {...dispatches}),
+const connector = connect(mapStateToProps, {...dispatches})
+
+export default compose<React.ComponentType>(
+    connector,
     withAuthRedirect)(UsersContainer)
+
+
+type ConnectorProps = ConnectedProps<typeof connector>

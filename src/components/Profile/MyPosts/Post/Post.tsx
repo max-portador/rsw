@@ -1,7 +1,10 @@
-import React from "react";
+import React, {FC} from "react";
 import css from "./Post.module.css";
+import {IPost} from "../../../../redux/profileReducer/types";
 
-const Post = (props) => {
+
+
+const Post: FC<IPost> = (props) => {
     return <div className={css.item} >
         <img
             className={css.img}

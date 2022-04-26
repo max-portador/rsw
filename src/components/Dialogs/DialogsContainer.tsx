@@ -1,7 +1,7 @@
 import withAuthRedirect from "../../hoc/WithAuthRedirect";
 import {connect} from "react-redux";
 import { compose } from 'redux';
-import {sendMessageCreator} from "../../redux/dialogsReducer";
+import {actions} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {AppDispatch, RootState} from "../../redux/reduxStore";
 
@@ -16,12 +16,12 @@ let mapStateToProps = (state: RootState) => {
 let mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
         sendMessage: (text: string): void => {
-            dispatch(sendMessageCreator(text))
+            dispatch(actions.sendMessageCreator(text))
         }
     };
 }
 
-export default compose<React.Component>(
+export default compose<React.ComponentType>(
         connect(mapStateToProps, mapDispatchToProps),
         withAuthRedirect
     )(Dialogs)
