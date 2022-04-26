@@ -1,13 +1,14 @@
-import React from "react";
+import React, {FC} from "react";
 import {Form, Field, Formik} from 'formik';
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import {authUserLogin} from "../../redux/authReducer";
 import {validateEmail, validatePassword, validateRequired} from "../../utils/validators";
 import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
 import css from "./Login.module.css"
+import {RootState} from "../../redux/reduxStore";
 
-const LoginForm = ({authUserLogin, email, password, captchaUrl}) => {
+const LoginForm: FC<FormPropsType> = ({authUserLogin, email, password, captchaUrl}) => {
 
     const loginSubmit = (values, { setFieldValue}) => {
         authUserLogin(setFieldValue, values.email, values.password, values.rememberMe, values.captcha)
@@ -15,7 +16,7 @@ const LoginForm = ({authUserLogin, email, password, captchaUrl}) => {
     }
 
     const loginValidate = ({email, password, captcha}) => {
-        let errors = {};
+        let errors: any = {} ;
         let emailError = validateEmail(email);
         if (emailError) {
             errors.email = emailError;
@@ -74,14 +75,14 @@ const LoginForm = ({authUserLogin, email, password, captchaUrl}) => {
         </div>
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
     captchaUrl: state.auth.captchaUrl,
     email: state.auth.email || "",
     password: state.auth.password || "",
     isAuth: state.auth.isAuth,
 })
 
-const Login = ({isAuth, ...props }) => {
+const Login: FC<ConnectedType> = ({isAuth, ...props }) => {
     debugger
     if (isAuth){
         return <Redirect to={"/profile"}/>
@@ -90,5 +91,9 @@ const Login = ({isAuth, ...props }) => {
     return <LoginForm {...props} />
 }
 
+const connector = connect(mapStateToProps, {authUserLogin})
 
-export default connect(mapStateToProps, {authUserLogin})(Login)
+export default connector(Login)
+
+type ConnectedType = ConnectedProps<typeof connector>
+type FormPropsType = Omit<ConnectedType, 'isAuth'>

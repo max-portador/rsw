@@ -1,9 +1,10 @@
-import React from "react";
+import React, {FC} from "react";
 import {NavLink} from "react-router-dom";
 import FriendsList from "./Friends/FriendsList";
 import css from "./Nav.module.css";
+import {IFriend} from "../../redux/sidebarReducer/types";
 
-const Nav = (props) => {
+const Nav: FC<NavPropsType> = (props) => {
     return <nav className={css.nav}>
         <div className={css.links}>
             <NavLink to="/profile" activeClassName={css.active} >Profile</NavLink>
@@ -19,3 +20,7 @@ const Nav = (props) => {
 }
 
 export default Nav;
+
+export type NavPropsType = {
+    friends: IFriend[],
+}

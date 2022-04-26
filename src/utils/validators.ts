@@ -1,6 +1,6 @@
 
-export const validateEmail = (value) => {
-    let error;
+export const validateEmail = (value: string) => {
+    let error: null | string;
     if (!value) {
         error = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
@@ -10,16 +10,16 @@ export const validateEmail = (value) => {
 }
 
 
-export const validateRequired = (value) => {
-    let error;
+export const validateRequired = (value: any) => {
+    let error: null | string;
     if (!value) {
         error = 'Required';
     }
     return error;
 }
 
-export const validatePassword = (value) => {
-    let error;
+export const validatePassword = (value: string)=> {
+    let error: null | string;
     if (!value) {
         error = 'Required';
     }

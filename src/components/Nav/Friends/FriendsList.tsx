@@ -1,10 +1,11 @@
-import React from "react";
+import React, {FC} from "react";
 import css from "./FriendsList.module.css";
 import Friend from "./FriendItem/FriendItem";
+import {NavPropsType} from "../Nav";
 
 
 
-const FriendsList = (props) => {
+const FriendsList:FC<NavPropsType> = (props) => {
     return (
         <div className={css.list}>
             {
