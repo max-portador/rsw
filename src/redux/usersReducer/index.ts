@@ -112,11 +112,11 @@ export const requestUsers = (page: number, pageSize: number): CustomThunkAction<
 const followUnfollowFlow =
     async (dispatch: Dispatch<AllActions>,
            userId:number,
-           apiMethod: (id: number) => Promise<IResponse<{}>>,
+           apiMethod: (id: number) => Promise<IResponse>,
            actionCreator: (userId: number) => UserActionType): Promise<void> =>
     {
     dispatch(actions.toggleFollowingProgress(true, userId))
-    const data = await apiMethod(userId)
+    const data  = await apiMethod(userId)
     if (data.resultCode === ResultCodesEnum.SUCCESS) {
         dispatch(actionCreator(userId))
     }
@@ -125,7 +125,7 @@ const followUnfollowFlow =
 
 export const follow = (userId: number): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
-       followUnfollowFlow(dispatch,
+       await followUnfollowFlow(dispatch,
            userId,
            usersAPI.follow.bind(usersAPI),
            actions.followSuccess)
@@ -133,7 +133,7 @@ export const follow = (userId: number): CustomThunkAction<UserActionType> =>
 
 export const unfollow = (userId: number): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
-    followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
+    await followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
 }
 
 

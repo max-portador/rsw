@@ -20,7 +20,7 @@ export interface ICaptchaResponse {
 }
 
 
-export interface IResponse<T, R=ResultCodesEnum> {
+export interface IResponse<T={}, R=ResultCodesEnum> {
     resultCode: R,
     messages: string[],
     data: T,
