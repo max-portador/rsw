@@ -14,6 +14,10 @@ let initialState: UsersState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
+    filter: {
+        term: '',
+        friend: null
+    }
 }
 
 const usersReducer = (state = initialState, action: UserActionType): UsersState => {
@@ -51,6 +55,8 @@ const usersReducer = (state = initialState, action: UserActionType): UsersState 
             }
             return {...state, followingInProgress: ids_list}
         }
+        case UsersActionsEnum.SET_FILTER:
+            return {...state, filter: action.payload}
 
         default:
             return state;
@@ -93,16 +99,22 @@ export const actions = {
     toggleFollowingProgress: (isFetching: boolean, userId: number) => ({
         type: UsersActionsEnum.TOGGLE_IS_FOLLOWING_PROGRESS,
         payload: {isFetching, userId}
-    }  as const)
+    }  as const),
+
+    setFilter: (filter: FilterType) => ({
+        type: UsersActionsEnum.SET_FILTER,
+        payload: filter
+    } as const)
 }
 
 
-export const requestUsers = (page: number, pageSize: number): CustomThunkAction<UserActionType> =>
+export const requestUsers = (page: number, pageSize: number, filter: FilterType): CustomThunkAction<UserActionType> =>
     async (dispatch) => {
         dispatch(actions.setIsFetching(true));
         dispatch(actions.setCurrentPage(page));
+        dispatch(actions.setFilter(filter))
 
-        const data = await usersAPI.getUsers(page, pageSize)
+        const data = await usersAPI.getUsers(page, pageSize, filter.term, filter.friend)
 
         dispatch(actions.setIsFetching(false));
         dispatch(actions.setUsers(data.items));
@@ -138,3 +150,4 @@ export const unfollow = (userId: number): CustomThunkAction<UserActionType> =>
 
 
 export default usersReducer;
+export type FilterType = typeof initialState.filter

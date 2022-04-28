@@ -23,12 +23,7 @@ beforeEach(() => {
                 photos: {small: null, large: null}, status: 'status 0'
             },
         ],
-        pageSize: 25,
-        totalUsersCount: null,
-        currentPage: 1,
-        isFetching: true,
-        followingInProgress: [],
-    }
+    } as UsersState
 })
 
 test('follow Success', () => {

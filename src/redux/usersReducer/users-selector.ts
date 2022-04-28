@@ -16,6 +16,10 @@ export const getCurrentPage = (state: RootState) => {
     return state.usersPage.currentPage;
 }
 
+export const getFilterSelector = (state: RootState) => {
+    return state.usersPage.filter;
+}
+
 export const getIsFetching = (state: RootState) => {
     return state.usersPage.isFetching;
 }

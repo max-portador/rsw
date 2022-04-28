@@ -13,4 +13,10 @@
     grid-gap: 10px;
 }
 
+.title {
+    font-weight: bold;
+    color: yellow;
+    margin-top: 20px;
+}
+
 

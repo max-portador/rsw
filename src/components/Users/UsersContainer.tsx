@@ -1,12 +1,9 @@
 import React from "react";
 import {connect, ConnectedProps} from "react-redux";
 import { compose } from "redux";
+import {actions, FilterType, follow, requestUsers, unfollow} from "../../redux/usersReducer";
 import {
-    actions,
-    follow, requestUsers, unfollow,
-} from "../../redux/usersReducer";
-import {
-    getCurrentPage, getFollowingInProgress,
+    getCurrentPage, getFilterSelector, getFollowingInProgress,
     getIsFetching, getPageSize,
     getTotalUsersCount, getUsersSelector
 } from "../../redux/usersReducer/users-selector";
@@ -19,13 +16,20 @@ import {RootState} from "../../redux/reduxStore";
 class UsersContainer extends React.Component<ConnectorProps> {
 
     componentDidMount() {
-       let { requestUsers, currentPage, pageSize} = this.props
-       requestUsers(currentPage, pageSize)
+       let { requestUsers, currentPage, pageSize, filter} = this.props
+       requestUsers(currentPage, pageSize, filter)
     }
 
-    onPageChanged = (pageNum) => {
-        const {requestUsers, pageSize} = this.props
-        requestUsers(pageNum, pageSize)
+    onPageChanged = (pageNum: number) => {
+        const {requestUsers, pageSize, filter} = this.props
+        requestUsers(pageNum, pageSize, filter)
+    }
+
+    onFilterChange = (filter: FilterType) => {
+        if (filter.term || filter.friend !== null) {
+            let { requestUsers, pageSize } = this.props
+            requestUsers(1, pageSize, filter)
+        }
     }
 
 
@@ -41,6 +45,7 @@ class UsersContainer extends React.Component<ConnectorProps> {
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
                 onPageChanged={this.onPageChanged}
+                onFilterChanged={this.onFilterChange}
             />
         </>
     }
@@ -53,6 +58,7 @@ let mapStateToProps = (state: RootState) => {
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
+        filter: getFilterSelector(state),
         isFetching: getIsFetching(state),
         followingInProgress: getFollowingInProgress(state),
     }
@@ -62,6 +68,7 @@ const dispatches = {
     follow, unfollow, requestUsers,
     setCurrentPage: actions.setCurrentPage,
     toggleFollowingProgress: actions.toggleFollowingProgress,
+    setFilter: actions.setFilter,
     }
 
 const connector = connect(mapStateToProps, {...dispatches})

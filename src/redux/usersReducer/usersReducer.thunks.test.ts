@@ -5,7 +5,7 @@ import {usersAPI} from "../../api/users-api";
 jest.mock("../../api/users-api")
 const result: IResponse = {
     resultCode: ResultCodesEnum.SUCCESS,
-    messages: ['rvgbtny'],
+    messages: ['test_message'],
     data: {}
 }
 

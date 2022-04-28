@@ -15,6 +15,10 @@ export interface UsersState {
     currentPage: number,
     isFetching: boolean,
     followingInProgress: number[],
+    filter: {
+        term: string,
+        friend: null | boolean
+    }
 }
 
 export enum UsersActionsEnum {
@@ -24,5 +28,6 @@ export enum UsersActionsEnum {
     SET_CURRENT_PAGE = "SET_CURRENT_PAGE",
     SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT",
     TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING",
-    TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS"
+    TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS",
+    SET_FILTER = "SET_FILTER"
 }
