@@ -1,19 +1,20 @@
 import React, {FC} from "react";
 import UserAvaBtn from "./UserAvaBtn/UserAvaBtn";
 import UserBoxInfo from "./UserBoxInfo/UserBoxInfo";
-import {user_icon} from "../../redux/usersReducer";
+import { follow, unfollow, user_icon} from "../../redux/usersReducer";
 import css from "./Users.module.css";
 import {IUser} from "../../redux/usersReducer/types";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../redux/reduxStore";
 
 type UserPropsType = {
     user: IUser,
-    followingInProgress: number[],
-    follow: (userId: number) => void,
-    unfollow: (userId: number) => void,
+    followingInProgress: number[]
 }
 
+const User:FC<UserPropsType> = ({user, followingInProgress}) => {
 
-const User:FC<UserPropsType> = ({user, followingInProgress, follow, unfollow}) => {
+    const dispatch = useDispatch<AppDispatch>()
 
     return (
         <div>
@@ -21,9 +22,9 @@ const User:FC<UserPropsType> = ({user, followingInProgress, follow, unfollow}) =
                     <UserAvaBtn id={user.id}
                                 img={(user.photos && user.photos.small ? user.photos.small : user_icon)}
                                 followed={user.followed}
-                                followingInProgress={followingInProgress}
-                                follow={follow}
-                                unfollow={unfollow}/>
+                                followingInProgress={ followingInProgress }
+                                follow={() => dispatch(follow(user.id))}
+                                unfollow={() => dispatch(unfollow(user.id)) }/>
 
                     <UserBoxInfo followed={user.followed} fullName={user.name}
                                  status={user.status} location={{city: "city", country: "country"}}/>

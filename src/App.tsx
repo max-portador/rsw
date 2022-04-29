@@ -15,11 +15,11 @@ import withSuspense from "./hoc/WithSuspense";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
-const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"))
+const UsersPage = React.lazy(() => import("./components/Users/UserPage"))
 
 const SuspendedDialogs = withSuspense(DialogsContainer)
 const SuspendedProfile = withSuspense(ProfileContainer)
-const SuspendedUsers = withSuspense(UsersContainer)
+const SuspendedUsers = withSuspense(UsersPage)
 
 class App extends React.Component<ConnectorProps> {
 

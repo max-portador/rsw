@@ -13,6 +13,7 @@ let initialState: UsersState = {
     totalUsersCount: null,
     currentPage: 1,
     isFetching: true,
+    portionSize: 10,
     followingInProgress: [],
     filter: {
         term: '',

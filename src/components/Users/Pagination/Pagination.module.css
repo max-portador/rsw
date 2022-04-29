@@ -13,3 +13,9 @@
     font-weight: bold;
 }
 
+.pagination {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+

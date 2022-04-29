@@ -1,12 +1,25 @@
 import React from "react";
 import {Field, Form, Formik} from "formik";
-import {FilterType} from "../../redux/usersReducer";
+import {FilterType, requestUsers, UserActionType} from "../../redux/usersReducer";
+import {useDispatch} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import {RootState} from "../../redux/reduxStore";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
-const UsersSearchForm = React.memo<UsersSearchFormPropsType>( ({onFilterChanged}) => {
+const UsersSearchForm = React.memo( () => {
+    const dispatch = useDispatch<ThunkDispatch<RootState, unknown, UserActionType>>()
+    const { pageSize } = useTypedSelector( state =>
+        state.usersPage)
+
+    const onFilterChanged = async (filter: FilterType) => {
+        await dispatch(requestUsers(1, pageSize, filter))
+    }
+
+
     const submit = (values, {setSubmitting}: { setSubmitting: (isSubmitting: boolean) => void }) => {
-        setTimeout(() => {
+        setTimeout(async () => {
             let friend = eval(values.friend)
-            onFilterChanged({term: values.term, friend})
+            await onFilterChanged({term: values.term, friend})
             setSubmitting(false)
         }, 10)
     }
@@ -34,8 +47,3 @@ const UsersSearchForm = React.memo<UsersSearchFormPropsType>( ({onFilterChanged}
 });
 
 export default UsersSearchForm;
-
-
-export type UsersSearchFormPropsType = {
-    onFilterChanged: (filter: FilterType) => void
-}
