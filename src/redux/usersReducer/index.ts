@@ -1,5 +1,5 @@
 import {updateObjectInArray} from "../../utils/object-helper";
-import { IUser,  UsersActionsEnum, UsersState } from "./types";
+import {FilterFriendEnum, IUser, UsersActionsEnum, UsersState} from "./types";
 import {IResponse, ResultCodesEnum} from "../../api/types";
 import {AllActions, CustomThunkAction, InferActionsType} from "../storeTypes";
 import {Dispatch} from "redux";
@@ -17,7 +17,7 @@ let initialState: UsersState = {
     followingInProgress: [],
     filter: {
         term: '',
-        friend: null
+        friend: FilterFriendEnum.ALL
     }
 }
 

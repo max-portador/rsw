@@ -5,10 +5,11 @@ import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {RootState} from "../../redux/reduxStore";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {FilterFriendEnum} from "../../redux/usersReducer/types";
 
 const UsersSearchForm = React.memo( () => {
     const dispatch = useDispatch<ThunkDispatch<RootState, unknown, UserActionType>>()
-    const { pageSize } = useTypedSelector( state =>
+    const { pageSize, filter } = useTypedSelector( state =>
         state.usersPage)
 
     const onFilterChanged = async (filter: FilterType) => {
@@ -18,25 +19,27 @@ const UsersSearchForm = React.memo( () => {
 
     const submit = (values, {setSubmitting}: { setSubmitting: (isSubmitting: boolean) => void }) => {
         setTimeout(async () => {
-            let friend = eval(values.friend)
-            await onFilterChanged({term: values.term, friend})
+            await onFilterChanged({term: values.term, friend: values.friend})
             setSubmitting(false)
         }, 10)
     }
 
     return (
         <Formik
-            initialValues={{term: '', friend: null}}
+            initialValues={{term: filter.term, friend: filter.friend}}
+            enableReinitialize={true}
             validate={() => {
             }}
             onSubmit={submit}>
             {({isSubmitting}) => (
                 <Form>
                     <Field type='text' name='term'/>
-                    <Field name='friend' as='select' style={{margin: "0 10px"}}>
-                        <option value='null'>All</option>
-                        <option value='true'>Only friends</option>
-                        <option value='false'>Not friends</option>
+                    <Field name='friend'
+                           as='select'
+                           style={{margin: "0 10px"}}>
+                        <option value={FilterFriendEnum.ALL}>All</option>
+                        <option value={FilterFriendEnum.ONLY_FRIENDS}>Only friends</option>
+                        <option value={FilterFriendEnum.NOT_FRIENDS}>Not friends</option>
 
                     </Field>
                     <button type='submit' disabled={isSubmitting}>Find</button>

@@ -1,14 +1,15 @@
 import {IResponse, IUsersResponse} from "./types";
 import {instance} from "./api";
 import {profileAPI} from "./profile-api";
+import {FilterFriendEnum} from "../redux/usersReducer/types";
 
 export const usersAPI = {
-    async getUsers(currentPage: number = 1, pageSize: number = 25, term: string = '', friend: null | boolean = null) {
+    async getUsers(currentPage: number = 1, pageSize: number = 25, term: string = '', friend:FilterFriendEnum = FilterFriendEnum.ALL) {
         let url = `users?page=${currentPage}&count=${pageSize}`
         if (term){
             url += `&term=${term}`
         }
-        if (friend !== null) {
+        if (friend !== FilterFriendEnum.ALL) {
             url += `&friend=${friend}`
         }
         const response = await instance.get<IUsersResponse>(url);

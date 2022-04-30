@@ -7,10 +7,7 @@ import {IUser} from "../../redux/usersReducer/types";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../redux/reduxStore";
 
-type UserPropsType = {
-    user: IUser,
-    followingInProgress: number[]
-}
+
 
 const User:FC<UserPropsType> = ({user, followingInProgress}) => {
 
@@ -34,3 +31,8 @@ const User:FC<UserPropsType> = ({user, followingInProgress}) => {
 }
 
 export default User;
+
+type UserPropsType = {
+    user: IUser,
+    followingInProgress: number[]
+}

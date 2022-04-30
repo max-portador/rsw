@@ -8,6 +8,13 @@ export interface IUser{
     followed: boolean
 }
 
+export enum FilterFriendEnum {
+    ALL= 'null',
+    ONLY_FRIENDS = 'true',
+    NOT_FRIENDS = 'false'
+
+}
+
 export interface UsersState {
     users: IUser[],
     pageSize: number,
@@ -18,7 +25,7 @@ export interface UsersState {
     followingInProgress: number[],
     filter: {
         term: string,
-        friend: null | boolean
+        friend: FilterFriendEnum
     }
 }
 
