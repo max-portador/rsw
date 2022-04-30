@@ -61,7 +61,7 @@ export const getAuthUserData = ():CustomThunkAction<AuthActionType> =>
     }
 }
 
-export const authUserLogin = (setFieldValue: any,
+export const authUserLogin = (setFieldValue: (name: string, value: string ) => void,
                               email: string,
                               password: string,
                               rememberMe: boolean,
@@ -69,10 +69,10 @@ export const authUserLogin = (setFieldValue: any,
     async (dispatch) => {
         let response = await authAPI.login(email, password, rememberMe, captcha)
         if (response.resultCode === ResultCodesEnum.SUCCESS) {
-            dispatch(getAuthUserData());
+            await dispatch(getAuthUserData());
         } else {
             if (response.resultCode === ResultCodesRotCaptchaEnum.CAPTCHA_IS_REQUIRED){
-                dispatch(getCaptchaUrl())
+                await dispatch(getCaptchaUrl())
             }
             setFieldValue("general", response.messages.join(" "))
         }

@@ -1,17 +1,23 @@
 import React, {FC} from "react";
 import {Form, Field, Formik} from 'formik';
-import {connect, ConnectedProps} from "react-redux";
 import {authUserLogin} from "../../redux/authReducer";
 import {validateEmail, validatePassword, validateRequired} from "../../utils/validators";
 import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
 import css from "./Login.module.css"
-import {RootState} from "../../redux/reduxStore";
+import {AppDispatch } from "../../redux/reduxStore";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useDispatch} from "react-redux";
 
-const LoginForm: FC<FormPropsType> = ({authUserLogin, email, password, captchaUrl}) => {
+const LoginForm: FC = () => {
+    let { email, password, captchaUrl } = useTypedSelector(state => state.auth)
+    const dispatch = useDispatch<AppDispatch>()
 
-    const loginSubmit = (values, { setFieldValue}) => {
-        authUserLogin(setFieldValue, values.email, values.password, values.rememberMe, values.captcha)
+
+    const loginSubmit = async (values, { setFieldValue, setSubmitting}) => {
+        let thunk = authUserLogin(setFieldValue, values.email, values.password, values.rememberMe, values.captcha);
+        await dispatch(thunk)
+        setSubmitting(false)
 
     }
 
@@ -75,25 +81,14 @@ const LoginForm: FC<FormPropsType> = ({authUserLogin, email, password, captchaUr
         </div>
 }
 
-const mapStateToProps = (state: RootState) => ({
-    captchaUrl: state.auth.captchaUrl,
-    email: state.auth.email || "",
-    password: state.auth.password || "",
-    isAuth: state.auth.isAuth,
-})
 
-const Login: FC<ConnectedType> = ({isAuth, ...props }) => {
-    debugger
+const Login: FC = () => {
+    const { isAuth } = useTypedSelector(state => state.auth)
     if (isAuth){
         return <Redirect to={"/profile"}/>
     }
-
-    return <LoginForm {...props} />
+    return <LoginForm />
 }
 
-const connector = connect(mapStateToProps, {authUserLogin})
 
-export default connector(Login)
-
-type ConnectedType = ConnectedProps<typeof connector>
-type FormPropsType = Omit<ConnectedType, 'isAuth'>
+export default Login
