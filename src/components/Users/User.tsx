@@ -1,12 +1,13 @@
 import React, {FC} from "react";
-import UserAvaBtn from "./UserAvaBtn/UserAvaBtn";
-import UserBoxInfo from "./UserBoxInfo/UserBoxInfo";
-import { follow, unfollow, user_icon} from "../../redux/usersReducer";
-import css from "./Users.module.css";
-import {IUser} from "../../redux/usersReducer/types";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../redux/reduxStore";
+import {follow, unfollow, user_icon} from "../../redux/usersReducer";
+import {IUser} from "../../redux/usersReducer/types";
 
+import UserAvaBtn from "./UserAvaBtn/UserAvaBtn";
+import UserBoxInfo from "./UserBoxInfo/UserBoxInfo";
+
+import css from "./Users.module.css";
 
 
 const User:FC<UserPropsType> = ({user, followingInProgress}) => {

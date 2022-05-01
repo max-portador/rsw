@@ -2,9 +2,9 @@ import React, {FC} from "react";
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect, ConnectedProps, Provider} from "react-redux";
 import {compose} from "redux";
-import {Layout, Menu, Breadcrumb, Button, MenuProps, Row, Col, Avatar, Image} from 'antd';
+import {Button, Layout, Menu, MenuProps} from 'antd';
 import Link from "antd/lib/typography/Link";
-import { UserOutlined, LaptopOutlined, NotificationOutlined, SettingOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import {NotificationOutlined, PlayCircleOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 
 import store, {RootState} from "./redux/reduxStore";
 import {getAuthUserData} from "./redux/authReducer";
@@ -13,6 +13,7 @@ import PreLoader from "./components/common/PreLoader/PreLoader";
 import Login from "./components/Login/Login";
 import withSuspense from "./hoc/WithSuspense";
 import './App.css';
+import AppHeader from "./components/Header/AppHeader";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
@@ -22,8 +23,8 @@ const SuspendedDialogs = withSuspense(DialogsContainer)
 const SuspendedProfile = withSuspense(ProfileContainer)
 const SuspendedUsers = withSuspense(UsersPage)
 
-const { Header, Content, Footer, Sider } = Layout;
-
+const { Content, Footer, Sider } = Layout;
+export const usersLink = <Link href="/users">Users</Link>
 
 class App extends React.Component<ConnectorProps> {
 
@@ -41,18 +42,7 @@ class App extends React.Component<ConnectorProps> {
     }
 
 
-
-
     render() {
-        const usersLink = <Link href="/users">Users</Link>
-
-        const header_items:MenuProps['items'] = [
-            {
-                key: `header users`,
-                label: (usersLink)
-            }
-        ]
-
         const side_items: MenuProps['items'] = [
             {
                 key: `sub${1}`,
@@ -91,41 +81,9 @@ class App extends React.Component<ConnectorProps> {
             return <PreLoader/>
         }
 
-        // return <div className='app-wrapper'>
-        //     <HeaderContainer/>
-        //     <NavContainer/>
-        //     <div className='app-wrapper-content'>
-        //
-        //     </div>
-        // </div>
-
         return <Layout>
-            <Header className="header">
-                <div className="logo" />
-                <Row>
-                    <Col span={20}>
-                        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} items={ header_items } />
-                    </Col>
-                    <Col span={4} flex={"auto"} >
-                        <Row justify={"end"} >
-                            <Avatar size={44}
-                                    icon={ this.props.profile?.photos?.small
-                                        ? <Image src={this.props.profile?.photos?.small}
-                                           />
-                                        : <UserOutlined />}
-                            />
-                        </Row>
-
-                    </Col>
-                </Row>
-
-            </Header>
+            <AppHeader/>
             <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
                 <Layout className="site-layout-background" style={{ padding: '24px 0' }}>
                     <Sider className="site-layout-background" width={200}>
                         <Menu
@@ -158,7 +116,7 @@ class App extends React.Component<ConnectorProps> {
                     </Content>
                 </Layout>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+            <Footer style={{ textAlign: 'center' }}>Samuray Way ©2022 Created by Max Portador</Footer>
         </Layout>
     }
 
