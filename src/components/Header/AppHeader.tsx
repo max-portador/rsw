@@ -43,8 +43,8 @@ const AppHeader: FC = () => {
                     isAuth
                         ? <Space size={"small"}>
                             <Avatar size={45}
-                                    icon={profile?.photos?.large
-                                        ? <Image src={profile?.photos?.large}
+                                    icon={profile?.photos?.small
+                                        ? <Image src={profile?.photos?.small}
                                         />
                                         : <UserOutlined/>}
                             />

@@ -21,6 +21,7 @@ let initialState: ProfileState = {
 
 const profileReducer = (state = initialState, action: ProfileActionType): ProfileState => {
     switch (action.type) {
+
         case UsersActionsEnum.ADD_POST:
                 let _id = state.posts.length + 1;
                 let text = action.payload;

@@ -21,8 +21,8 @@ let store = {
                 {id: 3, name: "Igor"}, {id: 4, name: "Julia"},
             ],
             messages: [
-                {message: "Hi"}, {message: "How is your life"},
-                {message: "Yo"}, {message: "Yo"},
+                {message: "Hi", author: "Max"}, {message: "How is your life", author: "Max"},
+                {message: "Yo", author: "Max"}, {message: "Yo", author: "Max"},
             ],
             newMessageText: "",
         },

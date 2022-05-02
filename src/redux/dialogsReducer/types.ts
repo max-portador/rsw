@@ -5,6 +5,7 @@ export interface IDialog {
 
 export interface IMessage {
     message: string
+    author: string
 }
 
 export interface DialogsState {

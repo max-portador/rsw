@@ -2,26 +2,32 @@ import React, {FC} from "react";
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect, ConnectedProps, Provider} from "react-redux";
 import {compose} from "redux";
-import {Button, Layout, Menu, MenuProps} from 'antd';
+import {Avatar, Button, Card, Col, Layout, Menu, MenuProps, Skeleton} from 'antd';
 import Link from "antd/lib/typography/Link";
-import {NotificationOutlined, PlayCircleOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
+import Meta from "antd/es/card/Meta";
+import {NotificationOutlined, CustomerServiceOutlined, SettingOutlined, UserOutlined, MessageOutlined } from '@ant-design/icons';
 
 import store, {RootState} from "./redux/reduxStore";
 import {getAuthUserData} from "./redux/authReducer";
 import {initializeApp} from "./redux/appReducer";
 import PreLoader from "./components/common/PreLoader/PreLoader";
 import Login from "./components/Login/Login";
-import withSuspense from "./hoc/WithSuspense";
-import './App.css';
 import AppHeader from "./components/Header/AppHeader";
+import withSuspense from "./hoc/WithSuspense";
 
-const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
+import {user_icon} from "./redux/usersReducer";
+import './App.css';
+
+
+const DialogsContainer = React.lazy(() => import("./pages/Chat/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
 const UsersPage = React.lazy(() => import("./components/Users/UserPage"))
+const ChatPage = React.lazy(() => import("./pages/Chat/ChatPage"))
 
 const SuspendedDialogs = withSuspense(DialogsContainer)
 const SuspendedProfile = withSuspense(ProfileContainer)
 const SuspendedUsers = withSuspense(UsersPage)
+const SuspendedChat = withSuspense(ChatPage)
 
 const { Content, Footer, Sider } = Layout;
 export const usersLink = <Link href="/users">Users</Link>
@@ -41,11 +47,10 @@ class App extends React.Component<ConnectorProps> {
         window.removeEventListener('unhandledrejection', this.catchAllUnhandledError)
     }
 
-
     render() {
         const side_items: MenuProps['items'] = [
             {
-                key: `sub${1}`,
+                key: `sub_${'profile'}`,
                 icon: React.createElement(UserOutlined),
                 label: 'My Profile',
                 children: [
@@ -60,17 +65,22 @@ class App extends React.Component<ConnectorProps> {
                 ]
             },
             {
-                key: `sub${2}`,
+                key: `sub_${'chat'}`,
+                icon: React.createElement(MessageOutlined ),
+                label: (<Link href="/chat" >Chat</Link>)
+            },
+            {
+                key: `sub_${'news'}`,
                 icon: React.createElement(NotificationOutlined),
                 label: (<Link href="/news" >News</Link>)
             },
             {
-                key: `sub${3}`,
-                icon: React.createElement(PlayCircleOutlined ),
+                key: `sub_${'music'}`,
+                icon: React.createElement(CustomerServiceOutlined ),
                 label: (<Link href="/music" >Music</Link>)
             },
             {
-                key: `sub${4}`,
+                key: `sub_${'settings'}`,
                 icon: React.createElement(SettingOutlined),
                 label: (<Link href="/settings" title='Settings'>Settings</Link>)
             },
@@ -98,7 +108,6 @@ class App extends React.Component<ConnectorProps> {
                         <Switch>
                             <Route exact path={'/'}
                                    render={() => <Redirect to='/profile' />}/>
-
                             <Route path="/dialogs*"
                                    component={SuspendedDialogs}/>
                             <Route path="/login"
@@ -107,10 +116,52 @@ class App extends React.Component<ConnectorProps> {
                                    component={SuspendedProfile}/>
                             <Route path="/users"
                                    component={SuspendedUsers}/>
+                            <Route path="/chat"
+                                   component={SuspendedChat}/>
                             <Route path='*'
                                    render={() => <div>
                                        404 NOT FOUND
-                                       <Button type='primary' >OK</Button>
+                                       <Card
+                                           style={{ width: "50%", marginTop: 16 }}
+                                           actions={[
+                                               <Button type='primary' >OK</Button>
+                                           ]}
+                                       >
+                                       <Skeleton loading={false} avatar active>
+                                           <Meta
+                                               avatar={<Avatar src={user_icon} size={70} />}
+                                               title= "Card title"
+                                               description={
+                                               <>
+                                                   <Col span={24}>
+                                                       <Card.Grid style={{width: "-webkit-max-content"}}>
+                                                           This is the description
+                                                       </Card.Grid>
+                                                   </Col>
+
+                                                   <Card.Grid
+                                                       style={{
+                                                           width: "-webkit-max-content",
+                                                           padding: "0 auto"}}
+                                                       hoverable={false}
+
+                                                   >
+
+                                                       This is the description
+                                                   </Card.Grid >
+                                                   <Card.Grid style={{width: "-webkit-max-content"}}
+                                                   >
+                                                       Third grid
+                                                   </Card.Grid>
+
+                                               </>
+
+
+                                           }
+                                           />
+
+                                       </Skeleton>
+                                       </Card>
                                    </div>}/>
                         </Switch>
                     </Content>

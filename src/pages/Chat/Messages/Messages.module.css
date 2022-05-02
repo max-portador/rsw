@@ -1,22 +1,19 @@
 .message {
     color: white;
-    display: grid;
-    max-width: max-content;;
-    grid-template-columns: min-content auto;
     justify-content: start;
-    grid-gap: 10px;
     border: azure 1px solid;
     border-radius: 20px;
-    padding: 5px;
+    padding: 5px 20px 5px 5px;
     margin-bottom: 15px;
+    background: #687dc0;
 }
 
 .img{
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 30px;
     background: azure;
 }
 .text {
-
+    padding-left: 20px;
 }

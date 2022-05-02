@@ -22,6 +22,9 @@
 }
 
 .messages {
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 .messageInput{

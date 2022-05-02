@@ -1,4 +1,4 @@
-import { DialogsActionsEnum, DialogsState } from "./types";
+import {DialogsActionsEnum, DialogsState, IMessage} from "./types";
 import {InferActionsType} from "../storeTypes";
 
 let initialState: DialogsState = {
@@ -7,8 +7,8 @@ let initialState: DialogsState = {
         {id: 3, name: "Igor"}, {id: 4, name: "Julia"},
     ],
     messages: [
-        {message: "Hi"}, {message: "How is your life"},
-        {message: "Yo"}, {message: "Hold me tight"},
+        {message: "Hi", author: "Max"}, {message: "How is your life", author: "Max"},
+        {message: "Yo", author: "Max"}, {message: "Yo", author: "Max"},
     ],
 };
 
@@ -16,10 +16,9 @@ const dialogsReducer = (state = initialState, action: DialogsActionType): Dialog
 
     switch (action.type) {
         case DialogsActionsEnum.SEND_MESSAGE:
-            let message = action.payload;
             return {
                 ...state,
-                messages: [...state.messages, {message}],
+                messages: [...state.messages, action.payload],
             }
         default:
             return state;
@@ -28,10 +27,10 @@ const dialogsReducer = (state = initialState, action: DialogsActionType): Dialog
 
 
 export const actions = {
-    sendMessageCreator: (text: string) => ({
+    sendMessageCreator: (message: IMessage) => ({
             type: DialogsActionsEnum.SEND_MESSAGE,
-            payload: text
-        })
+            payload: message
+        } as const)
 }
 
 export type DialogsActionType = InferActionsType<typeof actions>
