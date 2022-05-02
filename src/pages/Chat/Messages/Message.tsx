@@ -1,23 +1,25 @@
 import React, {FC} from "react";
 import css from "./Messages.module.css";
-import {Col, Divider, Row, Space} from "antd";
+import {Col, Divider, Row} from "antd";
 import {MessageType} from "../Messages";
 
 const Message:FC<MessageType> = (props) => {
     return <div className={css.message}>
-        <Col>
-            <Space size={"middle"}>
+        <Row>
+            <Col span={4} style={{alignContent: "center", display: 'grid'}}>
                 <img className={css.img}
                      src={props.photo}
                      alt="MessageIcon"/>
-                <span>{props.userName}</span>
-            </Space>
-
-        </Col>
-        <Divider style={{margin: 5}}/>
-        <Row    >
-            <span className={css.text}>{props.message}</span>
+            </Col>
+            <Col span={20}>
+                    <span className={css.userName}>{props.userName}</span>
+                <Divider style={{margin: 5}}/>
+                <Row >
+                    <span className={css.text}>{props.message}</span>
+                </Row>
+            </Col>
         </Row>
+
 
     </div>
 }

@@ -1,29 +1,47 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Messages, MessageType} from "./Messages";
+import {Messages} from "./Messages";
 import {AddMessageForm} from "./AddMessageForm";
 
-
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
-
 const ChatPage: FC = () => {
-    const [messages, setMessages] = useState<MessageType[]>([])
+    return <div>
+        <Chat/>
+    </div>
+}
+
+const Chat: FC = () => {
+    let [wsChannel, setWsChannel] = useState<WebSocket | null>(null)
 
     useEffect(() => {
-        ws.addEventListener('message', (e) => {
-            let newMessages = JSON.parse(e.data);
-            setMessages((prevMessages) =>[...prevMessages, ...newMessages])
-        })
-    })
+        let ws: WebSocket;
 
-    const sendMessage = (message: string) => {
-        debugger
-        ws.send(message)
-    }
+        let closeHandler = () => {
+            console.log('WS CLOSED')
+            setTimeout( createChannel, 3000)
+        };
+
+        function createChannel(){
+            if (ws !== null ){
+                ws?.removeEventListener('close', closeHandler)
+                ws?.close()
+            }
+            ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
+            ws?.addEventListener('close', closeHandler)
+            setWsChannel(ws)
+        }
+
+        createChannel()
+
+        return () => {
+            ws?.removeEventListener('close', closeHandler)
+            ws.close()
+        }
+    }, [])
+
 
     return (
         <>
-            <Messages messages={messages} />
-            <AddMessageForm sendHandler={sendMessage}/>
+            <Messages wsChannel={wsChannel} />
+            <AddMessageForm wsChannel={wsChannel}/>
         </>
     );
 };

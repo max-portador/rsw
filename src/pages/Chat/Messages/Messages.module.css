@@ -5,15 +5,27 @@
     border-radius: 20px;
     padding: 5px 20px 5px 5px;
     margin-bottom: 15px;
-    background: #687dc0;
+    background: #162660;
+    width: 60%;
+    min-height: 10vh;
 }
 
 .img{
-    width: 25px;
-    height: 25px;
+    margin-left: 10px;
     border-radius: 30px;
     background: azure;
+    height: 9vh;
+    width: 9vh;
+    box-shadow: 0 0 6px white;
 }
+
 .text {
     padding-left: 20px;
+    font-size: 1.2rem;
+}
+.userName{
+    padding-left: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: honeydew;
 }
