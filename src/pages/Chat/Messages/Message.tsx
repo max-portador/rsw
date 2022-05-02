@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import css from "./Messages.module.css";
 import {Col, Divider, Row} from "antd";
-import {MessageType} from "../Messages";
+import {MessageType} from "../../../redux/chatReducer/types";
 
 const Message:FC<MessageType> = (props) => {
     return <div className={css.message}>

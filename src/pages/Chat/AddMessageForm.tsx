@@ -1,40 +1,33 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useState} from "react";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../redux/reduxStore";
+import {sendMessage} from "../../redux/chatReducer";
 import css from "./Dialogs.module.css";
 
-export const AddMessageForm: FC<PropsType> = ({wsChannel}) => {
+function addTimeLabel(message: string) {
+    let time = new Date;
+    let hms = time.getHours()
+        + ":" + time.getMinutes().toString().padStart(2, '0')
+        + ":" + time.getSeconds().toString().padStart(2, '0');
+    let dmy = time.getDate().toString().padStart(2, '0') + "-"
+        + time.getMonth().toString().padStart(2, '0') + "-"
+        + time.getFullYear();
+   return message + ` [at ${hms} ${dmy}]`
+}
+
+
+export const AddMessageForm: FC = () => {
     let [newMessage, setNewMessage] = useState('')
-    let [readyStatus, setReadyStatus] = useState<boolean>(false)
+    const dispatch = useDispatch<AppDispatch>()
 
-    useEffect(() => {
-        let openHandler = () => {
-            setReadyStatus(true)
-        };
-        wsChannel?.addEventListener('open', openHandler)
-
-        return () => {
-            wsChannel?.removeEventListener('open', openHandler)
-        }
-
-    }, [wsChannel])
-
-    const sendMessage = () => {
+    const sendMessageHandler = () => {
         if (newMessage.trim()) {
-
-            let time = new Date;
-
-            let hms = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-            let dmy = time.getDate().toString().padStart(2, '0') + "-"
-                + time.getMonth().toString().padStart(2, '0') + "-"
-                + time.getFullYear();
-            let newMessageText = newMessage + ` [at ${hms} ${dmy}]`
-
-            wsChannel?.send(newMessageText)
+            dispatch(sendMessage(addTimeLabel(newMessage.trim())))
             setNewMessage('')
         }
     }
 
     const changeHandler = (e) => {
-
         setNewMessage(e.currentTarget.value)
     }
 
@@ -44,13 +37,8 @@ export const AddMessageForm: FC<PropsType> = ({wsChannel}) => {
                       value={newMessage}
                       onChange={changeHandler}/>
             <button
-                disabled={!readyStatus}
-                onClick={sendMessage}> Send message
+                onClick={sendMessageHandler}> Send message
             </button>
         </div>
     );
 };
-
-type PropsType = {
-    wsChannel: WebSocket | null
-}

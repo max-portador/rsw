@@ -5,13 +5,15 @@ import {AppActionsType} from "./appReducer";
 import {DialogsActionType} from "./dialogsReducer";
 import {ProfileActionType} from "./profileReducer";
 import {AuthActionType} from "./authReducer";
+import {ChatsActionType} from "./chatReducer";
 
 export type AllActions =
     AppActionsType |
     AuthActionType |
     DialogsActionType |
     ProfileActionType |
-    UserActionType
+    UserActionType |
+    ChatsActionType
 
 export type CustomThunkAction<T extends AllActions> = ThunkAction<Promise<void>, RootState, unknown, T>
 

@@ -1,11 +1,12 @@
 import React, {FC, useEffect, useState} from "react";
 import Message from "./Messages/Message";
 import css from "./Dialogs.module.css";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 
-export const Messages: FC<PropsType> = ({ wsChannel}) => {
-    const [messages, setMessages] = useState<MessageType[]>([]);
-    const [mesRef, setMesRef] = useState(React.createRef<HTMLDivElement>())
+export const Messages: FC = () => {
+    const messages = useTypedSelector(state => state.chats.messages)
+    const [mesRef] = useState(React.createRef<HTMLDivElement>())
 
     const scrollToBottom = () => {
         mesRef.current.scrollTop = mesRef.current.scrollHeight;
@@ -13,14 +14,7 @@ export const Messages: FC<PropsType> = ({ wsChannel}) => {
 
     useEffect(() => {
         scrollToBottom()
-        let messageHandler = (e:MessageEvent) => {
-            let newMessages = JSON.parse(e.data);
-            setMessages((prevMessages) => [...prevMessages, ...newMessages])
-            scrollToBottom()
-        };
-        wsChannel?.addEventListener('message', messageHandler)
-        return () => wsChannel?.removeEventListener('message', messageHandler)
-    }, [wsChannel])
+    }, [messages])
 
     return (
         <div className={css.messages} ref={mesRef}>
@@ -35,14 +29,3 @@ export const Messages: FC<PropsType> = ({ wsChannel}) => {
         </div>
     );
 };
-
-export type MessageType = {
-    message: string,
-    photo: string,
-    userId: number,
-    userName: string
-}
-
-type PropsType = {
-    wsChannel: WebSocket | null
-}

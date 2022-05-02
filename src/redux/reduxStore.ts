@@ -6,13 +6,15 @@ import sideBar from "./sidebarReducer";
 import usersReducer from "./usersReducer";
 import auth from "./authReducer";
 import app from "./appReducer";
-import { AllActions } from "./storeTypes";
+import {AllActions} from "./storeTypes";
+import chatsReducer from "./chatReducer";
 
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     messagesPage: dialogsReducer,
     usersPage: usersReducer,
+    chats: chatsReducer,
     sideBar,
     auth,
     app,
