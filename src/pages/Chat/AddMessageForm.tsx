@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../redux/reduxStore";
 import {sendMessage} from "../../redux/chatReducer";
 import css from "./Dialogs.module.css";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 function addTimeLabel(message: string) {
     let time = new Date;
@@ -16,12 +17,15 @@ function addTimeLabel(message: string) {
 }
 
 
-export const AddMessageForm: FC = () => {
+export const AddMessageForm: FC<PropsType> = ({setAutoScroll}) => {
     let [newMessage, setNewMessage] = useState('')
     const dispatch = useDispatch<AppDispatch>()
 
+    const { status } = useTypedSelector(state => state.chats)
+
     const sendMessageHandler = () => {
         if (newMessage.trim()) {
+            setAutoScroll(true)
             dispatch(sendMessage(addTimeLabel(newMessage.trim())))
             setNewMessage('')
         }
@@ -37,8 +41,13 @@ export const AddMessageForm: FC = () => {
                       value={newMessage}
                       onChange={changeHandler}/>
             <button
+                disabled={status !== 'ready'}
                 onClick={sendMessageHandler}> Send message
             </button>
         </div>
     );
 };
+
+type PropsType = {
+    setAutoScroll:  React.Dispatch<React.SetStateAction<boolean>>
+}

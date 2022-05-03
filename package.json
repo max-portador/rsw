@@ -23,6 +23,7 @@
     "redux-thunk": "^2.4.1",
     "shebang-loader": "^0.0.1",
     "string-replace-loader": "^3.1.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4",
     "webpack": "^5.72.0",
     "yarn": "^1.22.18"
